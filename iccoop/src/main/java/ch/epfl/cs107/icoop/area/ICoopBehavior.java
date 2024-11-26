@@ -1,4 +1,95 @@
-package ch.epfl.cs107.icoop;
+package ch.epfl.cs107.icoop.area;
 
-public class ICoopBehavior {
+import ch.epfl.cs107.play.areagame.actor.Interactable;
+import ch.epfl.cs107.play.areagame.area.AreaBehavior;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.window.Window;
+
+public final class ICoopBehavior extends AreaBehavior {
+    /**
+     * Default ICoopBehavior Constructor
+     *
+     * @param window (Window), not null
+     * @param name   (String): Name of the Behavior, not null
+     */
+
+    public ICoopBehavior(Window window, String name) {
+        super(window, name);
+        int height = getHeight();
+        int width = getWidth();
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                IcoopCellType color = IcoopCellType.toType(getRGB(height - 1 - y, x));
+                setCell(x, y, new IcoopCell(x, y, color));
+            }
+        }
+    }
+
+
+    public enum ICoopCellType {
+
+        NULL(0, false, false),
+        WALL(-16777216, false, false),
+        IMPASSABLE(-8750470, false, false),
+        INTERACT(-256, true, true),
+        DOOR(-195580, true, true),
+        WALKABLE(-1, true, true),
+        ROCK(-16777204, true, true),
+        OBSTACLE(-16723187, true, true);
+
+        final int type;
+        final boolean isWalkable;
+
+        ICoopCellType(int type, boolean isWalkable) {
+            this.type = type;
+            this.isWalkable = isWalkable;
+        }
+
+    }
+
+    /**
+     * Cell adapted to the ICoop game
+     */
+    public class ICoopCell extends Cell {
+        /// Type of the cell following the enum
+        private final ICoopCellType type;
+
+        /**
+         * Default ICoopCell Constructor
+         *
+         * @param x    (int): x coordinate of the cell
+         * @param y    (int): y coordinate of the cell
+         * @param type (EnigmeCellType), not null
+         */
+        public ICoopCell(int x, int y, ICoopCellType type) {
+            super(x, y);
+            this.type = type;
+        }
+
+        @Override
+        protected boolean canLeave(Interactable entity) {
+            return true;
+        }
+
+        @Override
+        protected boolean canEnter(Interactable entity) {
+            return type.isWalkable;
+
+        }
+
+        @Override
+        public boolean isCellInteractable() {
+            return true;
+        }
+
+        @Override
+        public boolean isViewInteractable() {
+            return false;
+        }
+
+        @Override
+        public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        }
+
+    }
 }
