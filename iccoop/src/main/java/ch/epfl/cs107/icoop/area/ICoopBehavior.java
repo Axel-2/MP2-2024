@@ -1,9 +1,11 @@
 package ch.epfl.cs107.icoop.area;
 
+import ch.epfl.cs107.play.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.AreaBehavior;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
+import org.w3c.dom.Entity;
 
 public final class ICoopBehavior extends AreaBehavior {
     /**
@@ -19,8 +21,8 @@ public final class ICoopBehavior extends AreaBehavior {
         int width = getWidth();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                IcoopCellType color = IcoopCellType.toType(getRGB(height - 1 - y, x));
-                setCell(x, y, new IcoopCell(x, y, color));
+                ICoopCellType color = ICoopCellType.toType(getRGB(height - 1 - y, x));
+                setCell(x, y, new ICoopCell(x, y, color));
             }
         }
     }
@@ -39,10 +41,22 @@ public final class ICoopBehavior extends AreaBehavior {
 
         final int type;
         final boolean isWalkable;
+        final boolean canFly;
 
-        ICoopCellType(int type, boolean isWalkable) {
+        ICoopCellType(int type, boolean isWalkable, boolean canFly) {
             this.type = type;
             this.isWalkable = isWalkable;
+            this.canFly = canFly;
+        }
+
+        public static ICoopCellType toType(int type) {
+            for (ICoopCellType ict : ICoopCellType.values()) {
+                if (ict.type == type)
+                    return ict;
+            }
+            // When you add a new color, you can print the int value here before assign it to a type
+            //System.out.println(type);
+            return NULL;
         }
 
     }
@@ -73,6 +87,21 @@ public final class ICoopBehavior extends AreaBehavior {
 
         @Override
         protected boolean canEnter(Interactable entity) {
+
+            // Check if there is already more than one walkable entity in the cell
+            int nbWalkableEnt = 0;
+            for (Interactable ent : this.entities) {
+                if (ent.takeCellSpace() == true) {
+                    nbWalkableEnt += 1;
+                }
+            }
+
+            // If it is the case return false
+            if (nbWalkableEnt > 1) {
+                return false;
+            }
+
+            // Basic case
             return type.isWalkable;
 
         }
