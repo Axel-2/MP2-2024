@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.area;
 
+import ch.epfl.cs107.icoop.actor.Element;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -21,7 +22,7 @@ public abstract class ICoopArea extends Area {
     /**
      * @return the player's spawn position in the area
      */
-    public abstract DiscreteCoordinates getPlayerSpawnPosition();
+    public abstract DiscreteCoordinates getPlayerSpawnPosition(Element element);
 
     /**
      * Callback to initialise the instance of the area

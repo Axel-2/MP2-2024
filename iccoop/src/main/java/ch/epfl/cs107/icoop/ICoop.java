@@ -4,6 +4,7 @@ package ch.epfl.cs107.icoop;
 import ch.epfl.cs107.icoop.actor.Element;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.area.maps.OrbWay;
 import ch.epfl.cs107.icoop.area.maps.Spawn;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -21,7 +22,7 @@ public class ICoop extends AreaGame {
     }
 
 
-    private final String[] areas = {"Spawn", "Orbway"};
+    private final String[] areas = {"Spawn", "OrbWay"};
     private int areaIndex;
 
     /**
@@ -29,6 +30,7 @@ public class ICoop extends AreaGame {
      */
     private void createAreas() {
         addArea(new Spawn());
+        addArea(new OrbWay());
     }
 
     /**
@@ -54,10 +56,10 @@ public class ICoop extends AreaGame {
      */
     private void initArea(String areaKey) {
         //ICoopArea area = (ICoopArea) setCurrentArea(areaKey, true);
-        Area area = setCurrentArea("Spawn", true);
-        ICoopPlayer player =  new ICoopPlayer(area, Orientation.DOWN, new DiscreteCoordinates(13,6), "shadow", Element.WATER);
+        ICoopArea area = (ICoopArea) setCurrentArea("OrbWay", true);
+        DiscreteCoordinates coords = area.getPlayerSpawnPosition(Element.WATER);
+        ICoopPlayer player =  new ICoopPlayer(area, Orientation.DOWN, coords, "shadow", Element.WATER);
         this.getCurrentArea().registerActor(player);
-        //DiscreteCoordinates coords = area.getPlayerSpawnPosition();
     }
 
 
