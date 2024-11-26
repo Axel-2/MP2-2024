@@ -101,7 +101,7 @@ public final class ICoopBehavior extends AreaBehavior {
                 return false;
             }
 
-            // Basic case
+            // Base case
             return type.isWalkable;
 
         }
