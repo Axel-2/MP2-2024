@@ -44,19 +44,6 @@ public class ICoop extends AreaGame {
         return false;
     }
 
-    /**
-     * @param deltaTime elapsed time since last update, in seconds, non-negative
-     */
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
-    }
-
-    @Override
-    public void end() {
-
-    }
-
 
     /**
      * sets the area named `areaKey` as current area in the game Tuto2

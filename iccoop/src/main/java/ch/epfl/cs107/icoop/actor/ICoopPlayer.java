@@ -1,8 +1,10 @@
 package ch.epfl.cs107.icoop.actor;
 
+import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.engine.actor.TextGraphics;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -15,25 +17,34 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
+import static ch.epfl.cs107.play.math.Orientation.*;
+
 /**
  * A ICoopPlayer is a player for the ICoop game.
  */
-public class ICoopPlayer extends MovableAreaEntity  {
+public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
 
   // TO BE COMPLETED
 
     private final static int MOVE_DURATION = 8;
     private final Sprite sprite;
+    private Element element;
 
+    private final Vector anchor = new Vector(0, 0);
+    private final Orientation[] orders = {DOWN , RIGHT , UP, LEFT};
+    private final static int ANIMATION_DURATION = 4;
+    private OrientedAnimation animation;
     /**
      * @param owner (Area) area to which the player belong
      * @param orientation (Orientation) the initial orientation of the player
      * @param coordinates (DiscreteCoordinates) the initial position in the grid
      * @param spriteName (String) name of the sprite used as graphical representation
      */
-    public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName) {
+    public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, Element element) {
         super(owner, orientation, coordinates);
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
+        this.animation = new OrientedAnimation(this.element.name(), ANIMATION_DURATION, this,
+                anchor, orders, 4, 1, 2, 16, 32, true);
     }
 
     /**
@@ -43,9 +54,9 @@ public class ICoopPlayer extends MovableAreaEntity  {
     public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
         moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
-        moveIfPressed(Orientation.UP, keyboard.get(Keyboard.UP));
-        moveIfPressed(Orientation.RIGHT, keyboard.get(Keyboard.RIGHT));
-        moveIfPressed(Orientation.DOWN, keyboard.get(Keyboard.DOWN));
+        moveIfPressed(UP, keyboard.get(Keyboard.UP));
+        moveIfPressed(RIGHT, keyboard.get(Keyboard.RIGHT));
+        moveIfPressed(DOWN, keyboard.get(Keyboard.DOWN));
         super.update(deltaTime);
     }
 
@@ -54,7 +65,7 @@ public class ICoopPlayer extends MovableAreaEntity  {
      */
     @Override
     public void draw(ch.epfl.cs107.play.window.Canvas canvas) {
-        sprite.draw(canvas);
+        animation.draw(canvas);
     }
 
     @Override
@@ -125,6 +136,16 @@ public class ICoopPlayer extends MovableAreaEntity  {
         getOwnerArea().setViewCandidate(this);
     }
 
+    public Element element() {
+        return this.element;
+    }
+}
 
+enum Element {
+    FIRE,
+    WATER
+}
 
+interface ElementalEntity {
+    Element element();
 }
