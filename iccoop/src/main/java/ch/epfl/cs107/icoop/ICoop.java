@@ -1,9 +1,12 @@
 package ch.epfl.cs107.icoop;
 
 
+import ch.epfl.cs107.icoop.actor.Element;
+import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.maps.Spawn;
 import ch.epfl.cs107.play.areagame.AreaGame;
+import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -22,7 +25,7 @@ public class ICoop extends AreaGame {
     private int areaIndex;
 
     /**
-     * Add all the Tuto2 areas
+     * Add all the ICoop areas
      */
     private void createAreas() {
         addArea(new Spawn());
@@ -51,9 +54,10 @@ public class ICoop extends AreaGame {
      */
     private void initArea(String areaKey) {
         //ICoopArea area = (ICoopArea) setCurrentArea(areaKey, true);
-        setCurrentArea("Spawn", true);
+        Area area = setCurrentArea("Spawn", true);
+        ICoopPlayer player =  new ICoopPlayer(area, Orientation.DOWN, new DiscreteCoordinates(13,6), "shadow", Element.WATER);
+        this.getCurrentArea().registerActor(player);
         //DiscreteCoordinates coords = area.getPlayerSpawnPosition();
-
     }
 
 

@@ -34,6 +34,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
     private final Orientation[] orders = {DOWN , RIGHT , UP, LEFT};
     private final static int ANIMATION_DURATION = 4;
     private OrientedAnimation animation;
+
     /**
      * @param owner (Area) area to which the player belong
      * @param orientation (Orientation) the initial orientation of the player
@@ -43,7 +44,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
     public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, Element element) {
         super(owner, orientation, coordinates);
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
-        this.animation = new OrientedAnimation(this.element.name(), ANIMATION_DURATION, this,
+        this.element = element;
+        this.animation = new OrientedAnimation(element.getSpriteName(), ANIMATION_DURATION, this,
                 anchor, orders, 4, 1, 2, 16, 32, true);
     }
 
@@ -57,6 +59,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
         moveIfPressed(UP, keyboard.get(Keyboard.UP));
         moveIfPressed(RIGHT, keyboard.get(Keyboard.RIGHT));
         moveIfPressed(DOWN, keyboard.get(Keyboard.DOWN));
+        if (isDisplacementOccurs()) {
+            animation.update(deltaTime);
+        } else {
+            animation.reset();
+        }
         super.update(deltaTime);
     }
 
@@ -139,11 +146,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
     public Element element() {
         return this.element;
     }
-}
-
-enum Element {
-    FIRE,
-    WATER
 }
 
 interface ElementalEntity {
