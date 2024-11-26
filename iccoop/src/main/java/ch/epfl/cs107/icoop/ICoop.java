@@ -7,7 +7,6 @@ import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.maps.OrbWay;
 import ch.epfl.cs107.icoop.area.maps.Spawn;
 import ch.epfl.cs107.play.areagame.AreaGame;
-import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -56,7 +55,7 @@ public class ICoop extends AreaGame {
      */
     private void initArea(String areaKey) {
         //ICoopArea area = (ICoopArea) setCurrentArea(areaKey, true);
-        ICoopArea area = (ICoopArea) setCurrentArea("OrbWay", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         DiscreteCoordinates coords = area.getPlayerSpawnPosition(Element.WATER);
         ICoopPlayer player =  new ICoopPlayer(area, Orientation.DOWN, coords, "shadow", Element.WATER);
         this.getCurrentArea().registerActor(player);
