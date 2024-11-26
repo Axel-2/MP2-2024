@@ -27,7 +27,7 @@ public class Door extends AreaEntity {
 
     // Constructeur principal
     public Door(String goToAreaName, Logic signal, List<DiscreteCoordinates> futurePositions, Area ownerArea, DiscreteCoordinates mainCellPosition){
-        // Il fallait un paramètre Orientation, j'ai mis Down un peu au pif  
+        // Il fallait un paramètre Orientation, j'ai mis Down un peu au pif
         super(ownerArea, Orientation.DOWN, mainCellPosition);
         this.goToAreaName = goToAreaName;
         this.futurePositions = futurePositions;
@@ -53,5 +53,5 @@ public class Door extends AreaEntity {
     //public List<DiscreteCoordinates> getCurrentCells(){
     //    return super.getCurrentMainCellCoordinates();
     //}
-                                     
+
 }

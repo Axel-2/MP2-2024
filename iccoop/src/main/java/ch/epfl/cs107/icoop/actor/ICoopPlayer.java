@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.actor;
 
+import ch.epfl.cs107.icoop.KeyBindings;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -17,6 +18,8 @@ import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
+import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
+import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.play.math.Orientation.*;
 
 /**
@@ -35,6 +38,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
     private final static int ANIMATION_DURATION = 4;
     private OrientedAnimation animation;
 
+    private KeyBindings.PlayerKeyBindings playerKeyBindings;
+
     /**
      * @param owner (Area) area to which the player belong
      * @param orientation (Orientation) the initial orientation of the player
@@ -47,6 +52,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
         this.element = element;
         this.animation = new OrientedAnimation(element.getSpriteName(), ANIMATION_DURATION, this,
                 anchor, orders, 4, 1, 2, 16, 32, true);
+        switch (element) {
+            case FIRE -> playerKeyBindings = RED_PLAYER_KEY_BINDINGS;
+            case WATER -> playerKeyBindings = BLUE_PLAYER_KEY_BINDINGS;
+        }
     }
 
     /**
@@ -55,10 +64,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
     @Override
     public void update(float deltaTime) {
         Keyboard keyboard = getOwnerArea().getKeyboard();
-        moveIfPressed(Orientation.LEFT, keyboard.get(Keyboard.LEFT));
-        moveIfPressed(UP, keyboard.get(Keyboard.UP));
-        moveIfPressed(RIGHT, keyboard.get(Keyboard.RIGHT));
-        moveIfPressed(DOWN, keyboard.get(Keyboard.DOWN));
+        moveIfPressed(Orientation.LEFT, keyboard.get(playerKeyBindings.left()));
+        moveIfPressed(Orientation.UP, keyboard.get(playerKeyBindings.up()));
+        moveIfPressed(Orientation.RIGHT, keyboard.get(playerKeyBindings.right()));
+        moveIfPressed(Orientation.DOWN, keyboard.get(playerKeyBindings.down()));
         if (isDisplacementOccurs()) {
             animation.update(deltaTime);
         } else {

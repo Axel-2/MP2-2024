@@ -58,7 +58,10 @@ public class ICoop extends AreaGame {
         ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         DiscreteCoordinates coords = area.getPlayerSpawnPosition(Element.WATER);
         ICoopPlayer player =  new ICoopPlayer(area, Orientation.DOWN, coords, "shadow", Element.WATER);
+        coords =  area.getPlayerSpawnPosition(Element.FIRE);
+        ICoopPlayer player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "shadow", Element.FIRE);
         this.getCurrentArea().registerActor(player);
+        this.getCurrentArea().registerActor(player2);
     }
 
 
