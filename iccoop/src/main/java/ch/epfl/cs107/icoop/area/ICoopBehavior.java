@@ -121,9 +121,6 @@ public final class ICoopBehavior extends AreaBehavior {
      * */
      @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
-
-         System.out.println("acceptInteraction triggered");
-
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
     }
 

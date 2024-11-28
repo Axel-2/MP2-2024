@@ -15,14 +15,15 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
     
 
     // Intéraction avec une cellule, par défaut ne fait rien
-    default void interactWith(ICoopCell other, boolean isCellInteraction) {}
+    default void interactWith(ICoopCell other, boolean isCellInteraction) {
+    }
 
     // Intéraction avec un joueur, par défaut ne fait rien
-    default void interactWith(ICoopPlayer other, boolean isCellInteraction) {}
+    default void interactWith(ICoopPlayer other, boolean isCellInteraction) {
+    }
 
     // Intéraction avec une porte, par défaut ne fait rien
     default void interactWith(Door other, boolean isCellInteraction) {
-        System.out.println("Debug ");
     }
 
 

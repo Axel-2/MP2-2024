@@ -99,7 +99,6 @@ public class ICoop extends AreaGame {
      */
     private void checkLeavingPlayer() {
 
-
         ICoopPlayer[] players = {player, player2};
 
         DiscreteCoordinates coordinates;
@@ -107,11 +106,11 @@ public class ICoop extends AreaGame {
         for (ICoopPlayer playerEl : players) {
             if (playerEl.isLeaving()) {
 
-                System.out.println("Player want to leave");
 
                 playerEl.setLeaving(false);
 
                 Door door = playerEl.getLeavingDoor();
+
                 // on met spawnArea par défaur
                 Area areaToGo = spawnArea;
 
@@ -122,6 +121,8 @@ public class ICoop extends AreaGame {
                     coordinates = door.getFuturePositions().get(1);
                 }
 
+                setCurrentArea(door.getDestinationArea(), true);
+
                 switch (door.getDestinationArea()) {
                     case "OrbWay" -> areaToGo = orbWayArea;
                     case "Spawn" -> areaToGo = spawnArea;
@@ -129,8 +130,6 @@ public class ICoop extends AreaGame {
 
                 playerEl.leaveArea();
                 playerEl.enterArea(areaToGo, coordinates);
-                setCurrentArea(door.getDestinationArea(), true);
-
             }
         }
 

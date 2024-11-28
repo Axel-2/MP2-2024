@@ -6,6 +6,7 @@ import java.util.List;
 
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.AreaEntity;
+import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -17,7 +18,7 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 Acteur qui permet de transiter vers une aire de destination
 
 */
-public class Door extends AreaEntity {
+public class Door extends AreaEntity implements Interactable {
 
     // Nom de l'aire vers laquelle la porte permet de transiter
     private final String goToAreaName;
@@ -105,7 +106,9 @@ public class Door extends AreaEntity {
      */
      @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
+         System.out.println("la porte accepte l'interaction");
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+
     }
 
 

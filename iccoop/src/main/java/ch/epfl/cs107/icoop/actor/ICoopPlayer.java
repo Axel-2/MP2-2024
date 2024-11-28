@@ -7,6 +7,7 @@ import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.play.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
@@ -199,7 +200,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
 
-        interactionHandler.interactWith(other, isCellInteraction);
+        other.acceptInteraction(interactionHandler, isCellInteraction);
+
 
     }
 
@@ -224,18 +226,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         isLeaving = leaving;
     }
 
-    private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
+    private final class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
 
-        // Intéraction avec une porte détailléee, mais pas finie
         @Override
         public void interactWith(Door other, boolean isCellInteraction) {
 
-            System.out.println("Tesssssst");
             if (other.getSignal().isOn()){
-
-                System.out.println("Interact With fonctionne");
-
-                // Il faut penser à le remttre false mais je sais pas trop quand
                 isLeaving = true;
                 leavingDoor = other;
             }
