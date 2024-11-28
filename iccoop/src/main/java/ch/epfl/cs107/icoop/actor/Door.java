@@ -1,13 +1,13 @@
 package ch.epfl.cs107.icoop.actor;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.AreaEntity;
-import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
@@ -56,11 +56,10 @@ public class Door extends AreaEntity {
                     
 
      /**
-     * Get this Interactor's current occupying cells coordinates
-     * @return (List of DiscreteCoordinates). May be empty but not null
+     * Donne une liste composée des coordonnées de la cell principale et des autres cells
+     * @return (List of DiscreteCoordinates). Peut être vide mais pas null
      */
 
-     // Donne une liste composée des coordonnées de la cell principale et des autres cells
     public List<DiscreteCoordinates> getCurrentCells(){
         DiscreteCoordinates mainCellCoords = super.getCurrentMainCellCoordinates();
         List<DiscreteCoordinates> occupiedCellsCoords = new ArrayList<>();
@@ -70,28 +69,43 @@ public class Door extends AreaEntity {
         }
         return occupiedCellsCoords;
     }
+
     /**
      * Indicate if the current Interactable take the whole cell space or not
      * i.e. only one Interactable which takeCellSpace can be in a cell
      * (how many Interactable which don't takeCellSpace can also be in the same cell)
      * @return (boolean)
      */
+    @Override
     public boolean takeCellSpace(){
         return false;
     }
 
     /**@return (boolean): true if this is able to have cell interactions*/
+    @Override
     public boolean isCellInteractable(){
         return true;
     }
 
+    
     /**@return (boolean): true if this is able to have view interactions*/
+    @Override
     public boolean isViewInteractable(){
         return false;
     }
 
+
     // Pas besoin de définir un draw qui ne fait rien comme demandé dans le pdf, car Door est une sous classe en Entity
     // qui implémente Actor et qui fournit une méthode par défaut qui ne draw rien
 
+
+    /** Call directly the interaction on this if accepted
+     * @param v (AreaInteractionVisitor) : the visitor
+     * */
+    // Il faudra par la suite probablement définir cette méthode dans le handler (AreaInteractionVisitor)
+     @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+    }
     
 }
