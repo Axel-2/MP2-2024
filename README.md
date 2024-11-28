@@ -10,3 +10,8 @@
 
 # Proposition 1 
 # Je propose qu'on commente en français, pour distinguer notre commentaire de celui fourni
+
+# Question / Galère (petite) 1 :
+# Dans l'initialisation des deux portes de OrbWay, je ne sais pas comment, pour le 4ème paramètre, mettre la map OrbWay, car seul spawn a été initialisé (même si on a create les deux)
+# J'ai mis des commentaires TODO 1 et TODO 2 dans ICoop.Java ligne 90 et 103 actuellement
+
