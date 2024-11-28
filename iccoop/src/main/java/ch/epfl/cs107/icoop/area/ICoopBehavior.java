@@ -1,11 +1,10 @@
 package ch.epfl.cs107.icoop.area;
 
-import ch.epfl.cs107.play.areagame.actor.AreaEntity;
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.AreaBehavior;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.window.Window;
-import org.w3c.dom.Entity;
 
 public final class ICoopBehavior extends AreaBehavior {
     /**
@@ -116,9 +115,13 @@ public final class ICoopBehavior extends AreaBehavior {
             return false;
         }
 
-        @Override
-        public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-        }
+    /** Call directly the interaction on this if accepted
+     * @param v (AreaInteractionVisitor) : the visitor
+     * */
+     @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+    }
 
     }
 }

@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icoop.actor;
 
 import ch.epfl.cs107.icoop.KeyBindings;
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -15,17 +16,23 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Keyboard;
 
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.text.JTextComponent;
+
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
+import ch.epfl.cs107.play.areagame.actor.Interactor;
 import static ch.epfl.cs107.play.math.Orientation.*;
 
 /**
  * A ICoopPlayer is a player for the ICoop game.
  */
-public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
+public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor {
 
   // TO BE COMPLETED
 
@@ -104,11 +111,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
-    @Override
-    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-
-    }
-
     /**
      * Orientate and Move this player in the given orientation if the given button is down
      *
@@ -152,9 +154,43 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
         getOwnerArea().setViewCandidate(this);
     }
 
+    /**
+     * Retourne l'élément du ICoopPlayer (Feu ou eau)
+     */
+    @Override
     public Element element() {
         return this.element;
     }
+
+     /** Call directly the interaction on this if accepted
+     * @param v (AreaInteractionVisitor) : the visitor
+    */
+     @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+    }
+
+    /**
+     * Get this Interactor's current field of view cells coordinates
+     * @return (List of DiscreteCoordinates). May be empty but not null
+     */
+    @Override
+    public List<DiscreteCoordinates> getFieldOfViewCells(){
+        return Collections.singletonList
+        (getCurrentMainCellCoordinates().jump(getOrientation().toVector()));
+    
+    }
+
+    /**@return (boolean): true if this require cell interaction */
+    @Override
+    public boolean wantsCellInteraction(){ return true;}
+
+    /**@return (boolean): true if this require view interaction */
+    // @Override
+    // public boolean wantsViewInteraction(){ 
+    //     // TO DO 3 : Return true seulement si la touche pour "use item" est pressée. c'est le paragraphe du milieu de la page 12, section 2.4.2
+    // }
+
 }
 
 interface ElementalEntity {

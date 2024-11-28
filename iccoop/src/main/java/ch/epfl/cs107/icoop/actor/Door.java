@@ -101,8 +101,7 @@ public class Door extends AreaEntity {
 
     /** Call directly the interaction on this if accepted
      * @param v (AreaInteractionVisitor) : the visitor
-     * */
-    // Il faudra par la suite probablement définir cette méthode dans le handler (AreaInteractionVisitor)
+     */
      @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
