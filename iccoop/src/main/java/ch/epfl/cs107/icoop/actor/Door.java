@@ -123,8 +123,5 @@ public class Door extends AreaEntity {
         return futurePositions;
     }
 
-    public Logic getSignal(){
-        return signal;
-    }
     
 }

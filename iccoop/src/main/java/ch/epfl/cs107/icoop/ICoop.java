@@ -2,6 +2,7 @@ package ch.epfl.cs107.icoop;
 
 
 import ch.epfl.cs107.icoop.actor.CenterOfMass;
+import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Element;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.area.ICoopArea;
@@ -80,17 +81,6 @@ public class ICoop extends AreaGame {
         this.getCurrentArea().registerActor(player2);
 
 
-        // Axel: est-ce qu'on les crée vrm ici ? Je dirai plutot dans chaque map spécifiquement
-
-        // Création de la porte dans le spawn, qui mènera à orbway
-        Door spawnDoor = new Door(
-            "OrbWay",                                                                // Aire vers laquelle la porte emmène
-            Logic.TRUE,                                                                           // Toujours open
-            Arrays.asList(new DiscreteCoordinates(1, 12), new DiscreteCoordinates(1, 5)), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
-            area,                                                                                 // Map actuelle, donc Spawn
-            new DiscreteCoordinates(19,15),                                                   // Cellule principale de la porte (une des deux "cases" rouges)
-            new DiscreteCoordinates(19,16)                                                    // Autre cellule de la porte (l'autre "case" rouge)
-            );
 
     }
 
@@ -100,35 +90,6 @@ public class ICoop extends AreaGame {
         super.update(deltaTime);
     }
 
-
-    /**
-     * Cette fonction check si un des deux player veut changer d'Area
-     * a l'aide d'une porte.
-     */
-    private void checkLeavingPlayer() {
-
-        ICoopPlayer[] players = {player, player2};
-
-        DiscreteCoordinates coordinates;
-
-        for (ICoopPlayer playerEl : players) {
-            if (playerEl.isLeaving()) {
-                Door door = playerEl.getLeavingDoor();
-
-                if (playerEl.getElement().name().equals("FIRE")) {
-                    coordinates = door.getFuturePositions().get(0);
-                } else {
-                    coordinates = door.getFuturePositions().get(1);
-                }
-
-    @Override
-    public void update(float deltaTime) {
-        checkLeavingPlayer();
-        super.update(deltaTime);
-    }
-
-            }
-        }
 
     /**
      * Cette fonction check si un des deux player veut changer d'Area
