@@ -8,11 +8,6 @@
 # Remarque 2
 # J'ai créé mes portes dans "initGame", là où tu crées les personnages, ça me paraît le plus logique
 
-# Remarque 3
-# J'ai finalement mis l'attribut signal de portes en public, car j'avais besoin d'y accéder dans l'intéraction avec le joueur, et je me dis que, dans la logique
-# c'est pas un problème que tout le monde puisse voir si la porte est ouverte ou fermée. dans la vrai vie ce serait comme ça aussi peut-etre ?
-# en vrai je suis pas sûr, l'autre option c'est de faire un getter, mais je sais pas lequel est le mieux.
-
 # Proposition 1 
 # Je propose qu'on commente en français, pour distinguer notre commentaire de celui fourni
 
