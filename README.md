@@ -20,10 +20,6 @@
 # Dans l'initialisation des deux portes de OrbWay, je ne sais pas comment, pour le 4ème paramètre, mettre la map OrbWay, car seul spawn a été initialisé (même si on a create les deux)
 # J'ai mis des commentaires TODO 1 et TODO 2 dans ICoop.Java ligne 90 et 103 actuellement
 
-# TODO 3 :
-# La méthode wantviewInterraction dans IcoopPlayer, il faut qu'elle retourne true seulement si le joueur appuie sur la touche "use Item"
-# C'est le paragraphe du milieu de la page 12, section 2.4.2. je sais pas trop comment faire, j'ai pas demandé à chat gpt encore mais peut être que tu sais car t'as déjà utiliser
-# les keybindings
 
 # Question 1
 # J'ai pas trop compris à quoi sert le deuxième paramètres, dans toutes les méthodes acceptInterraction(Interactable other, boolean isCellInteraction
@@ -33,6 +29,4 @@
 # Contexte : PDF dernier paragraphe avant le 2.4.3, donc le haut de la page 13
 # J'ai mis des commentaires pour donner plus d'infos à partir de la ligne 201 de ICoop Player
 
-# ----------------- IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT IMPORTANT --------------------------
-# pour que le code compile, j'ai enlevé le "Implements Interactor" de ICoopPlayer,     (car mes problèmes viennent des méthodes abstraites à redéfinir)
-# donc quand on reprend le code pour débugguer, il faudra rajouter le Implements Interactor en haut de ICoopPlayer
+# CHECKPOINT : ME SUIS PAS ARRÊTER A UN ENDROIT PARTICULIER, IL FAUT JUSTE FAIRE LE TODO 1 ET 2, PUIS LE TODO 4. CEST NORMAL SI SPECIFIC INTERACTION EST SPAM, CAR TODO 4 N'ESTPAS FINI

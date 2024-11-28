@@ -1,38 +1,33 @@
 package ch.epfl.cs107.icoop.actor;
 
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.cs107.icoop.KeyBindings;
+import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
+import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
+import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.engine.actor.Sprite;
-import ch.epfl.cs107.play.engine.actor.TextGraphics;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import static ch.epfl.cs107.play.math.Orientation.DOWN;
+import static ch.epfl.cs107.play.math.Orientation.LEFT;
+import static ch.epfl.cs107.play.math.Orientation.RIGHT;
+import static ch.epfl.cs107.play.math.Orientation.UP;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Keyboard;
 
-import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import javax.swing.text.JTextComponent;
-
-import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
-import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
-import ch.epfl.cs107.play.areagame.actor.Interactor;
-import static ch.epfl.cs107.play.math.Orientation.*;
-
 /**
  * A ICoopPlayer is a player for the ICoop game.
  */
-public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
+public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor {
 
   // TO BE COMPLETED
 
@@ -190,11 +185,14 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
 
     /**@return (boolean): true if this require view interaction */
     // @Override
-    // public boolean wantsViewInteraction(){ 
-    //     // TO DO 3 : Return true seulement si la touche pour "use item" est pressée. c'est le paragraphe du milieu de la page 12, section 2.4.2
-    // }
+    public boolean wantsViewInteraction(){ 
 
-    public void interactWith(Door other, boolean isCellInteraction) {
+    Keyboard keyboard = getOwnerArea().getKeyboard();
+    return keyboard.get(playerKeyBindings.useItem()).isPressed();
+
+    }
+
+    public void interactWith(Interactable other, boolean isCellInteraction) {
             interactionHandler.interactWith(other, isCellInteraction);
         }
 
