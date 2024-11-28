@@ -138,19 +138,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      */
     public void enterArea(Area area, DiscreteCoordinates position) {
         area.registerActor(this);
-        area.setViewCandidate(this);
+        //area.setViewCandidate(this);
         setOwnerArea(area);
         setCurrentPosition(position.toVector());
         resetMotion();
     }
 
-
-    /**
-     * Center the camera on the player
-     */
-    public void centerCamera() {
-        getOwnerArea().setViewCandidate(this);
-    }
 
     /**
      * Retourne l'élément du ICoopPlayer (Feu ou eau)
@@ -200,8 +193,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
 
+        // Il faut faire de cette manière pour utiliser le handler
         other.acceptInteraction(interactionHandler, isCellInteraction);
-
 
     }
 
@@ -209,12 +202,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return element;
     }
 
-
     private boolean isLeaving = false;
-
-    public boolean isLeaving() {
-        return isLeaving;
-    }
 
     private Door leavingDoor = null;
 
@@ -224,6 +212,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     public void setLeaving(Boolean leaving) {
         isLeaving = leaving;
+    }
+    public boolean isLeaving() {
+        return isLeaving;
     }
 
     private final class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {

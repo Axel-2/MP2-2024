@@ -11,7 +11,7 @@ import ch.epfl.cs107.play.window.Window;
  * Base class for all the areas of ICoop
  */
 public abstract class ICoopArea extends Area {
-    public final static float DEFAULT_SCALE_FACTOR = 17.f;
+    public final static float DEFAULT_SCALE_FACTOR = 20.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
 
     /**
@@ -48,7 +48,11 @@ public abstract class ICoopArea extends Area {
     public final float getCameraScaleFactor() {
         return cameraScaleFactor;
     }
-    @Override
-    public boolean isViewCentered() { return true; }
+
+    // Pourquoi le isViewCentered ???
+    ///Ça casse la camera sur le centre de masse
+
+    //@Override
+    //public boolean isViewCentered() { return true; }
 
 }

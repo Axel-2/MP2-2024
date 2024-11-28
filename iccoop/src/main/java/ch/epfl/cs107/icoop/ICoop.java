@@ -79,6 +79,8 @@ public class ICoop extends AreaGame {
         this.getCurrentArea().registerActor(player);
         this.getCurrentArea().registerActor(player2);
 
+        CenterOfMass centerOfMass = new CenterOfMass(player, player2);
+        getCurrentArea().setViewCandidate(centerOfMass);
 
     }
 
@@ -106,14 +108,12 @@ public class ICoop extends AreaGame {
         for (ICoopPlayer playerEl : players) {
             if (playerEl.isLeaving()) {
 
-
                 playerEl.setLeaving(false);
 
                 Door door = playerEl.getLeavingDoor();
 
                 // on met spawnArea par défaur
-                Area areaToGo = spawnArea;
-
+                Area areaToGo;
 
                 if (playerEl.getElement().name().equals("FIRE")) {
                     coordinates = door.getFuturePositions().get(0);
@@ -125,7 +125,7 @@ public class ICoop extends AreaGame {
 
                 switch (door.getDestinationArea()) {
                     case "OrbWay" -> areaToGo = orbWayArea;
-                    case "Spawn" -> areaToGo = spawnArea;
+                    default -> areaToGo = spawnArea;
                 }
 
                 playerEl.leaveArea();

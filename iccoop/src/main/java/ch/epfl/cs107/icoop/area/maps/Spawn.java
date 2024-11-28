@@ -39,7 +39,6 @@ public final class Spawn extends ICoopArea {
             new DiscreteCoordinates(19,15),                                                   // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(19,16)                                                    // Autre cellule de la porte (l'autre "case" rouge)
             );
-
         registerActor(spawnDoor);
 
     }

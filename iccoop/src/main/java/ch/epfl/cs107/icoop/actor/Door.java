@@ -106,7 +106,6 @@ public class Door extends AreaEntity implements Interactable {
      */
      @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
-         System.out.println("la porte accepte l'interaction");
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
 
     }
