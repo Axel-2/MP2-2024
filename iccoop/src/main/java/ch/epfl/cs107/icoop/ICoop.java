@@ -16,6 +16,13 @@ import ch.epfl.cs107.play.window.Window;
 
 
 public class ICoop extends AreaGame {
+
+
+    // Je pense que les players doivent etre des attributs de la classe car on doit
+    // pouvoir les utiliser dans update
+    private ICoopPlayer player;
+    private ICoopPlayer player2;
+
     // TO BE COMPLETED
     @Override
     public String getTitle() {
@@ -62,11 +69,11 @@ public class ICoop extends AreaGame {
 
         // Création du joueur 1
         DiscreteCoordinates coords = area.getPlayerSpawnPosition(Element.WATER);
-        ICoopPlayer player =  new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player", Element.WATER);
+        player =  new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player", Element.WATER);
 
         // Création du joueur 2
         coords =  area.getPlayerSpawnPosition(Element.FIRE);
-        ICoopPlayer player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player2", Element.FIRE);
+        player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player2", Element.FIRE);
 
         // Register des deux joueurs
         this.getCurrentArea().registerActor(player);
@@ -79,6 +86,38 @@ public class ICoop extends AreaGame {
 
     }
 
+    @Override
+    public void update(float deltaTime) {
+        checkLeavingPlayer();
+        super.update(deltaTime);
+    }
 
 
+    /**
+     * Cette fonction check si un des deux player veut changer d'Area
+     * a l'aide d'une porte.
+     */
+    private void checkLeavingPlayer() {
+
+        ICoopPlayer[] players = {player, player2};
+
+        DiscreteCoordinates coordinates;
+
+        for (ICoopPlayer playerEl : players) {
+            if (playerEl.isLeaving()) {
+                Door door = playerEl.getLeavingDoor();
+
+                if (playerEl.getElement().name().equals("FIRE")) {
+                    coordinates = door.getFuturePositions().get(0);
+                } else {
+                    coordinates = door.getFuturePositions().get(1);
+                }
+
+                playerEl.changePosition(coordinates);
+                setCurrentArea(door.getDestinationArea(), true);
+
+            }
+        }
+
+    }
 }

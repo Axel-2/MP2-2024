@@ -1,5 +1,8 @@
 package ch.epfl.cs107.icoop.actor;
 
+// Ceci n'est pas un actor mais c'est une enum qui représente le type du joueur
+// soit FIRE soit WATER
+// Cette enum est utilisée un peu partout dans le reste du code
 public enum Element {
     FIRE("icoop/player"),
     WATER("icoop/player2"),

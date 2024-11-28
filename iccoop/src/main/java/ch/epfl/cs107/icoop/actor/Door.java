@@ -20,16 +20,22 @@ Acteur qui permet de transiter vers une aire de destination
 public class Door extends AreaEntity {
 
     // Nom de l'aire vers laquelle la porte permet de transiter
-    private String goToAreaName;
+    private final String goToAreaName;
 
     // Positions d'arrivées dans la nouvelle aire, des deux personnages (deux positions différentes)
-    private List<DiscreteCoordinates> futurePositions;
+    private final List<DiscreteCoordinates> futurePositions;
+
 
     // Variable qui permet de modéliser les conditions d'ouverture de la porte
-    public Logic signal;
+    private Logic signal;
 
-    // Coordonnées des autres cells occupées 
-    private List<DiscreteCoordinates> otherCellsCoordoniates;
+    // getter pour obtenir le signal dans IcoopPlayer
+    public Logic getSignal() {
+        return signal;
+    }
+
+    // Coordonnées des autres cells occupées
+    private List<DiscreteCoordinates> otherCellsCoordinates;
 
 
     // Constructeur principal
@@ -39,20 +45,19 @@ public class Door extends AreaEntity {
         this.goToAreaName = goToAreaName;
         this.futurePositions = futurePositions;
         this.signal = signal;
-        this.otherCellsCoordoniates = null;
+
+        // A revoir par la suite:
+        // Est-ce qu'on laisse null comme ça ?
+        this.otherCellsCoordinates = null;
 
     }
 
     // Autre constructeur avec l'option d'établir les positions des autres cellules que la porte occupent. Le paramètre supplémentaire est : otherCellsPosition
     public Door(String goToAreaName, Logic signal, List<DiscreteCoordinates> futurePositions,
      Area ownerArea, DiscreteCoordinates mainCellPosition, DiscreteCoordinates... otherCellsPosition){
-                    super(ownerArea, Orientation.DOWN, mainCellPosition);
-                    this.goToAreaName = goToAreaName;
-                    this.futurePositions = futurePositions;
-                    this.signal = signal;
-                    this.otherCellsCoordoniates = Arrays.asList(otherCellsPosition);
-
-                                     }
+                    this(goToAreaName, signal, futurePositions, ownerArea, mainCellPosition);
+                    this.otherCellsCoordinates = Arrays.asList(otherCellsPosition);
+    }
                     
 
      /**
@@ -64,7 +69,7 @@ public class Door extends AreaEntity {
         DiscreteCoordinates mainCellCoords = super.getCurrentMainCellCoordinates();
         List<DiscreteCoordinates> occupiedCellsCoords = new ArrayList<>();
         occupiedCellsCoords.add(mainCellCoords);
-        for (DiscreteCoordinates coords : otherCellsCoordoniates){
+        for (DiscreteCoordinates coords : otherCellsCoordinates){
             occupiedCellsCoords.add(coords);
         }
         return occupiedCellsCoords;
@@ -105,6 +110,17 @@ public class Door extends AreaEntity {
      @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+    }
+
+
+    // On a besoin de ce getter dans ICoop
+    public String getDestinationArea() {
+        return goToAreaName;
+    }
+
+    // On a aussi besoin de futurePositons dans ICoop
+    public List<DiscreteCoordinates> getFuturePositions() {
+        return futurePositions;
     }
 
     public Logic getSignal(){
