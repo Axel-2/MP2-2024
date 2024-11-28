@@ -33,17 +33,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     private final static int MOVE_DURATION = 8;
     private final Sprite sprite;
-
     private final Element element;
-
     private final Vector anchor = new Vector(0, 0);
     private final Orientation[] orders = {DOWN , RIGHT , UP, LEFT};
     private final static int ANIMATION_DURATION = 4;
+
     private OrientedAnimation animation;
-
-    // pas sûr que ce soit la solution mais je crois que si, je dois pouvoir utiliser sa méthode pour enlever l'abstraction
     private ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
-
     private KeyBindings.PlayerKeyBindings playerKeyBindings;
 
     /**
@@ -191,16 +187,16 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
     /**@return (boolean): true if this require view interaction */
-    // @Override
+    @Override
     public boolean wantsViewInteraction() {
 
-        // On veut les intéractions à distance
-        // seulement si le joueur appuie sur la touche useItem
+        // On veut les intéractions à distance seulement si le joueur appuie sur la touche useItem
         Keyboard keyboard = getOwnerArea().getKeyboard();
         return keyboard.get(playerKeyBindings.useItem()).isPressed();
 
     }
 
+    @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
 
         interactionHandler.interactWith(other, isCellInteraction);
@@ -230,11 +226,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
 
-
-        // TO-DO 4 : Ici c'est le premier gros passage galère, faut gérer concretement la porte en ayant les bonnes encapsulation et accès
-        // Micha a dit qu'il a galéré dessus, et sur le telegram ça parle de ça
-
         // Intéraction avec une porte détailléee, mais pas finie
+        @Override
         public void interactWith(Door other, boolean isCellInteraction) {
 
             System.out.println("Tesssssst");
@@ -242,15 +235,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
                 System.out.println("Interact With fonctionne");
 
-
-                // IL faut penser à le remttre false mais je sais pas trop quand
+                // Il faut penser à le remttre false mais je sais pas trop quand
                 isLeaving = true;
                 leavingDoor = other;
-                // je peux pas faire le changement d'area ici, il faudra le faire dan Icoop.java, mais je dois informer le personnage du changement et transmettre les infos au jeu
-                // leaveArea();
-
-            // et un truc du style ICoop.setCurrentArea(other.goToAreaName, coordonnées de spawn disponible)
-            // et on créerait la variable coordonnées de spawn disponible en itérant parmis other.futurepositions.get(i) et on si la cell est dispo on la prend
             }
         }
     }
