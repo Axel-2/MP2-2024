@@ -107,20 +107,9 @@ public class ICoop extends AreaGame {
 
         for (ICoopPlayer playerEl : players) {
             if (playerEl.isLeaving()) {
-
                 playerEl.setLeaving(false);
-
                 Door door = playerEl.getLeavingDoor();
-
-                // on met spawnArea par défaur
                 Area areaToGo;
-
-                if (playerEl.getElement().name().equals("FIRE")) {
-                    coordinates = door.getFuturePositions().get(0);
-                } else {
-                    coordinates = door.getFuturePositions().get(1);
-                }
-
                 setCurrentArea(door.getDestinationArea(), true);
 
                 switch (door.getDestinationArea()) {
@@ -128,8 +117,12 @@ public class ICoop extends AreaGame {
                     default -> areaToGo = spawnArea;
                 }
 
-                playerEl.leaveArea();
-                playerEl.enterArea(areaToGo, coordinates);
+                player.leaveArea();
+                player2.leaveArea();
+
+                player.enterArea(areaToGo, door.getFuturePositions().get(0));
+                player2.enterArea(areaToGo, door.getFuturePositions().get(1));
+
             }
         }
 
