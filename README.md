@@ -5,16 +5,8 @@
 # sauf que door est une sous classe d'un truc qui implémente "Actor", et dans Actor y'a une méthode avec le mot clé "default" draw() qui ne fait rien, donc je suppose que c'est bon
 # car il ne faut pas redéfinir des méthodes qui ont le default (sauf si on veut changer ce qu'elle font mais ici c'est pas le cas). c'est juste bizarre qu'ils citent cette methode 
 
-# Remarque 2
-# J'ai créé mes portes dans "initGame", là où tu crées les personnages, ça me paraît le plus logique
-
 # Proposition 1 
 # Je propose qu'on commente en français, pour distinguer notre commentaire de celui fourni
-
-# TODO  1 et 2 :
-# Dans l'initialisation des deux portes de OrbWay, je ne sais pas comment, pour le 4ème paramètre, mettre la map OrbWay, car seul spawn a été initialisé (même si on a create les deux)
-# J'ai mis des commentaires TODO 1 et TODO 2 dans ICoop.Java ligne 90 et 103 actuellement
-
 
 # Question 1
 # J'ai pas trop compris à quoi sert le deuxième paramètres, dans toutes les méthodes acceptInterraction Interactable other, boolean isCellInteraction
