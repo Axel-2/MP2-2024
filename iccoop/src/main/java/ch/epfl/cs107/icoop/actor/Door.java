@@ -29,10 +29,6 @@ public class Door extends AreaEntity {
     // Variable qui permet de modéliser les conditions d'ouverture de la porte
     private Logic signal;
 
-    // getter pour obtenir le signal dans IcoopPlayer
-    public Logic getSignal() {
-        return signal;
-    }
 
     // Coordonnées des autres cells occupées
     private List<DiscreteCoordinates> otherCellsCoordinates;
@@ -121,6 +117,11 @@ public class Door extends AreaEntity {
     // On a aussi besoin de futurePositons dans ICoop
     public List<DiscreteCoordinates> getFuturePositions() {
         return futurePositions;
+    }
+
+    // getter pour obtenir le signal dans IcoopPlayer
+    public Logic getSignal() {
+        return signal;
     }
 
     

@@ -24,21 +24,21 @@ public class ICoop extends AreaGame {
     private ICoopPlayer player;
     private ICoopPlayer player2;
 
+    private Area spawnArea;
+    private Area orbWayArea;
+
     // TO BE COMPLETED
     @Override
     public String getTitle() {
         return "ICoop";
     }
 
-    private final String[] areas = {"Spawn", "OrbWay"};
-    private int areaIndex;
-
     /**
      * Add all the ICoop areas
      */
     private void createAreas() {
-        Area spawnArea = new Spawn(); // Peut-être mettre en ICoop Area plutot ? jsp
-        Area orbWayArea = new OrbWay();
+        spawnArea = new Spawn(); // Peut-être mettre en ICoop Area plutot ? jsp
+        orbWayArea = new OrbWay();
 
         addArea(spawnArea);
         addArea(orbWayArea);
@@ -65,7 +65,6 @@ public class ICoop extends AreaGame {
         // Le jeu commence dans l'aire spwan
         ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
 
-
         // ----- JOUEURS -----
 
         // Création du joueur 1
@@ -81,19 +80,22 @@ public class ICoop extends AreaGame {
         this.getCurrentArea().registerActor(player2);
 
 
-
     }
 
     @Override
     public void update(float deltaTime) {
+
+        // A chaque tour de boucle on doit check
+        // si un des joueurs traverse une porte
         checkLeavingPlayer();
         super.update(deltaTime);
     }
 
 
     /**
-     * Cette fonction check si un des deux player veut changer d'Area
-     * a l'aide d'une porte.
+     * Cette fonction check si un des deux players traverse une porte et si c'est le cas les changements
+     * de positions
+     * et d'areas sont effectués
      */
     private void checkLeavingPlayer() {
 
@@ -103,7 +105,13 @@ public class ICoop extends AreaGame {
 
         for (ICoopPlayer playerEl : players) {
             if (playerEl.isLeaving()) {
+
+                playerEl.setLeaving(false);
+
                 Door door = playerEl.getLeavingDoor();
+                // on met spawnArea par défaur
+                Area areaToGo = spawnArea;
+
 
                 if (playerEl.getElement().name().equals("FIRE")) {
                     coordinates = door.getFuturePositions().get(0);
@@ -111,7 +119,13 @@ public class ICoop extends AreaGame {
                     coordinates = door.getFuturePositions().get(1);
                 }
 
-                playerEl.changePosition(coordinates);
+                switch (door.getDestinationArea()) {
+                    case "OrbWay" -> areaToGo = orbWayArea;
+                    case "Spawn" -> areaToGo = spawnArea;
+                }
+
+                playerEl.leaveArea();
+                playerEl.enterArea(areaToGo, coordinates);
                 setCurrentArea(door.getDestinationArea(), true);
 
             }

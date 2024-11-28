@@ -224,6 +224,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return leavingDoor;
     }
 
+    public void setLeaving(Boolean leaving) {
+        isLeaving = leaving;
+    }
+
     private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
 
         // TO-DO 4 : Ici c'est le premier gros passage galère, faut gérer concretement la porte en ayant les bonnes encapsulation et accès
@@ -233,6 +237,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         public void interactWith(Door other, boolean isCellInteraction) {
             if (other.getSignal().isOn()){
 
+
+                // IL faut penser à le remttre false mais je sais pas trop quand
                 isLeaving = true;
                 leavingDoor = other;
                 // je peux pas faire le changement d'area ici, il faudra le faire dan Icoop.java, mais je dois informer le personnage du changement et transmettre les infos au jeu
