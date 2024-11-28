@@ -26,7 +26,7 @@ public class Door extends AreaEntity {
     private List<DiscreteCoordinates> futurePositions;
 
     // Variable qui permet de modéliser les conditions d'ouverture de la porte
-    private Logic signal;
+    public Logic signal;
 
     // Coordonnées des autres cells occupées 
     private List<DiscreteCoordinates> otherCellsCoordoniates;

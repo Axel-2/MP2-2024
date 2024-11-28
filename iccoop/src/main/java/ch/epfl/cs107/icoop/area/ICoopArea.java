@@ -48,5 +48,7 @@ public abstract class ICoopArea extends Area {
     public final float getCameraScaleFactor() {
         return cameraScaleFactor;
     }
+    @Override
+    public boolean isViewCentered() { return true; }
 
 }

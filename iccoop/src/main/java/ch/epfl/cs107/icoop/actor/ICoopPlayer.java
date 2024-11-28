@@ -32,7 +32,7 @@ import static ch.epfl.cs107.play.math.Orientation.*;
 /**
  * A ICoopPlayer is a player for the ICoop game.
  */
-public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor {
+public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity {
 
   // TO BE COMPLETED
 
@@ -44,6 +44,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final Orientation[] orders = {DOWN , RIGHT , UP, LEFT};
     private final static int ANIMATION_DURATION = 4;
     private OrientedAnimation animation;
+
+    // pas sûr que ce soit la solution mais je crois que si, je dois pouvoir utiliser sa méthode pour enlever l'abstraction
+    private ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
 
     private KeyBindings.PlayerKeyBindings playerKeyBindings;
 
@@ -191,7 +194,28 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     //     // TO DO 3 : Return true seulement si la touche pour "use item" est pressée. c'est le paragraphe du milieu de la page 12, section 2.4.2
     // }
 
+    public void interactWith(Door other, boolean isCellInteraction) {
+            interactionHandler.interactWith(other, isCellInteraction);
+        }
+
+    private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor{
+
+        // TO-DO 4 : Ici c'est le premier gros passage galère, faut gérer concretement la porte en ayant les bonnes encapsulation et accès
+        // Micha a dit qu'il a galéré dessus, et sur le telegram ça parle de ça
+
+        // Intéraction avec une porte détailléee, mais pas finie
+        public void interactWith(Door other, boolean isCellInteraction) {
+            if (other.signal.isOn()){
+            // je peux pas faire le changement d'area ici, il faudra le faire dan Icoop.java, mais je dois informer le personnage du changement et transmettre les infos au jeu
+            // leaveArea();
+            // et un truc du style ICoop.setCurrentArea(other.goToAreaName, coordonnées de spawn disponible)
+            // et on créerait la variable coordonnées de spawn disponible en itérant parmis other.futurepositions.get(i) et on si la cell est dispo on la prend
+            }
+        }
+    }
 }
+
+
 
 interface ElementalEntity {
     Element element();
