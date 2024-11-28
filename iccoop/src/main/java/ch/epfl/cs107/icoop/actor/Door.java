@@ -106,5 +106,9 @@ public class Door extends AreaEntity {
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
     }
+
+    public Logic getSignal(){
+        return signal;
+    }
     
 }

@@ -22,7 +22,7 @@
 
 
 # Question 1
-# J'ai pas trop compris à quoi sert le deuxième paramètres, dans toutes les méthodes acceptInterraction(Interactable other, boolean isCellInteraction
+# J'ai pas trop compris à quoi sert le deuxième paramètres, dans toutes les méthodes acceptInterraction Interactable other, boolean isCellInteraction
 
 # TODO 4 :
 # Ici c'est la vrai première galère, pour définir concretement ce que fait la porte, dans l'interactionHandler de IcoopPlayer (même micha a galéré et pleins de gens sont bloqués la)

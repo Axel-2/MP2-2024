@@ -203,7 +203,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         // Intéraction avec une porte détailléee, mais pas finie
         public void interactWith(Door other, boolean isCellInteraction) {
-            if (other.signal.isOn()){
+            if (other.getSignal().isOn()){
             // je peux pas faire le changement d'area ici, il faudra le faire dan Icoop.java, mais je dois informer le personnage du changement et transmettre les infos au jeu
             // leaveArea();
             // et un truc du style ICoop.setCurrentArea(other.goToAreaName, coordonnées de spawn disponible)
