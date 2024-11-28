@@ -99,12 +99,15 @@ public class ICoop extends AreaGame {
      */
     private void checkLeavingPlayer() {
 
+
         ICoopPlayer[] players = {player, player2};
 
         DiscreteCoordinates coordinates;
 
         for (ICoopPlayer playerEl : players) {
             if (playerEl.isLeaving()) {
+
+                System.out.println("Player want to leave");
 
                 playerEl.setLeaving(false);
 

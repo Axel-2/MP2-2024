@@ -115,11 +115,15 @@ public final class ICoopBehavior extends AreaBehavior {
             return false;
         }
 
+
     /** Call directly the interaction on this if accepted
      * @param v (AreaInteractionVisitor) : the visitor
      * */
      @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
+
+         System.out.println("acceptInteraction triggered");
+
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
     }
 

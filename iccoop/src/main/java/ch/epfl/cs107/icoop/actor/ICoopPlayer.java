@@ -230,12 +230,17 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     private class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
 
+
         // TO-DO 4 : Ici c'est le premier gros passage galère, faut gérer concretement la porte en ayant les bonnes encapsulation et accès
         // Micha a dit qu'il a galéré dessus, et sur le telegram ça parle de ça
 
         // Intéraction avec une porte détailléee, mais pas finie
         public void interactWith(Door other, boolean isCellInteraction) {
+
+            System.out.println("Tesssssst");
             if (other.getSignal().isOn()){
+
+                System.out.println("Interact With fonctionne");
 
 
                 // IL faut penser à le remttre false mais je sais pas trop quand
