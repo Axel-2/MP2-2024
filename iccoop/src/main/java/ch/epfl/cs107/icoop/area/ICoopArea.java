@@ -1,6 +1,9 @@
 package ch.epfl.cs107.icoop.area;
 
+import static java.lang.Math.max;
+
 import ch.epfl.cs107.icoop.actor.Element;
+import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -41,7 +44,7 @@ public abstract class ICoopArea extends Area {
     }
 
     /**
-     * Getter for Tuto2's scale factor
+     * Getter for Icoop's scale factor
      * @return Scale factor in both the x-direction and the y-direction
      */
     @Override
@@ -49,10 +52,13 @@ public abstract class ICoopArea extends Area {
         return cameraScaleFactor;
     }
 
-    // Pourquoi le isViewCentered ???
-    ///Ça casse la camera sur le centre de masse
+    public final void setCameraScaleFactor(float sf){
+        cameraScaleFactor = sf;
+    }
 
-    //@Override
-    //public boolean isViewCentered() { return true; }
-
+    public void updateScaleFactor(ICoopPlayer fire, ICoopPlayer water){
+        fire.getPosition();
+        float distance = fire.getPosition().sub(water.getPosition()).getLength();
+        cameraScaleFactor = (float) max(DEFAULT_SCALE_FACTOR, DEFAULT_SCALE_FACTOR * 0.75 + distance / 2);
+    }
 }

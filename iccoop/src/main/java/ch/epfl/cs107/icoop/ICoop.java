@@ -90,6 +90,10 @@ public class ICoop extends AreaGame {
         // A chaque tour de boucle on doit check
         // si un des joueurs traverse une porte
         checkLeavingPlayer();
+        // Ajustement du scale factor
+        ICoopArea currentICoopArea = (ICoopArea) getCurrentArea();
+        currentICoopArea.updateScaleFactor(player, player2);
+        
         super.update(deltaTime);
     }
 
