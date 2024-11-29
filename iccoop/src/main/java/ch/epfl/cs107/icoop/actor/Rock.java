@@ -14,6 +14,7 @@ public class Rock extends Obstacle {
 
     public Rock(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position, spriteName);
+        this.isDestroyed = false;
     }
 
     @Override
@@ -24,7 +25,7 @@ public class Rock extends Obstacle {
     @Override
     public void draw(Canvas canvas) {
         if (!isDestroyed) {
-            sprite.draw(canvas);
+            super.draw(canvas);
         }
     }
 }
