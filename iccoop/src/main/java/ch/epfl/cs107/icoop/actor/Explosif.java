@@ -43,6 +43,13 @@ public class Explosif extends AreaEntity implements Interactor{
 
     }
 
+    /*
+     * Active l'explosif
+     */
+    public void activate(){
+        isActivated = true;
+    }
+    
     @Override
     public void update(float deltaTime){
         super.update(deltaTime);

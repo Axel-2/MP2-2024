@@ -7,7 +7,6 @@ import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
-import ch.epfl.cs107.play.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
@@ -226,9 +225,20 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 isLeaving = true;
                 leavingDoor = other;
             }
+            
+        }
+
+        @Override
+        public void interactWith(Explosif explo, boolean isCellInteraction){
+        // Interaction à distance only, donc si le joueur presse le bouton pour useitem()
+            // if(){
+            // explo.activate();
+            // }
+                
         }
     }
 }
+
 
 
 
