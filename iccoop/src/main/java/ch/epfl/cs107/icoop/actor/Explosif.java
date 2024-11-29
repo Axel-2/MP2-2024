@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icoop.actor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -31,7 +32,15 @@ public class Explosif extends AreaEntity implements Interactor{
         this.isActivated = false;
         this.isExploding = false;
         this.counter = counter;
+        this.normalAnimation = new Animation("icoop/explosive", 2, 1, 1, this , 16, 16,
+        ANIMATION_DURATION/2, true);
+
+        this.explosionAnimation = new Animation("icoop/explosion", 7, 1, 1, this , 32, 32,
+        ANIMATION_DURATION/7, false);
         
+
+        
+
     }
 
     @Override
@@ -47,20 +56,17 @@ public class Explosif extends AreaEntity implements Interactor{
         }
 
     }
-
-
-    public void animateExplosion(Canvas canva){
         
-        Animation explosionAnimation = new Animation("icoop/explosion", 7, 1, 1, this , 32, 32,
-        Explosif.ANIMATION_DURATION/7, false);
-        explosionAnimation.draw(canva);
-        
-    }
 
     @Override
     public void draw(Canvas canva){
-        if (isExploding){
-            animateExplosion(canva);
+
+        if (!isExploding){
+            normalAnimation.draw(canva);        
+        }
+        else{
+            explosionAnimation.draw(canva);
+
         }
     
     }
@@ -70,7 +76,7 @@ public class Explosif extends AreaEntity implements Interactor{
      */
     @Override
     public List<DiscreteCoordinates> getCurrentCells(){
-
+        return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
 
