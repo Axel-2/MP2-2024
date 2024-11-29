@@ -17,6 +17,10 @@ public abstract class ICoopArea extends Area {
     public final static float DEFAULT_SCALE_FACTOR = 20.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
 
+    public void setCameraScaleFactor(float cameraScaleFactor) {
+        this.cameraScaleFactor = cameraScaleFactor;
+    }
+
     /**
      * Area specific callback to initialise the instance
      */
