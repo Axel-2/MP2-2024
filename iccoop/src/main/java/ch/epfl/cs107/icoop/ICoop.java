@@ -13,6 +13,7 @@ import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 
@@ -90,12 +91,25 @@ public class ICoop extends AreaGame {
         // A chaque tour de boucle on doit check
         // si un des joueurs traverse une porte
         checkLeavingPlayer();
+
+        Keyboard keyboard = getCurrentArea().getKeyboard();
+        if (keyboard.get(KeyBindings.RESET_AREA).isPressed()) {
+            initGame();
+        } else if (keyboard.get(KeyBindings.RESET_GAME).isPressed()) {
+            initGame();
+        }
+
+        super.update(deltaTime);
+
+
         // Ajustement du scale factor
         ICoopArea currentICoopArea = (ICoopArea) getCurrentArea();
         currentICoopArea.updateScaleFactor(player, player2);
         
         super.update(deltaTime);
     }
+
+
 
 
     /**

@@ -14,19 +14,22 @@ import java.util.List;
 
 public class Obstacle extends AreaEntity {
 
-    private String spriteName = "rock.2";
-    protected Sprite sprite;
+    private static String spriteName = "rock.2";
+    private Sprite sprite;
 
     public Obstacle(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
-        sprite = new Sprite(spriteName, 1f, 1f, this);
+        createSprite();
     }
 
     public Obstacle(Area area, Orientation orientation, DiscreteCoordinates position, String spriteName) {
         this(area, orientation, position);
         this.spriteName = spriteName;
-        sprite = new Sprite(spriteName, 1f, 1f, this);
+        createSprite();
+    }
 
+    private void createSprite() {
+        sprite = new Sprite(spriteName, 1f, 1f, this);
     }
 
     @Override
