@@ -8,14 +8,19 @@ import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.engine.actor.Animation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.window.Canvas;
 
-public class Explosif extends AreaEntity implements Interactor {
+public class Explosif extends AreaEntity implements Interactor{
 
     private boolean isActivated;
     private int counter;
     private boolean isExploding;
+    private final static int ANIMATION_DURATION = 7;
+    private ExplosifInteractionHandler interactionHandler = new ExplosifInteractionHandler();
+
 
     // Constructeur ici
     public Explosif(Area area, Orientation orientation, DiscreteCoordinates position, int counter){
@@ -25,6 +30,7 @@ public class Explosif extends AreaEntity implements Interactor {
         this.counter = counter;
     }
 
+    @Override
     public void update(float deltaTime){
         super.update(deltaTime);
         if (isActivated){
@@ -33,20 +39,37 @@ public class Explosif extends AreaEntity implements Interactor {
 
         if(counter <= 0){
             isExploding = true;
-            explosion
+            getOwnerArea().unregisterActor(this);
         }
 
     }
 
 
-        /**
+    public void animateExplosion(Canvas canva){
+        
+        Animation explosionAnimation = new Animation("icoop/explosion", 7, 1, 1, this , 32, 32,
+        Explosif.ANIMATION_DURATION/7, false);
+        explosionAnimation.draw(canva);
+        
+    }
+
+    @Override
+    public void draw(Canvas canva){
+        if (isExploding){
+            animateExplosion(canva);
+        }
+    
+    }
+    /**
      * Get this Interactor's current occupying cells coordinates
      * @return (List of DiscreteCoordinates). May be empty but not null
      */
     @Override
-    List<DiscreteCoordinates> getCurrentCells(){
+    public List<DiscreteCoordinates> getCurrentCells(){
 
     }
+
+
 
 
     /**
@@ -54,20 +77,20 @@ public class Explosif extends AreaEntity implements Interactor {
      * @return (List of DiscreteCoordinates). May be empty but not null
      */
     @Override
-    List<DiscreteCoordinates> getFieldOfViewCells(){
+    public List<DiscreteCoordinates> getFieldOfViewCells(){
 
     }
 
 
     /**@return (boolean): true if this require cell interaction */
     @Override
-    boolean wantsCellInteraction(){
-
+    public boolean wantsCellInteraction(){
+        return(isExploding);
     }
     @Override
     /**@return (boolean): true if this require view interaction */
-    boolean wantsViewInteraction(){
-
+    public boolean wantsViewInteraction(){
+        return(isExploding);
     }
 
     /**
@@ -77,8 +100,8 @@ public class Explosif extends AreaEntity implements Interactor {
      * @param isCellInteraction True if this is a cell interaction
      */
     @Override
-    void interactWith(Interactable other, boolean isCellInteraction){
-        
+    public void interactWith(Interactable other, boolean isCellInteraction){
+        other.acceptInteraction(interactionHandler, isCellInteraction);
     }
 
         /**
@@ -88,20 +111,20 @@ public class Explosif extends AreaEntity implements Interactor {
      * @return (boolean)
      */
     @Override
-    boolean takeCellSpace(){
+    public boolean takeCellSpace(){
         return false;
     }
 
 
     /**@return (boolean): true if this is able to have cell interactions*/
     @Override
-    boolean isCellInteractable(){
+    public boolean isCellInteractable(){
 
     }
 
     /**@return (boolean): true if this is able to have view interactions*/
     @Override
-    boolean isViewInteractable(){
+    public boolean isViewInteractable(){
 
     }
 
@@ -109,8 +132,17 @@ public class Explosif extends AreaEntity implements Interactor {
      * @param v (AreaInteractionVisitor) : the visitor
      * */
     @Override
-    void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
                 ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
 
+    }
+
+    private final class ExplosifInteractionHandler implements ICoopInteractionVisitor {
+        
+        // Intéraction avec un rocher : le fait disparaitre 
+        @Override 
+        public void interactWith(Rock rock, boolean isCellInteraction) {
+            getOwnerArea().unregisterActor(rock);
+        }
     }
 }

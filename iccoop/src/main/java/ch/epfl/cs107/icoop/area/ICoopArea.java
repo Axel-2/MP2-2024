@@ -56,10 +56,6 @@ public abstract class ICoopArea extends Area {
         return cameraScaleFactor;
     }
 
-    public final void setCameraScaleFactor(float sf){
-        cameraScaleFactor = sf;
-    }
-
     public void updateScaleFactor(ICoopPlayer fire, ICoopPlayer water){
         fire.getPosition();
         float distance = fire.getPosition().sub(water.getPosition()).getLength();
