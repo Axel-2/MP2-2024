@@ -65,7 +65,15 @@ public class ICoop extends AreaGame {
 
         // Le jeu commence dans l'aire spwan
         ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
+        createPlayers(area);
 
+        // On centre la caméra sur le centre de masse
+        setCamera();
+
+
+    }
+
+    private void createPlayers(ICoopArea area) {
         // ----- JOUEURS -----
 
         // Création du joueur 1
@@ -79,11 +87,14 @@ public class ICoop extends AreaGame {
         // Register des deux joueurs
         this.getCurrentArea().registerActor(player);
         this.getCurrentArea().registerActor(player2);
+    }
+
+    private void setCamera() {
 
         CenterOfMass centerOfMass = new CenterOfMass(player, player2);
         getCurrentArea().setViewCandidate(centerOfMass);
-
     }
+
 
     @Override
     public void update(float deltaTime) {
@@ -92,24 +103,38 @@ public class ICoop extends AreaGame {
         // si un des joueurs traverse une porte
         checkLeavingPlayer();
 
-        Keyboard keyboard = getCurrentArea().getKeyboard();
-        if (keyboard.get(KeyBindings.RESET_AREA).isPressed()) {
-            initGame();
-        } else if (keyboard.get(KeyBindings.RESET_GAME).isPressed()) {
-            initGame();
-        }
-
-        super.update(deltaTime);
-
+        // A chaque tout on check si
+        // une touche pour reset est pressée
+        checkReset();
 
         // Ajustement du scale factor
         ICoopArea currentICoopArea = (ICoopArea) getCurrentArea();
         currentICoopArea.updateScaleFactor(player, player2);
-        
+
         super.update(deltaTime);
+
     }
 
+    private void checkReset() {
+        Keyboard keyboard = getCurrentArea().getKeyboard();
+        if (keyboard.get(KeyBindings.RESET_AREA).isPressed()) {
 
+            // On reéinitialise la map
+            getCurrentArea().begin(getWindow(), getFileSystem());
+
+            // On remet les joueurs
+            createPlayers((ICoopArea) getCurrentArea());
+
+            // Il ne faut pas oublier de remettre la camera centre de masse
+            setCamera();
+
+
+        } else if (keyboard.get(KeyBindings.RESET_GAME).isPressed()) {
+
+            // Ici il suffit de réinitialiser le jeu en entier
+            this.begin(getWindow(), getFileSystem());
+        }
+    }
 
 
     /**
@@ -140,6 +165,8 @@ public class ICoop extends AreaGame {
 
                 player.enterArea(areaToGo, door.getFuturePositions().get(0));
                 player2.enterArea(areaToGo, door.getFuturePositions().get(1));
+
+                setCamera();
 
             }
         }
