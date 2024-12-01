@@ -38,27 +38,25 @@ public class Explosif extends AreaEntity implements Interactor{
 
         this.explosionAnimation = new Animation("icoop/explosion", 7, 1, 1, this , 32, 32,
         ANIMATION_DURATION/7, false);
-        
-
-        
 
     }
 
     /*
      * Active l'explosif
      */
-    public void activate(){
+    public void activate() {
         isActivated = true;
     }
+
     
     @Override
     public void update(float deltaTime){
         super.update(deltaTime);
-        if (isActivated){
+        if (isActivated) {
         counter -= 1;
         }
 
-        if(counter <= 0){
+        if (counter <= 0) {
             isExploding = true;
             getOwnerArea().unregisterActor(this);
         }
@@ -109,6 +107,7 @@ public class Explosif extends AreaEntity implements Interactor{
     public boolean wantsCellInteraction(){
         return(isExploding);
     }
+
     @Override
     /**@return (boolean): true if this require view interaction */
     public boolean wantsViewInteraction(){

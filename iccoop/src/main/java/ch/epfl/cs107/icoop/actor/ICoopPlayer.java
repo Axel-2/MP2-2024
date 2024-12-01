@@ -20,6 +20,8 @@ import static ch.epfl.cs107.play.math.Orientation.DOWN;
 import static ch.epfl.cs107.play.math.Orientation.LEFT;
 import static ch.epfl.cs107.play.math.Orientation.RIGHT;
 import static ch.epfl.cs107.play.math.Orientation.UP;
+
+import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Keyboard;
@@ -41,6 +43,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private OrientedAnimation animation;
     private ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
     private KeyBindings.PlayerKeyBindings playerKeyBindings;
+
+    // Barre de vie
+    private static final int MAX_LIFE = 10;
+    private Health health = new Health(this , Transform.I.translated(0, 1.75f), MAX_LIFE , true);
 
     /**
      * @param owner (Area) area to which the player belong
@@ -83,7 +89,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      */
     @Override
     public void draw(ch.epfl.cs107.play.window.Canvas canvas) {
+        // On dessine l'animation de mouvement
         animation.draw(canvas);
+
+        // Il faut aussi dessiner la barre de vie
+        health.draw(canvas);
     }
 
     @Override
