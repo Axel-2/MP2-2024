@@ -4,7 +4,9 @@ package ch.epfl.cs107.icoop;
 import ch.epfl.cs107.icoop.actor.CenterOfMass;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Element;
+import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
+import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.maps.OrbWay;
 import ch.epfl.cs107.icoop.area.maps.Spawn;
@@ -84,9 +86,16 @@ public class ICoop extends AreaGame {
         coords =  area.getPlayerSpawnPosition(Element.FIRE);
         player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player2", Element.FIRE);
 
-        // Register des deux joueurs
+        // Création du rock et de l'explo
+        Rock rock = new Rock(area, Orientation.DOWN, new DiscreteCoordinates(10, 10) );
+        Explosif explo = new Explosif(area, Orientation.DOWN, new DiscreteCoordinates(11, 10), 10);
+
+        // Register des acteurs
         this.getCurrentArea().registerActor(player);
         this.getCurrentArea().registerActor(player2);
+        this.getCurrentArea().registerActor(rock);
+        this.getCurrentArea().registerActor(explo);
+
     }
 
     private void setCamera() {

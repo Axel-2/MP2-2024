@@ -230,10 +230,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction){
-        // Interaction à distance only, donc si le joueur presse le bouton pour useitem()
-            // if(){
-            // explo.activate();
-            // }
+            // Interaction à distance only, donc si le joueur presse le bouton pour useitem()
+            Keyboard keyboard = getOwnerArea().getKeyboard();
+            if(keyboard.get(playerKeyBindings.useItem()).isPressed()){
+            explo.activate();
+            }
                 
         }
     }
