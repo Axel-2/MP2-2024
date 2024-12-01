@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
@@ -64,7 +65,7 @@ public class Explosif extends AreaEntity implements Interactor{
 
 
         if (isActivated) {
-        counter -= 1;
+            counter -= 1;
         }
 
         // Si le counter est négatife on change l'attribut
@@ -195,6 +196,13 @@ public class Explosif extends AreaEntity implements Interactor{
             // Je pense que non sinon le rock.destroy()
             // ne sert à rien
             //getOwnerArea().unregisterActor(rock);
+        }
+
+        @Override
+        public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
+            // Si la bombe explose à coté d'un player il perd
+            // des points de vie
+            player.loseHealth(Damage.EXPLOSION);
         }
     }
 }

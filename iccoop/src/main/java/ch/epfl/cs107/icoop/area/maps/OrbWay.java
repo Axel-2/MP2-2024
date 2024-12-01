@@ -3,7 +3,7 @@ package ch.epfl.cs107.icoop.area.maps;
 import java.util.Arrays;
 
 import ch.epfl.cs107.icoop.actor.Door;
-import ch.epfl.cs107.icoop.actor.Element;
+import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;

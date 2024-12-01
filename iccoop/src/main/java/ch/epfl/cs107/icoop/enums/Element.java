@@ -1,4 +1,4 @@
-package ch.epfl.cs107.icoop.actor;
+package ch.epfl.cs107.icoop.enums;
 
 // Ceci n'est pas un actor mais c'est une enum qui représente le type du joueur
 // soit FIRE soit WATER

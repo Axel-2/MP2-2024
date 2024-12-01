@@ -6,6 +6,9 @@ import java.util.List;
 import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
+
+import ch.epfl.cs107.icoop.enums.Damage;
+import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
@@ -52,8 +55,18 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private Door leavingDoor = null;
 
     // Barre de vie
-    private static final int MAX_LIFE = 10;
+    private static final int MAX_LIFE = 100;
     private Health health = new Health(this , Transform.I.translated(0, 1.75f), MAX_LIFE , true);
+
+    // Dégats
+
+    private boolean isInvulnerableTemporary;
+    private Damage invulnerableDamageType;
+    private int invulnerableDuration;
+
+    private final static float IMMUNITY_TIME = 24;
+    private float immunityTimer;
+    private boolean isImmunityTime;
 
     /**
      * @param owner (Area) area to which the player belong
@@ -96,6 +109,20 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         }
 
 
+        // Update de la période d'immunité
+        // du personnage
+        if (isImmunityTime && immunityTimer > 0) {
+            // Si on est dans une période d'immunité
+            // on baisse le timer
+            immunityTimer -= 1;
+            System.out.println(immunityTimer);
+        } else {
+            // Lorsque la période d'immunité est finie
+            // on arrête l'immunité
+            isImmunityTime = false;
+        }
+
+
         super.update(deltaTime);
     }
 
@@ -104,8 +131,17 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      */
     @Override
     public void draw(ch.epfl.cs107.play.window.Canvas canvas) {
-        // On dessine l'animation de mouvement
-        animation.draw(canvas);
+
+        // Lorsqu'il y a état d'immunité
+        // le personnage "clignote"
+        // sinon l'affichage est normale
+        if (isImmunityTime) {
+            if (immunityTimer % 2 == 0) {
+                animation.draw(canvas);
+            }
+        } else {
+            animation.draw(canvas);
+        }
 
         // Il faut aussi dessiner la barre de vie
         health.draw(canvas);
@@ -226,6 +262,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return element;
     }
 
+    // PARTIe QUI CONCERNE LES PORTES ET TRANSFERTS
 
     public Door getLeavingDoor() {
         return leavingDoor;
@@ -238,6 +275,30 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     // Getter pour Icoop.java
     public boolean isLeaving() {
         return isLeaving;
+    }
+
+    // PARTIE QUI CONCERNE LES DEGATS
+
+
+    // Fonction qui permet de devenir inbulnerable à
+    // une certaine attaque pendant un certain temps
+    public void becomeInvulnerable(Damage damage, boolean isTemporary, int duration) {
+        this.isInvulnerableTemporary = isTemporary;
+        this.invulnerableDamageType = damage;
+        this.invulnerableDuration = duration;
+    }
+
+    public void loseHealth(Damage damage) {
+
+        // Si le personnage est invulnérable ou immune rien ne se passe
+        if (damage.equals(invulnerableDamageType) || isImmunityTime) {
+            // Rien ne se passe
+        } else {
+            health.decrease(damage.getDamagePoints());
+            isImmunityTime = true;
+            immunityTimer = IMMUNITY_TIME;
+        }
+
     }
 
     private final class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {

@@ -3,11 +3,14 @@ package ch.epfl.cs107.icoop.area.maps;
 import java.util.Arrays;
 
 import ch.epfl.cs107.icoop.actor.Door;
-import ch.epfl.cs107.icoop.actor.Element;
+import ch.epfl.cs107.icoop.actor.Explosif;
+import ch.epfl.cs107.icoop.actor.Rock;
+import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 /**
@@ -40,6 +43,15 @@ public final class Spawn extends ICoopArea {
             new DiscreteCoordinates(19,16)                                                    // Autre cellule de la porte (l'autre "case" rouge)
             );
         registerActor(spawnDoor);
+
+
+        // Création du rock et de l'explo
+        Rock rock = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(11, 9 ) );
+        Explosif explo = new Explosif(this, Orientation.DOWN, new DiscreteCoordinates(11, 10), 50);
+
+        registerActor(rock);
+        registerActor(explo);
+
 
     }
 

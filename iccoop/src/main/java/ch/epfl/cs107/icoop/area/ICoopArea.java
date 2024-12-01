@@ -2,7 +2,7 @@ package ch.epfl.cs107.icoop.area;
 
 import static java.lang.Math.max;
 
-import ch.epfl.cs107.icoop.actor.Element;
+import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.io.FileSystem;
