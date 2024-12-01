@@ -15,7 +15,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
-public class Explosif extends AreaEntity implements Interactor{
 
     private boolean isActivated;
     private int counter;
