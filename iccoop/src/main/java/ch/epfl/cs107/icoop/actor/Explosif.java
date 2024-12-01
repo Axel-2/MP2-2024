@@ -72,10 +72,13 @@ public class Explosif extends AreaEntity implements Interactor{
         // et on commence l'animation d'explosion
         if (counter <= 0) {
             isExploding = true;
-            explosionAnimation.update(deltaTime);
-
         }
 
+        // On attend très légérement avant d'update pour bien voir la
+        // toute première image
+        if (counter <= -2) {
+            explosionAnimation.update(deltaTime);
+        }
         // Lorsque l'animation a eu le temps de s'afficher
         // on peut finalement unregister l'actor
         if (counter <= -20) {

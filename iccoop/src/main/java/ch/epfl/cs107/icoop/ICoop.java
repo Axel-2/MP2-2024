@@ -4,9 +4,7 @@ package ch.epfl.cs107.icoop;
 import ch.epfl.cs107.icoop.actor.CenterOfMass;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.enums.Element;
-import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
-import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.maps.OrbWay;
 import ch.epfl.cs107.icoop.area.maps.Spawn;
@@ -24,8 +22,9 @@ public class ICoop extends AreaGame {
 
     // Je pense que les players doivent etre des attributs de la classe car on doit
     // pouvoir les utiliser dans update
-    private ICoopPlayer player;
+    private ICoopPlayer player1;
     private ICoopPlayer player2;
+    private ICoopPlayer[] players;
 
     private Area spawnArea;
     private Area orbWayArea;
@@ -80,7 +79,7 @@ public class ICoop extends AreaGame {
 
         // Création du joueur 1
         DiscreteCoordinates coords = area.getPlayerSpawnPosition(Element.WATER);
-        player =  new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player", Element.WATER);
+        player1 =  new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player", Element.WATER);
 
         // Création du joueur 2
         coords =  area.getPlayerSpawnPosition(Element.FIRE);
@@ -88,14 +87,18 @@ public class ICoop extends AreaGame {
 
 
         // Register des acteurs
-        this.getCurrentArea().registerActor(player);
+        this.getCurrentArea().registerActor(player1);
         this.getCurrentArea().registerActor(player2);
+
+        players = new ICoopPlayer[2];
+        players[0] = player1;
+        players[1] = player2;
 
     }
 
     private void setCamera() {
 
-        CenterOfMass centerOfMass = new CenterOfMass(player, player2);
+        CenterOfMass centerOfMass = new CenterOfMass(player1, player2);
         getCurrentArea().setViewCandidate(centerOfMass);
     }
 
@@ -111,33 +114,59 @@ public class ICoop extends AreaGame {
         // une touche pour reset est pressée
         checkReset();
 
+        // On test si les joueurs sont encore de la
+        // vie
+        checkHealth();
+
         // Ajustement du scale factor
         ICoopArea currentICoopArea = (ICoopArea) getCurrentArea();
-        currentICoopArea.updateScaleFactor(player, player2);
+        currentICoopArea.updateScaleFactor(player1, player2);
 
         super.update(deltaTime);
 
     }
 
+    // On test si les players ont encore de la
+    // vie sinon on reset la map
+    private void checkHealth() {
+        for (ICoopPlayer player : players) {
+            if (!player.isAlive()) {
+                resetMap();
+            }
+        }
+    }
+
     private void checkReset() {
         Keyboard keyboard = getCurrentArea().getKeyboard();
         if (keyboard.get(KeyBindings.RESET_AREA).isPressed()) {
-
-            // On reéinitialise la map
-            getCurrentArea().begin(getWindow(), getFileSystem());
-
-            // On remet les joueurs
-            createPlayers((ICoopArea) getCurrentArea());
-
-            // Il ne faut pas oublier de remettre la camera centre de masse
-            setCamera();
-
-
+            resetMap();
         } else if (keyboard.get(KeyBindings.RESET_GAME).isPressed()) {
 
             // Ici il suffit de réinitialiser le jeu en entier
             this.begin(getWindow(), getFileSystem());
+
+            // On reset la vie aussi
+            resetPlayersHealth();
         }
+    }
+
+    private void resetMap() {
+        // On reéinitialise la map
+        getCurrentArea().begin(getWindow(), getFileSystem());
+
+        // On remet les joueurs
+        createPlayers((ICoopArea) getCurrentArea());
+
+        // Il ne faut pas oublier de remettre la camera centre de masse
+        setCamera();
+
+        // On reset la vie
+        resetPlayersHealth();
+    }
+
+    private void resetPlayersHealth() {
+        player1.resetHealth();
+        player2.resetHealth();
     }
 
 
@@ -147,8 +176,6 @@ public class ICoop extends AreaGame {
      * et d'areas sont effectués
      */
     private void checkLeavingPlayer() {
-
-        ICoopPlayer[] players = {player, player2};
 
         DiscreteCoordinates coordinates;
 
@@ -164,10 +191,10 @@ public class ICoop extends AreaGame {
                     default -> areaToGo = spawnArea;
                 }
 
-                player.leaveArea();
+                player1.leaveArea();
                 player2.leaveArea();
 
-                player.enterArea(areaToGo, door.getFuturePositions().get(0));
+                player1.enterArea(areaToGo, door.getFuturePositions().get(0));
                 player2.enterArea(areaToGo, door.getFuturePositions().get(1));
 
                 setCamera();

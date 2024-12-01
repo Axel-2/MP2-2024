@@ -301,6 +301,16 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     }
 
+    // ON a besoin de ce getter dans ICoop
+    public void resetHealth() {
+        health.resetHealth();
+    }
+
+    // On a besoin de ce getter dans ICoop
+    public boolean isAlive() {
+        return health.isOn();
+    }
+
     private final class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
 
         @Override
