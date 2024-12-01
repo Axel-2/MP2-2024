@@ -17,25 +17,32 @@ import ch.epfl.cs107.play.window.Canvas;
 
 public class Explosif extends AreaEntity implements Interactor{
 
+    private final static int ANIMATION_DURATION = 24;
+
+    private Animation normalAnimation;
+    private Animation explosionAnimation;
 
     private boolean isActivated;
     private int counter;
     private boolean isExploding;
-    private final static int ANIMATION_DURATION = 7;
+
     private ExplosifInteractionHandler interactionHandler = new ExplosifInteractionHandler();
-    private Animation normalAnimation;
-    private Animation explosionAnimation;
 
 
     // Constructeur ici
     public Explosif(Area area, Orientation orientation, DiscreteCoordinates position, int counter){
         super(area, orientation, position);
+
+        // Désactivé par défaut
         this.isActivated = false;
         this.isExploding = false;
         this.counter = counter;
+
+        // Animation lorsque l'explosif n'a pas encore explosé
         this.normalAnimation = new Animation("icoop/explosive", 2, 1, 1, this , 16, 16,
         ANIMATION_DURATION/2, true);
 
+        // Animation d'explosion
         this.explosionAnimation = new Animation("icoop/explosion", 7, 1, 1, this , 32, 32,
         ANIMATION_DURATION/7, false);
 
@@ -51,15 +58,30 @@ public class Explosif extends AreaEntity implements Interactor{
     
     @Override
     public void update(float deltaTime){
-        super.update(deltaTime);
+
+        // Update de l'animation de base
+        normalAnimation.update(deltaTime);
+
+
         if (isActivated) {
         counter -= 1;
         }
 
+        // Si le counter est négatife on change l'attribut
+        // et on commence l'animation d'explosion
         if (counter <= 0) {
             isExploding = true;
+            explosionAnimation.update(deltaTime);
+
+        }
+
+        // Lorsque l'animation a eu le temps de s'afficher
+        // on peut finalement unregister l'actor
+        if (counter <= -20) {
             getOwnerArea().unregisterActor(this);
         }
+
+        super.update(deltaTime);
 
     }
         
@@ -70,9 +92,9 @@ public class Explosif extends AreaEntity implements Interactor{
         if (!isExploding){
             normalAnimation.draw(canva);        
         }
+
         else{
             explosionAnimation.draw(canva);
-
         }
     
     }
@@ -84,8 +106,6 @@ public class Explosif extends AreaEntity implements Interactor{
     public List<DiscreteCoordinates> getCurrentCells(){
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
-
-
 
 
     /**
@@ -104,14 +124,16 @@ public class Explosif extends AreaEntity implements Interactor{
 
     /**@return (boolean): true if this require cell interaction */
     @Override
-    public boolean wantsCellInteraction(){
-        return(isExploding);
+    public boolean wantsCellInteraction() {
+        // La bombe n'interagit avec les obstacles
+        // que si elle explose
+        return isExploding;
     }
 
     @Override
     /**@return (boolean): true if this require view interaction */
     public boolean wantsViewInteraction(){
-        return(isExploding);
+        return isExploding;
     }
 
     /**
@@ -133,20 +155,23 @@ public class Explosif extends AreaEntity implements Interactor{
      */
     @Override
     public boolean takeCellSpace(){
+        // Un personnage peut traverser la bombe
         return false;
     }
 
 
     /**@return (boolean): true if this is able to have cell interactions*/
     @Override
-    public boolean isCellInteractable(){
-        return(!isExploding && isActivated);
+    public boolean isCellInteractable() {
+        return (!isExploding && isActivated);
     }
 
     /**@return (boolean): true if this is able to have view interactions*/
     @Override
-    public boolean isViewInteractable(){
-        return (!isExploding);
+    public boolean isViewInteractable() {
+        // Lorsque la bombre n'a pas encore explosée
+        // on peut l'activer à distance
+        return !isExploding;
     }
 
     /** Call directly the interaction on this if accepted
@@ -154,7 +179,8 @@ public class Explosif extends AreaEntity implements Interactor{
      * */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
-                ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
 
     }
 
@@ -164,7 +190,11 @@ public class Explosif extends AreaEntity implements Interactor{
         @Override 
         public void interactWith(Rock rock, boolean isCellInteraction) {
             rock.destroy();
-            getOwnerArea().unregisterActor(rock);
+
+            // Est-ce que faut vraiment unregister ???
+            // Je pense que non sinon le rock.destroy()
+            // ne sert à rien
+            //getOwnerArea().unregisterActor(rock);
         }
     }
 }

@@ -31,18 +31,25 @@ import ch.epfl.cs107.play.window.Keyboard;
  */
 public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor {
 
-  // TO BE COMPLETED
-
-    private final static int MOVE_DURATION = 8;
-    private final Sprite sprite;
+    // Type (Feu ou eau)
     private final Element element;
+
     private final Vector anchor = new Vector(0, 0);
+
+    // Attributs d'animation
+    private final Sprite sprite;
+    private final static int MOVE_DURATION = 8;
     private final Orientation[] orders = {DOWN , RIGHT , UP, LEFT};
     private final static int ANIMATION_DURATION = 4;
-
     private OrientedAnimation animation;
     private ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
+
+    // Touches
     private KeyBindings.PlayerKeyBindings playerKeyBindings;
+
+    // Gestion des portes et passages
+    private boolean isLeaving = false;
+    private Door leavingDoor = null;
 
     // Barre de vie
     private static final int MAX_LIFE = 10;
@@ -58,8 +65,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         super(owner, orientation, coordinates);
         sprite = new Sprite(spriteName, 1.f, 1.f, this);
         this.element = element;
+
         this.animation = new OrientedAnimation(element.getSpriteName(), ANIMATION_DURATION, this,
                 anchor, orders, 4, 1, 2, 16, 32, true);
+
+        // Les touches sont différentes selon l'élément
         switch (element) {
             case FIRE -> playerKeyBindings = RED_PLAYER_KEY_BINDINGS;
             case WATER -> playerKeyBindings = BLUE_PLAYER_KEY_BINDINGS;
@@ -71,16 +81,21 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      */
     @Override
     public void update(float deltaTime) {
+
+        // Gestion du mouvement
         Keyboard keyboard = getOwnerArea().getKeyboard();
         moveIfPressed(Orientation.LEFT, keyboard.get(playerKeyBindings.left()));
         moveIfPressed(Orientation.UP, keyboard.get(playerKeyBindings.up()));
         moveIfPressed(Orientation.RIGHT, keyboard.get(playerKeyBindings.right()));
         moveIfPressed(Orientation.DOWN, keyboard.get(playerKeyBindings.down()));
+
         if (isDisplacementOccurs()) {
             animation.update(deltaTime);
         } else {
             animation.reset();
         }
+
+
         super.update(deltaTime);
     }
 
@@ -211,9 +226,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return element;
     }
 
-    private boolean isLeaving = false;
-
-    private Door leavingDoor = null;
 
     public Door getLeavingDoor() {
         return leavingDoor;
@@ -222,6 +234,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     public void setLeaving(Boolean leaving) {
         isLeaving = leaving;
     }
+
+    // Getter pour Icoop.java
     public boolean isLeaving() {
         return isLeaving;
     }
@@ -231,7 +245,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         @Override
         public void interactWith(Door other, boolean isCellInteraction) {
 
-            if (other.getSignal().isOn()){
+            // Vérification des accès
+            if (other.getSignal().isOn()) {
+
+                // On update pes attributs pour que
+                // le fichier principale puisse faire
+                // transiter le joueur
                 isLeaving = true;
                 leavingDoor = other;
             }
@@ -242,8 +261,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         public void interactWith(Explosif explo, boolean isCellInteraction){
             // Interaction à distance only, donc si le joueur presse le bouton pour useitem()
             Keyboard keyboard = getOwnerArea().getKeyboard();
-            if(keyboard.get(playerKeyBindings.useItem()).isPressed()){
-            explo.activate();
+
+            if (keyboard.get(playerKeyBindings.useItem()).isPressed()) {
+                explo.activate();
             }
                 
         }
