@@ -164,6 +164,7 @@ public class Explosif extends AreaEntity implements Interactor{
         // Intéraction avec un rocher : le fait disparaitre 
         @Override 
         public void interactWith(Rock rock, boolean isCellInteraction) {
+            rock.destroy();
             getOwnerArea().unregisterActor(rock);
         }
     }

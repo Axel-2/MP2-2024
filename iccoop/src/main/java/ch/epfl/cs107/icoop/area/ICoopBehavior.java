@@ -87,23 +87,15 @@ public final class ICoopBehavior extends AreaBehavior {
         @Override
         protected boolean canEnter(Interactable entity) {
 
-            // Check if there is already more than one walkable entity in the cell
-            int nbWalkableEnt = 0;
-            for (Interactable ent : this.entities) {
-                if (ent.takeCellSpace() == true) {
-                    nbWalkableEnt += 1;
+            for (Interactable ent : this.entities){
+                if (ent.takeCellSpace()) {
+                    return false; 
                 }
             }
-
-            // If it is the case return false
-            if (nbWalkableEnt > 1) {
-                return false;
-            }
-
-            // Base case
+     
             return type.isWalkable;
-
         }
+        
 
         @Override
         public boolean isCellInteractable() {

@@ -87,8 +87,8 @@ public class ICoop extends AreaGame {
         player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player2", Element.FIRE);
 
         // Création du rock et de l'explo
-        Rock rock = new Rock(area, Orientation.DOWN, new DiscreteCoordinates(10, 10) );
-        Explosif explo = new Explosif(area, Orientation.DOWN, new DiscreteCoordinates(11, 10), 10);
+        Rock rock = new Rock(area, Orientation.DOWN, new DiscreteCoordinates(11, 9 ) );
+        Explosif explo = new Explosif(area, Orientation.DOWN, new DiscreteCoordinates(11, 10), 50);
 
         // Register des acteurs
         this.getCurrentArea().registerActor(player);
