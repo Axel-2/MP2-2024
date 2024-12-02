@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.handler;
 
+import ch.epfl.cs107.icoop.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
@@ -39,6 +40,10 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
 
     // Intéraction avec un Explosif par défaut ne fait rien
     default void interactWith(Explosif other, boolean isCellInteraction) {
+    }
+
+    // Intéraction avec un Explosif par défaut ne fait rien
+    default void interactWith(ICoopCollectable other, boolean isCellInteraction) {
     }
 
 }
