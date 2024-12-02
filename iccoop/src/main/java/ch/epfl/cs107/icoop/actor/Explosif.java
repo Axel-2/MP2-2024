@@ -91,15 +91,15 @@ public class Explosif extends ICoopCollectable implements Interactor{
     @Override
     public void drawCollectable(Canvas canvas){
 
-        tickingAnimation.draw(canva);  
+        tickingAnimation.draw(canvas);
 
         if (isActivated){
-            tickingAnimation.draw(canva);        
+            tickingAnimation.draw(canvas);
 
         }
 
         if (isExploding){
-            explosionAnimation.draw(canva);
+            explosionAnimation.draw(canvas);
         }
     
     }
