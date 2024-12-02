@@ -7,7 +7,6 @@ import java.util.List;
 import ch.epfl.cs107.icoop.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
-import ch.epfl.cs107.play.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -21,8 +20,8 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
     private final static int ANIMATION_DURATION = 24;
 
-    private final Animation normalAnimation;
-    private final Animation explosionAnimation;
+    private Animation tickingAnimation;
+    private Animation explosionAnimation;
 
     private boolean isActivated;
     private int counter;
@@ -41,7 +40,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
         this.counter = counter;
 
         // Animation lorsque l'explosif n'a pas encore explosé
-        this.normalAnimation = new Animation("icoop/explosive", 2, 1, 1, this , 16, 16,
+        this.tickingAnimation = new Animation("icoop/explosive", 2, 1, 1, this , 16, 16,
         ANIMATION_DURATION/2, true);
 
         // Animation d'explosion
@@ -61,12 +60,10 @@ public class Explosif extends ICoopCollectable implements Interactor{
     @Override
     public void update(float deltaTime){
 
-        // Update de l'animation de base
-        normalAnimation.update(deltaTime);
-
 
         if (isActivated) {
             counter -= 1;
+            tickingAnimation.update(deltaTime);
         }
 
         // Si le counter est négatife on change l'attribut
@@ -82,24 +79,33 @@ public class Explosif extends ICoopCollectable implements Interactor{
         }
         // Lorsque l'animation a eu le temps de s'afficher
         // on peut finalement unregister l'actor
-        if (counter <= -20) {
+        if (counter <= -6) {
             getOwnerArea().unregisterActor(this);
         }
 
         super.update(deltaTime);
 
     }
-        
-    @Override
-    public void drawCollectable(Canvas canvas){
-        if (!isExploding) {
-            normalAnimation.draw(canvas);
-        } else {
-            explosionAnimation.draw(canvas);
-        }
 
     
+    @Override
+    public void drawCollectable(Canvas canvas){
+
+        tickingAnimation.draw(canva);  
+
+        if (isActivated){
+            tickingAnimation.draw(canva);        
+
+        }
+
+        if (isExploding){
+            explosionAnimation.draw(canva);
+        }
+    
     }
+
+    
+
     /**
      * Get this Interactor's current occupying cells coordinates
      * @return (List of DiscreteCoordinates). May be empty but not null
@@ -205,17 +211,13 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
     }
 
+
     private final class ExplosifInteractionHandler implements ICoopInteractionVisitor {
 
         // Intéraction avec un rocher : le fait disparaitre 
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
             rock.destroy();
-
-            // Est-ce que faut vraiment unregister ???
-            // Je pense que non sinon le rock.destroy()
-            // ne sert à rien
-            //getOwnerArea().unregisterActor(rock);
         }
 
         @Override
