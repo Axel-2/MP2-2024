@@ -20,7 +20,7 @@ public class Explosif extends AreaEntity implements Interactor{
 
     private final static int ANIMATION_DURATION = 24;
 
-    private Animation normalAnimation;
+    private Animation tickingAnimation;
     private Animation explosionAnimation;
 
     private boolean isActivated;
@@ -40,7 +40,7 @@ public class Explosif extends AreaEntity implements Interactor{
         this.counter = counter;
 
         // Animation lorsque l'explosif n'a pas encore explosé
-        this.normalAnimation = new Animation("icoop/explosive", 2, 1, 1, this , 16, 16,
+        this.tickingAnimation = new Animation("icoop/explosive", 2, 1, 1, this , 16, 16,
         ANIMATION_DURATION/2, true);
 
         // Animation d'explosion
@@ -60,12 +60,10 @@ public class Explosif extends AreaEntity implements Interactor{
     @Override
     public void update(float deltaTime){
 
-        // Update de l'animation de base
-        normalAnimation.update(deltaTime);
-
 
         if (isActivated) {
             counter -= 1;
+            tickingAnimation.update(deltaTime);
         }
 
         // Si le counter est négatife on change l'attribut
@@ -81,7 +79,7 @@ public class Explosif extends AreaEntity implements Interactor{
         }
         // Lorsque l'animation a eu le temps de s'afficher
         // on peut finalement unregister l'actor
-        if (counter <= -20) {
+        if (counter <= -6) {
             getOwnerArea().unregisterActor(this);
         }
 
@@ -93,11 +91,13 @@ public class Explosif extends AreaEntity implements Interactor{
     @Override
     public void draw(Canvas canva){
 
-        if (!isExploding){
-            normalAnimation.draw(canva);        
+        tickingAnimation.draw(canva);  
+
+        if (isActivated){
+            tickingAnimation.draw(canva);        
         }
 
-        else{
+        if (isExploding){
             explosionAnimation.draw(canva);
         }
     
@@ -187,6 +187,7 @@ public class Explosif extends AreaEntity implements Interactor{
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
 
     }
+
 
     private final class ExplosifInteractionHandler implements ICoopInteractionVisitor {
         
