@@ -2,13 +2,17 @@ package ch.epfl.cs107.icoop.area.maps;
 
 import java.util.Arrays;
 
+import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
+
+import javax.print.attribute.standard.JobOriginatingUserName;
 
 /**
  * A class that represent the inital spawn area
@@ -59,6 +63,12 @@ public final class OrbWay extends ICoopArea {
         registerActor(orbWayDoor1);
         registerActor(orbWayDoor2);
 
+
+        Orb fireOrb = new Orb(this, Orientation.DOWN, new DiscreteCoordinates(17, 12), Orb.OrbType.WATER);
+        Orb waterOrb = new Orb(this, Orientation.DOWN, new DiscreteCoordinates(17, 6), Orb.OrbType.FIRE);
+
+        registerActor(fireOrb);
+        registerActor(waterOrb);
 
 
     }

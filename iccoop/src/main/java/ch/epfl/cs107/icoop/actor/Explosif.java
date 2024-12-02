@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.epfl.cs107.icoop.Collectable.ICoopCollectable;
+import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;

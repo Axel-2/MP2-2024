@@ -9,6 +9,7 @@ import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.maps.OrbWay;
 import ch.epfl.cs107.icoop.area.maps.Spawn;
 import ch.epfl.cs107.icoop.enums.Element;
+import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.Dialog;
@@ -19,7 +20,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 
-public class ICoop extends AreaGame {
+public class ICoop extends AreaGame implements DialogHandler {
 
 
     private ICoopPlayer player1;
@@ -41,7 +42,7 @@ public class ICoop extends AreaGame {
      * Add all the ICoop areas
      */
     private void createAreas() {
-        spawnArea = new Spawn(); // Peut-être mettre en ICoop Area plutot ? jsp
+        spawnArea = new Spawn(this); // Peut-être mettre en ICoop Area plutot ? jsp
         orbWayArea = new OrbWay();
 
         addArea(spawnArea);
@@ -67,12 +68,15 @@ public class ICoop extends AreaGame {
     private void initGame() {
 
         // Le jeu commence dans l'aire spwan
-        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
+
+        // ORBWAY POUR DEBUG
+        ICoopArea area = (ICoopArea) setCurrentArea("OrbWay", true);
         createPlayers(area);
 
         // On centre la caméra sur le centre de masse
         setCamera();
 
+        // On met le dialog welcome au début du jeu
         setActiveDialog("welcome");
 
 
@@ -118,7 +122,7 @@ public class ICoop extends AreaGame {
         // une touche pour reset est pressée
         checkReset();
 
-        // On test si les joueurs sont encore de la
+        // On test si les joueurs ont encore de la
         // vie
         checkHealth();
 
@@ -144,11 +148,14 @@ public class ICoop extends AreaGame {
         }
     }
 
+    // Partie qui gère les dialogues
+
     private void checkDialog(float deltaTime){
         Keyboard kbd = getCurrentArea().getKeyboard();
 
         // Affiche le dialogue s'il y en a un en cours
         if (activeDialog != null){
+
             activeDialog.draw(getWindow());
 
             // Check si le joueur veut skip le dialogue
@@ -163,6 +170,15 @@ public class ICoop extends AreaGame {
         }
 
 
+    }
+
+    public void setActiveDialog(String fileName){
+        activeDialog = new Dialog(fileName);
+    }
+
+    @Override
+    public void publish(Dialog dialog) {
+        this.activeDialog = dialog;
     }
 
     private void checkReset() {
@@ -231,9 +247,5 @@ public class ICoop extends AreaGame {
             }
         }
 
-    }
-
-    public void setActiveDialog(String fileName){
-        activeDialog = new Dialog(fileName);
     }
 }

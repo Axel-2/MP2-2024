@@ -14,7 +14,7 @@ import ch.epfl.cs107.play.window.Window;
  * Base class for all the areas of ICoop
  */
 public abstract class ICoopArea extends Area {
-    public final static float DEFAULT_SCALE_FACTOR = 20.f;
+    public final static float DEFAULT_SCALE_FACTOR = 18.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
 
     public void setCameraScaleFactor(float cameraScaleFactor) {
@@ -57,7 +57,6 @@ public abstract class ICoopArea extends Area {
     }
 
     public void updateScaleFactor(ICoopPlayer fire, ICoopPlayer water){
-        fire.getPosition();
         float distance = fire.getPosition().sub(water.getPosition()).getLength();
         cameraScaleFactor = (float) max(DEFAULT_SCALE_FACTOR, DEFAULT_SCALE_FACTOR * 0.75 + distance / 2);
     }
