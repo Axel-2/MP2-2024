@@ -1,15 +1,17 @@
 package ch.epfl.cs107.icoop;
 
 
+import ch.epfl.cs107.icoop.KeyBindings.PlayerKeyBindings;
 import ch.epfl.cs107.icoop.actor.CenterOfMass;
 import ch.epfl.cs107.icoop.actor.Door;
-import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.maps.OrbWay;
 import ch.epfl.cs107.icoop.area.maps.Spawn;
+import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.play.areagame.AreaGame;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -20,14 +22,14 @@ import ch.epfl.cs107.play.window.Window;
 public class ICoop extends AreaGame {
 
 
-    // Je pense que les players doivent etre des attributs de la classe car on doit
-    // pouvoir les utiliser dans update
     private ICoopPlayer player1;
     private ICoopPlayer player2;
     private ICoopPlayer[] players;
 
     private Area spawnArea;
     private Area orbWayArea;
+
+    private Dialog activeDialog = null;
 
     // TO BE COMPLETED
     @Override
@@ -70,6 +72,8 @@ public class ICoop extends AreaGame {
 
         // On centre la caméra sur le centre de masse
         setCamera();
+
+        setActiveDialog("welcome");
 
 
     }
@@ -118,9 +122,13 @@ public class ICoop extends AreaGame {
         // vie
         checkHealth();
 
+        // S'occupe des dialogues : affichage et skip si "next dialog" est appuyée
+        checkDialog(deltaTime);
+
         // Ajustement du scale factor
         ICoopArea currentICoopArea = (ICoopArea) getCurrentArea();
         currentICoopArea.updateScaleFactor(player1, player2);
+        
 
         super.update(deltaTime);
 
@@ -134,6 +142,27 @@ public class ICoop extends AreaGame {
                 resetMap();
             }
         }
+    }
+
+    private void checkDialog(float deltaTime){
+        Keyboard kbd = getCurrentArea().getKeyboard();
+
+        // Affiche le dialogue s'il y en a un en cours
+        if (activeDialog != null){
+            activeDialog.draw(getWindow());
+
+            // Check si le joueur veut skip le dialogue
+            if (kbd.get(KeyBindings.NEXT_DIALOG).isPressed()){
+                activeDialog.update(deltaTime);
+            }
+
+            // Enlève le dialogue s'il est terminé
+            if (activeDialog.isCompleted()){
+                activeDialog = null;
+            }
+        }
+
+
     }
 
     private void checkReset() {
@@ -202,5 +231,9 @@ public class ICoop extends AreaGame {
             }
         }
 
+    }
+
+    public void setActiveDialog(String fileName){
+        activeDialog = new Dialog(fileName);
     }
 }
