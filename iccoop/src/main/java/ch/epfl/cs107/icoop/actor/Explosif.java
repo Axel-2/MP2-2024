@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import ch.epfl.cs107.icoop.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.AreaEntity;
@@ -16,7 +17,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
-public class Explosif extends AreaEntity implements Interactor{
+public class Explosif extends ICoopCollectable implements Interactor{
 
     private final static int ANIMATION_DURATION = 24;
 

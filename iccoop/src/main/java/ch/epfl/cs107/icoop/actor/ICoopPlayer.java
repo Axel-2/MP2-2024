@@ -3,6 +3,7 @@ package ch.epfl.cs107.icoop.actor;
 import java.util.Collections;
 import java.util.List;
 
+import ch.epfl.cs107.icoop.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
@@ -337,6 +338,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 explo.activate();
             }
                 
+        }
+
+        @Override
+        public void interactWith(ICoopCollectable iCoopCollectable, boolean isCellInteraction) {
+            ICoopInteractionVisitor.super.interactWith(iCoopCollectable, isCellInteraction);
         }
     }
 }
