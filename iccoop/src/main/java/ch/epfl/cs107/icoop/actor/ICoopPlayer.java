@@ -334,15 +334,17 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             // Interaction à distance only, donc si le joueur presse le bouton pour useitem()
             Keyboard keyboard = getOwnerArea().getKeyboard();
 
-            if (keyboard.get(playerKeyBindings.useItem()).isPressed()) {
-                explo.activate();
+            if (isCellInteraction) {
+                // Si c'est une intéraction de contact on prend l'objet
+                explo.collect();
+            } else {
+                // Si c'est à distance on active la bombre
+                if (keyboard.get(playerKeyBindings.useItem()).isPressed()) {
+                    explo.activate();
+                }
             }
-                
-        }
 
-        @Override
-        public void interactWith(ICoopCollectable iCoopCollectable, boolean isCellInteraction) {
-            ICoopInteractionVisitor.super.interactWith(iCoopCollectable, isCellInteraction);
+                
         }
     }
 }

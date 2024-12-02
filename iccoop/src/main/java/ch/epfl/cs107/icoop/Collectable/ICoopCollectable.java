@@ -12,17 +12,17 @@ public abstract class ICoopCollectable extends CollectableAreaEntity {
 
     public ICoopCollectable(Area area, Orientation orientation, DiscreteCoordinates position) {
         // L'object n'est pas collecté par défaut
-        super(area, orientation, position, false);
+        super(area, orientation, position);
     }
 
     @Override
     public void draw(Canvas canvas) {
-        // On dessine l'item que si il n'est pas collected
         if (!isCollected()) {
-            super.draw(canvas);
+            drawCollectable(canvas);
         }
-
     }
+
+    public abstract void  drawCollectable(Canvas canvas);
 
     // Par défaut un Collectable est traversable.
     @Override
