@@ -47,6 +47,13 @@ public abstract class ICoopArea extends Area {
         if (super.begin(window, fileSystem)) {
             setBehavior(new ICoopBehavior(window, getTitle()));
             createArea();
+
+            // Il faut de nouveau assurer
+            // à l'aide de cette variable
+            // qu'il y a au minimum un
+            // appel à update()
+            hasBeenInitialised = false;
+            
             return true;
         }
         return false;
