@@ -9,3 +9,5 @@
 # Remarque 2
 # J'ai modifié la méthode can Leave pour résoudre un bug. mais par contre bizarre car sa version fonctionnelle n'utilise pas le paramètre entity.
 # J'ai essayé de faire une version avec mais ça marchait pas
+
+# Checkpoint yoann : juste au dessus du 3.2.1, parmis les trois points j'ai fait celui du milieu
