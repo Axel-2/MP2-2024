@@ -347,7 +347,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         @Override
         public void interactWith(ElementalItem elemItem, boolean isCellInteraction) {
 
-            // Si on est en contact de l'item et du même élément, on collect.
+            // Si on est en contact de l'item et du même élément, on collecte.
             if (isCellInteraction){
                 elemItem.collectBy(ICoopPlayer.this);
             }

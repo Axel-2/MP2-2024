@@ -5,6 +5,7 @@ import java.util.Arrays;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.Rock;
+import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.area.ICoopArea;
@@ -23,15 +24,20 @@ public final class Spawn extends ICoopArea {
     DialogHandler dialogHandler;
 
 
+
     public Spawn(DialogHandler dialogHandler) {
         this.dialogHandler = dialogHandler;
     }
 
-    @Override
-    public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
+    // On a besoin d'une variable static car des fois,
+    // on veut le spawn sans initialiser l'objet donc
+    // le getter ci-dessous ne suffit pas
+    static final SpawnPosition spawnPosition = new SpawnPosition(new DiscreteCoordinates(14, 6), new DiscreteCoordinates(13, 6));
+
+    public  DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
-            case WATER -> new DiscreteCoordinates(13, 6);
-            case FIRE -> new DiscreteCoordinates(14, 6);
+            case WATER -> spawnPosition.getWaterSpawn();
+            case FIRE -> spawnPosition.getFireSpawn();
         };
 
         return coordinates;
@@ -42,15 +48,15 @@ public final class Spawn extends ICoopArea {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
-
         Door spawnDoor = new Door(
             "OrbWay",                                                                // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                           // Toujours open
-            Arrays.asList(new DiscreteCoordinates(1, 12), new DiscreteCoordinates(1, 5)), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(OrbWay.spawnPosition.getWaterSpawn(), OrbWay.spawnPosition.getFireSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                 // Map actuelle, donc Spawn
             new DiscreteCoordinates(19,15),                                                   // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(19,16)                                                    // Autre cellule de la porte (l'autre "case" rouge)
             );
+
         registerActor(spawnDoor);
 
 
@@ -66,5 +72,7 @@ public final class Spawn extends ICoopArea {
     public String getTitle() {
         return "Spawn";
     }
+
+
 
 }

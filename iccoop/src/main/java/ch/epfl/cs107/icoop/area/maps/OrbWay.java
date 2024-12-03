@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Door;
+import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.play.engine.actor.Background;
@@ -19,11 +20,22 @@ import javax.print.attribute.standard.JobOriginatingUserName;
  */
 public final class OrbWay extends ICoopArea {
 
+
+    // On a besoin d'une variable static car des fois,
+    // on veut le spawn sans initialiser l'objet donc
+    // le getter ci-dessous ne suffit pas
+    static final SpawnPosition spawnPosition = new SpawnPosition(
+            // FIRE
+            new DiscreteCoordinates(1, 12),
+            // WATER
+            new DiscreteCoordinates(1, 5)
+    );
+
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
-            case WATER -> new DiscreteCoordinates(1, 12);
-            case FIRE -> new DiscreteCoordinates(1, 5);
+            case FIRE -> spawnPosition.getFireSpawn();
+            case WATER -> spawnPosition.getWaterSpawn();
         };
 
         return coordinates;
@@ -34,12 +46,14 @@ public final class OrbWay extends ICoopArea {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
+        DiscreteCoordinates fireSpawnReturnCoord = new DiscreteCoordinates(18, 16);
+        DiscreteCoordinates waterSpawnReturnCoords = new DiscreteCoordinates(18, 15);
 
         // Créations des deux portes de OrbWay qui permettront de revenir à Spawn
         Door orbWayDoor1 = new Door(
             "Spawn",                                                                    // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                              // Toujours open
-            Arrays.asList(new DiscreteCoordinates(18, 16), new DiscreteCoordinates(18, 15)), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(waterSpawnReturnCoords, fireSpawnReturnCoord), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                    // Map actuelle, donc Spawn
             new DiscreteCoordinates(0,14),                                                       // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(0,13),
@@ -48,10 +62,12 @@ public final class OrbWay extends ICoopArea {
             new DiscreteCoordinates(0,10)                                                    
             );
 
+
+
         Door orbWayDoor2 = new Door(
             "Spawn",                                                                    // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                              // Toujours open
-            Arrays.asList(new DiscreteCoordinates(18, 16), new DiscreteCoordinates(18, 15)), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(waterSpawnReturnCoords, fireSpawnReturnCoord), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                    // Map actuelle, donc Spawn
             new DiscreteCoordinates(0,8),                                                        // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(0,7),
@@ -63,9 +79,10 @@ public final class OrbWay extends ICoopArea {
         registerActor(orbWayDoor1);
         registerActor(orbWayDoor2);
 
-
-        Orb fireOrb = new Orb(this, Orientation.DOWN, new DiscreteCoordinates(17, 12), Orb.OrbType.WATER);
-        Orb waterOrb = new Orb(this, Orientation.DOWN, new DiscreteCoordinates(17, 6), Orb.OrbType.FIRE);
+        DiscreteCoordinates fireOrbCoord = new DiscreteCoordinates(17, 12);
+        DiscreteCoordinates waterOrbCoord = new DiscreteCoordinates(17, 6);
+        Orb fireOrb = new Orb(this, Orientation.DOWN, fireOrbCoord, Orb.OrbType.FIRE);
+        Orb waterOrb = new Orb(this, Orientation.DOWN, waterOrbCoord, Orb.OrbType.WATER);
 
         registerActor(fireOrb);
         registerActor(waterOrb);

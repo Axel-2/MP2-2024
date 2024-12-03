@@ -21,7 +21,6 @@ public abstract class ICoopArea extends Area {
     // Variable utile pour la fonction update
     // pour garantir un premier affichage
     private boolean hasBeenInitialised;
-
     public void setCameraScaleFactor(float cameraScaleFactor) {
         this.cameraScaleFactor = cameraScaleFactor;
     }
@@ -53,7 +52,7 @@ public abstract class ICoopArea extends Area {
             // qu'il y a au minimum un
             // appel à update()
             hasBeenInitialised = false;
-            
+
             return true;
         }
         return false;
@@ -94,4 +93,4 @@ public abstract class ICoopArea extends Area {
         float distance = fire.getPosition().sub(water.getPosition()).getLength();
         cameraScaleFactor = (float) max(DEFAULT_SCALE_FACTOR, DEFAULT_SCALE_FACTOR * 0.75 + distance / 2);
     }
-}
+ }
