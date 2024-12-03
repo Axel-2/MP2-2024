@@ -5,8 +5,10 @@ import java.util.Arrays;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.Rock;
+import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -17,6 +19,13 @@ import ch.epfl.cs107.play.signal.logic.Logic;
  * A class that represent the inital spawn area
  */
 public final class Spawn extends ICoopArea {
+
+    DialogHandler dialogHandler;
+
+
+    public Spawn(DialogHandler dialogHandler) {
+        this.dialogHandler = dialogHandler;
+    }
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
@@ -51,8 +60,6 @@ public final class Spawn extends ICoopArea {
 
         registerActor(rock);
         registerActor(explo);
-
-
     }
 
     @Override

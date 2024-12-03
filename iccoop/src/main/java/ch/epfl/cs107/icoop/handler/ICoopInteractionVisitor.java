@@ -1,6 +1,6 @@
 package ch.epfl.cs107.icoop.handler;
 
-import ch.epfl.cs107.icoop.Collectable.ICoopCollectable;
+import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
@@ -19,11 +19,11 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
     
 
     // Intéraction avec une cellule, par défaut ne fait rien
-    default void interactWith(ICoopCell other, boolean isCellInteraction) {
+    default void interactWith(ICoopCell cell, boolean isCellInteraction) {
     }
 
     // Intéraction avec un joueur, par défaut ne fait rien
-    default void interactWith(ICoopPlayer other, boolean isCellInteraction) {
+    default void interactWith(ICoopPlayer player, boolean isCellInteraction) {
     }
 
     // Intéraction avec une porte, par défaut ne fait rien
@@ -31,19 +31,18 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
     }
 
     // Intéraction avec un Obstacle, par défaut ne fait rien
-    default void interactWith(Obstacle other, boolean isCellInteraction) {
+    default void interactWith(Obstacle obstacle, boolean isCellInteraction) {
     }
 
     // Intéraction avec un Rock, par défaut ne fait rien
-    default void interactWith(Rock other, boolean isCellInteraction) {
+    default void interactWith(Rock rock, boolean isCellInteraction) {
     }
 
     // Intéraction avec un Explosif par défaut ne fait rien
-    default void interactWith(Explosif other, boolean isCellInteraction) {
+    default void interactWith(Explosif explosif, boolean isCellInteraction) {
     }
 
-    // Intéraction avec un Explosif par défaut ne fait rien
-    default void interactWith(ICoopCollectable other, boolean isCellInteraction) {
+    default void interactWith(ICoopCollectable collectable, boolean isCellInteraction) {
     }
 
 }

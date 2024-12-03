@@ -3,11 +3,12 @@ package ch.epfl.cs107.icoop.actor;
 import java.util.Collections;
 import java.util.List;
 
-import ch.epfl.cs107.icoop.Collectable.ICoopCollectable;
+import ch.epfl.cs107.icoop.ElementalEntity;
 import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 
+import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -315,16 +316,16 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
 
         @Override
-        public void interactWith(Door other, boolean isCellInteraction) {
+        public void interactWith(Door door, boolean isCellInteraction) {
 
             // Vérification des accès
-            if (other.getSignal().isOn()) {
+            if (door.getSignal().isOn()) {
 
                 // On update pes attributs pour que
-                // le fichier principale puisse faire
+                // le fichier principal puisse faire
                 // transiter le joueur
                 isLeaving = true;
-                leavingDoor = other;
+                leavingDoor = door;
             }
             
         }
@@ -334,22 +335,19 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             // Interaction à distance only, donc si le joueur presse le bouton pour useitem()
             Keyboard keyboard = getOwnerArea().getKeyboard();
 
-            if (keyboard.get(playerKeyBindings.useItem()).isPressed()) {
-                explo.activate();
+            if (isCellInteraction) {
+                // Si c'est une intéraction de contact on prend l'objet
+                explo.collect();
+            } else {
+                // Si c'est à distance on active la bombre
+                if (keyboard.get(playerKeyBindings.useItem()).isPressed()) {
+                    explo.activate();
+                }
             }
-                
         }
 
-        @Override
-        public void interactWith(ICoopCollectable iCoopCollectable, boolean isCellInteraction) {
-            ICoopInteractionVisitor.super.interactWith(iCoopCollectable, isCellInteraction);
+        public void interactWith(Orb other, boolean isCellInteraction) {
+            ICoopInteractionVisitor.super.interactWith(other, isCellInteraction);
         }
     }
-}
-
-
-
-
-interface ElementalEntity {
-    Element element();
 }

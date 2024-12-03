@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ch.epfl.cs107.icoop.Collectable.ICoopCollectable;
+import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
@@ -27,7 +27,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
     private int counter;
     private boolean isExploding;
 
-    private ExplosifInteractionHandler interactionHandler = new ExplosifInteractionHandler();
+    private final ExplosifInteractionHandler interactionHandler = new ExplosifInteractionHandler();
 
 
     // Constructeur ici
@@ -86,22 +86,26 @@ public class Explosif extends ICoopCollectable implements Interactor{
         super.update(deltaTime);
 
     }
-        
 
+    
     @Override
-    public void draw(Canvas canva){
+    public void drawCollectable(Canvas canvas){
 
-        tickingAnimation.draw(canva);  
+        tickingAnimation.draw(canvas);
 
         if (isActivated){
-            tickingAnimation.draw(canva);        
+            tickingAnimation.draw(canvas);
+
         }
 
         if (isExploding){
-            explosionAnimation.draw(canva);
+            explosionAnimation.draw(canvas);
         }
     
     }
+
+    
+
     /**
      * Get this Interactor's current occupying cells coordinates
      * @return (List of DiscreteCoordinates). May be empty but not null
@@ -114,94 +118,119 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
     /**
      * Get this Interactor's current field of view cells coordinates
+     *
      * @return (List of DiscreteCoordinates). May be empty but not null
      */
     @Override
-    public List<DiscreteCoordinates> getFieldOfViewCells(){
+    public List<DiscreteCoordinates> getFieldOfViewCells() {
+
         List<DiscreteCoordinates> neighbourCells = new ArrayList<>();
+
         for (Orientation orientation : Orientation.values()) {
             neighbourCells.add(getCurrentMainCellCoordinates().jump(orientation.toVector()));
         }
+
         return neighbourCells;
-        }
+
+    }
 
 
-    /**@return (boolean): true if this require cell interaction */
+    /**
+     * @return (boolean): true if this require cell interaction
+     */
     @Override
     public boolean wantsCellInteraction() {
         // La bombe n'interagit avec les obstacles
         // que si elle explose
-        return isExploding;
+        return true;
     }
 
     @Override
     /**@return (boolean): true if this require view interaction */
-    public boolean wantsViewInteraction(){
+    public boolean wantsViewInteraction() {
+        // La bombe n'a des intéractions à distance
+        // que si elle explose
         return isExploding;
     }
 
     /**
      * Do this Interactor interact with the given Interactable
      * The interaction is implemented on the interactor side !
-     * @param other (Interactable). Not null
+     *
+     * @param other             (Interactable). Not null
      * @param isCellInteraction True if this is a cell interaction
      */
     @Override
-    public void interactWith(Interactable other, boolean isCellInteraction){
+    public void interactWith(Interactable other, boolean isCellInteraction) {
         other.acceptInteraction(interactionHandler, isCellInteraction);
     }
 
-        /**
+    /**
      * Indicate if the current Interactable take the whole cell space or not
      * i.e. only one Interactable which takeCellSpace can be in a cell
      * (how many Interactable which don't takeCellSpace can also be in the same cell)
+     *
      * @return (boolean)
      */
     @Override
-    public boolean takeCellSpace(){
+    public boolean takeCellSpace() {
         // Un personnage peut traverser la bombe
         return false;
     }
 
 
-    /**@return (boolean): true if this is able to have cell interactions*/
+    /**
+     * @return (boolean): true if this is able to have cell interactions
+     */
     @Override
     public boolean isCellInteractable() {
-        return (!isExploding && isActivated);
+        // On peut intéragit avec la bombe si elle n'a pas explosé
+        // ou si elle n'est pas activée
+        return (!isExploding && !isActivated);
     }
 
-    /**@return (boolean): true if this is able to have view interactions*/
+    /**
+     * @return (boolean): true if this is able to have view interactions
+     */
     @Override
     public boolean isViewInteractable() {
-        // Lorsque la bombre n'a pas encore explosée
-        // on peut l'activer à distance
+        // Lorsque la bombe n'a pas encore explosée,
+        // on peut intéragir avec pour l'activer à distance
         return !isExploding;
     }
 
-    /** Call directly the interaction on this if accepted
+    /**
+     * Call directly the interaction on this if accepted
+     *
      * @param v (AreaInteractionVisitor) : the visitor
-     * */
+     */
     @Override
-    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
-
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        // Fonction par défaut pout le modèle visiteur
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
 
     }
 
 
     private final class ExplosifInteractionHandler implements ICoopInteractionVisitor {
-        
+
         // Intéraction avec un rocher : le fait disparaitre 
-        @Override 
+        @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
             rock.destroy();
         }
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-            // Si la bombe explose à coté d'un player il perd
-            // des points de vie
-            player.loseHealth(Damage.EXPLOSION);
+
+            if (isExploding) {
+                // Si la bombe explose à côté d'un player, il perd
+                // des points de vie
+                player.loseHealth(Damage.EXPLOSION);
+            }
+
         }
+
+
     }
 }
