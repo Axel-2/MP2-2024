@@ -1,7 +1,6 @@
 package ch.epfl.cs107.icoop;
 
 
-import ch.epfl.cs107.icoop.KeyBindings.PlayerKeyBindings;
 import ch.epfl.cs107.icoop.actor.CenterOfMass;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
@@ -113,6 +112,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
     @Override
     public void update(float deltaTime) {
+        
 
         // A chaque tour de boucle on doit check
         // si un des joueurs traverse une porte
@@ -153,10 +153,15 @@ public class ICoop extends AreaGame implements DialogHandler {
     private void checkDialog(float deltaTime){
         Keyboard kbd = getCurrentArea().getKeyboard();
 
-        // Affiche le dialogue s'il y en a un en cours
+        // Affiche le dialogue s'il y en a un en cours, et pause le jeu
         if (activeDialog != null){
-
             activeDialog.draw(getWindow());
+
+            // Pause pendant les dialogues
+            if (!getCurrentArea().isPaused()){
+                getCurrentArea().requestPause();
+            }
+            
 
             // Check si le joueur veut skip le dialogue
             if (kbd.get(KeyBindings.NEXT_DIALOG).isPressed()){
@@ -166,6 +171,7 @@ public class ICoop extends AreaGame implements DialogHandler {
             // Enlève le dialogue s'il est terminé
             if (activeDialog.isCompleted()){
                 activeDialog = null;
+                getCurrentArea().requestResume();
             }
         }
 

@@ -1,5 +1,11 @@
 package ch.epfl.cs107.play.areagame.area;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.engine.DragHelper;
@@ -16,12 +22,6 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Mouse;
 import ch.epfl.cs107.play.window.Window;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -304,6 +304,11 @@ public abstract class Area implements Playable, Graphics, PauseMenu.Pausable {
 
     @Override
     public void update(float deltaTime) {
+
+        if (paused) {
+            System.out.println("L'aire est en pause, les acteurs ne sont pas mis à jour. (POURTANT SI FCK)");
+        }
+
         purgeRegistration();
 
         // Decide if we update the contextual menu or this content
@@ -455,6 +460,7 @@ public abstract class Area implements Playable, Graphics, PauseMenu.Pausable {
 
     @Override
     public final void requestPause() {
+        System.out.println("requestPause appelée correctement");
         this.paused = true;
     }
 
@@ -465,6 +471,7 @@ public abstract class Area implements Playable, Graphics, PauseMenu.Pausable {
      */
     @Override
     public final void requestResume() {
+        System.out.println("requestResume appelée correctement");
         this.paused = false;
     }
 
