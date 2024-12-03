@@ -61,5 +61,10 @@ public class Orb extends ElementalItem {
             this.elementType = elementType;
         }
     }
+
+    @Override
+    public Element element() {
+        return elementalType;
+    }
 }
 

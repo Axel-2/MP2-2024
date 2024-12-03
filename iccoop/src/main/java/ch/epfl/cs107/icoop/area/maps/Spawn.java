@@ -60,8 +60,6 @@ public final class Spawn extends ICoopArea {
 
         registerActor(rock);
         registerActor(explo);
-
-
     }
 
     @Override

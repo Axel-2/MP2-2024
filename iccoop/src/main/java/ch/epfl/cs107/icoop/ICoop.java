@@ -69,7 +69,7 @@ public class ICoop extends AreaGame implements DialogHandler {
         // Le jeu commence dans l'aire spwan
 
         // ORBWAY POUR DEBUG
-        ICoopArea area = (ICoopArea) setCurrentArea("OrbWay", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         createPlayers(area);
 
         // On centre la caméra sur le centre de masse
@@ -138,6 +138,15 @@ public class ICoop extends AreaGame implements DialogHandler {
 
     }
 
+    @Override
+    public void draw() {
+
+        if (activeDialog != null) {
+            activeDialog.draw(getWindow());
+        }
+        super.draw();
+    }
+
     // On test si les players ont encore de la
     // vie sinon on reset la map
     private void checkHealth() {
@@ -155,12 +164,13 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Affiche le dialogue s'il y en a un en cours, et pause le jeu
         if (activeDialog != null){
-            activeDialog.draw(getWindow());
+            //activeDialog.draw(getWindow());
 
             // Pause pendant les dialogues
-            if (!getCurrentArea().isPaused()){
-                getCurrentArea().requestPause();
-            }
+            //if (!getCurrentArea().isPaused()){
+            //    getCurrentArea().requestPause();
+            //}
+            getCurrentArea().requestPause();
             
 
             // Check si le joueur veut skip le dialogue

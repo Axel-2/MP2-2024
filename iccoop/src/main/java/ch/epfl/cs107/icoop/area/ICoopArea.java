@@ -7,6 +7,7 @@ import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
 
@@ -16,6 +17,10 @@ import ch.epfl.cs107.play.window.Window;
 public abstract class ICoopArea extends Area {
     public final static float DEFAULT_SCALE_FACTOR = 18.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
+
+    // Variable utile pour la fonction update
+    // pour garantir un premier affichage
+    private boolean hasBeenInitialised;
 
     public void setCameraScaleFactor(float cameraScaleFactor) {
         this.cameraScaleFactor = cameraScaleFactor;
@@ -46,6 +51,28 @@ public abstract class ICoopArea extends Area {
         }
         return false;
     }
+
+
+    @Override
+    public void update(float deltaTime){
+
+        // IMPORTANT:
+        // Il faut etre sûr que l'aire a bien
+        // reçu au moins une seule update
+        // avant le dialogue de démarrage sinon rien
+        // ne s'affiche
+        if (!hasBeenInitialised) {
+            super.update(deltaTime);
+            hasBeenInitialised = true;
+        }
+
+        // Si l'aire est en pause on update pas
+        if (!this.isPaused()) {
+            super.update(deltaTime);
+        }
+
+    }
+
 
     /**
      * Getter for Icoop's scale factor
