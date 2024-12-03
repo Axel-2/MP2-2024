@@ -42,7 +42,7 @@ public class ICoop extends AreaGame implements DialogHandler {
      */
     private void createAreas() {
         spawnArea = new Spawn(this); // Peut-être mettre en ICoop Area plutot ? jsp
-        orbWayArea = new OrbWay();
+        orbWayArea = new OrbWay(this);
 
         addArea(spawnArea);
         addArea(orbWayArea);

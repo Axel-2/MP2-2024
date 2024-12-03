@@ -7,6 +7,7 @@ import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -20,6 +21,9 @@ import javax.print.attribute.standard.JobOriginatingUserName;
  */
 public final class OrbWay extends ICoopArea {
 
+    public OrbWay(DialogHandler dialogHandler) {
+        super(dialogHandler);
+    }
 
     // On a besoin d'une variable static car des fois,
     // on veut le spawn sans initialiser l'objet donc

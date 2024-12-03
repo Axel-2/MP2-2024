@@ -21,12 +21,9 @@ import ch.epfl.cs107.play.signal.logic.Logic;
  */
 public final class Spawn extends ICoopArea {
 
-    DialogHandler dialogHandler;
-
-
 
     public Spawn(DialogHandler dialogHandler) {
-        this.dialogHandler = dialogHandler;
+        super(dialogHandler);
     }
 
     // On a besoin d'une variable static car des fois,

@@ -4,7 +4,9 @@ import static java.lang.Math.max;
 
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
+import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
@@ -21,6 +23,18 @@ public abstract class ICoopArea extends Area {
     // Variable utile pour la fonction update
     // pour garantir un premier affichage
     private boolean hasBeenInitialised;
+
+    private DialogHandler dialogHandler;
+
+    public ICoopArea(DialogHandler dialogHandler) {
+        this.dialogHandler = dialogHandler;
+
+    }
+
+    public void setDialog(Dialog dialog) {
+        dialogHandler.publish(dialog);
+    }
+
     public void setCameraScaleFactor(float cameraScaleFactor) {
         this.cameraScaleFactor = cameraScaleFactor;
     }
