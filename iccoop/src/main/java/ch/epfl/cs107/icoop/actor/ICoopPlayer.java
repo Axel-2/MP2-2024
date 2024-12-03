@@ -7,8 +7,7 @@ import ch.epfl.cs107.icoop.ElementalEntity;
 import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
-
-import ch.epfl.cs107.icoop.actor.Collectable.Orb;
+import ch.epfl.cs107.icoop.actor.Collectable.ElementalItem;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -25,7 +24,6 @@ import static ch.epfl.cs107.play.math.Orientation.DOWN;
 import static ch.epfl.cs107.play.math.Orientation.LEFT;
 import static ch.epfl.cs107.play.math.Orientation.RIGHT;
 import static ch.epfl.cs107.play.math.Orientation.UP;
-
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
@@ -346,8 +344,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             }
         }
 
-        public void interactWith(Orb other, boolean isCellInteraction) {
-            ICoopInteractionVisitor.super.interactWith(other, isCellInteraction);
+        @Override
+        public void interactWith(ElementalItem elemItem, boolean isCellInteraction) {
+
+            // Si on est en contact de l'item et du même élément, on collect.
+            if (isCellInteraction){
+                elemItem.collectBy(ICoopPlayer.this);
+            }
         }
     }
 }

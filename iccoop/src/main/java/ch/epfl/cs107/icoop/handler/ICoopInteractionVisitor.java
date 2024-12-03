@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.handler;
 
+import ch.epfl.cs107.icoop.actor.Collectable.ElementalItem;
 import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
@@ -44,5 +45,9 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
 
     default void interactWith(ICoopCollectable collectable, boolean isCellInteraction) {
     }
+
+    default void interactWith(ElementalItem elemItem, boolean isCellInteraction) {
+    }    
+    
 
 }

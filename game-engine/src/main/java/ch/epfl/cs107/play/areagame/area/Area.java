@@ -465,7 +465,6 @@ public abstract class Area implements Playable, Graphics, PauseMenu.Pausable {
      */
     @Override
     public final void requestResume() {
-        System.out.println("requestResume appelée correctement");
         this.paused = false;
     }
 
