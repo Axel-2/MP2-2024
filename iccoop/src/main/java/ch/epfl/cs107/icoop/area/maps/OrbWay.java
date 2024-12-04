@@ -4,17 +4,16 @@ import java.util.Arrays;
 
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Door;
+import ch.epfl.cs107.icoop.actor.ElementalWall;
+import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Element;
-import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
-
-import javax.print.attribute.standard.JobOriginatingUserName;
 
 /**
  * A class that represent the inital spawn area
@@ -53,7 +52,7 @@ public final class OrbWay extends ICoopArea {
         DiscreteCoordinates fireSpawnReturnCoord = new DiscreteCoordinates(18, 16);
         DiscreteCoordinates waterSpawnReturnCoords = new DiscreteCoordinates(18, 15);
 
-        // Créations des deux portes de OrbWay qui permettront de revenir à Spawn
+        // ----------------- DOORS ------------------
         Door orbWayDoor1 = new Door(
             "Spawn",                                                                    // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                              // Toujours open
@@ -83,6 +82,7 @@ public final class OrbWay extends ICoopArea {
         registerActor(orbWayDoor1);
         registerActor(orbWayDoor2);
 
+        // ----------------- ORBS ------------------
         DiscreteCoordinates fireOrbCoord = new DiscreteCoordinates(17, 12);
         DiscreteCoordinates waterOrbCoord = new DiscreteCoordinates(17, 6);
         Orb fireOrb = new Orb(this, Orientation.DOWN, fireOrbCoord, Orb.OrbType.FIRE);
@@ -90,6 +90,17 @@ public final class OrbWay extends ICoopArea {
 
         registerActor(fireOrb);
         registerActor(waterOrb);
+
+        // ----------------- WALLS ------------------
+        for (int i = 0; i < 5; i++) {
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 10+i), "fire_wall", Logic.TRUE));
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 4+i), "water_wall", Logic.TRUE));
+        }
+
+        // Deux murs de tests
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 6), "fire_wall", Logic.TRUE));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 12), "water_wall", Logic.TRUE));
+        
 
 
     }
