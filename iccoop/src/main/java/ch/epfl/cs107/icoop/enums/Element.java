@@ -19,4 +19,11 @@ public enum Element {
         return spriteName;
     }
 
+    // Méthode pour récupérer le Damage associé
+    public Damage toDamage(){
+        return switch(this){
+            case FIRE -> Damage.FIRE;
+            case WATER -> Damage.WATER;
+        };
+    }
 }

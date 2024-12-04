@@ -16,4 +16,5 @@ public enum Damage {
     public int getDamagePoints() {
         return damagePoints;
     }
+
 }

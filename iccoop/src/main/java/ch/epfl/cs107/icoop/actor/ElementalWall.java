@@ -162,7 +162,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
             // Seulement si le mur est actif
             if (isActive.isOn()) {
-            //    player.loseHealth(Damage.element();      
+                player.loseHealth(element().toDamage());      
                 }
             }
 
