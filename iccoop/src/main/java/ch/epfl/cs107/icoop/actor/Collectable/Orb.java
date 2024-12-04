@@ -3,6 +3,7 @@ package ch.epfl.cs107.icoop.actor.Collectable;
 import ch.epfl.cs107.icoop.ElementalEntity;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.enums.Element;
+import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.Animation;
 import ch.epfl.cs107.play.engine.actor.Dialog;
@@ -22,6 +23,8 @@ public class Orb extends ElementalItem {
     final private Animation animation;
     final Sprite[] sprites;
 
+    private boolean dialogHasBeenStarted;
+
     public Orb(Area area, Orientation orientation, DiscreteCoordinates position, OrbType orbType) {
         super(area, orientation, position, orbType.elementType);
         this.sprites = new Sprite[ANIMATION_FRAMES];
@@ -39,16 +42,32 @@ public class Orb extends ElementalItem {
     @Override
     public void collectBy(ElementalEntity entity) {
 
+        // On a besoin du dialogHandler ici
+        DialogHandler dialogHandler = ((ICoopArea) getOwnerArea()).dialogHandler;
+
+        // ATTENTION
+        // Les variables dialogHasBeenStarted et isDialogActiv ne se comportent pas de la
+        // même façon. dialogHasBeenStarted est un attribut de cette classe elle-même qui nous
+        // sert à ne pas relancer le dialogue en boucle. isDialogActiv est une variable de ICoop qui est
+        // modifiée dans le fichier principal et qui nous permet d'attendre que le dialogue soit totalement
+        // terminé avant de ramasser l'objet. On ne peut donc pas intervertir et simplifier le code ci-dessous.
+
         // La condition est importante
         // sinon c'est impossible de quitter le dialogue
-        if (!isCollected()) {
+        if (!dialogHasBeenStarted) {
             // Ajout du dialogue
-            ((ICoopArea) getOwnerArea()).setDialog(new Dialog(orbType.dialogName));
+           dialogHandler.publish(new Dialog(orbType.dialogName));
+           // On change cette valeur pour ne pas
+            // push le dialogue une seconde fois
+           dialogHasBeenStarted = true;
         }
 
-        super.collectBy(entity);
-
-
+        // On collecte l'objet que lorsque le dialogue est
+        // inactif donc lorsqu'il est terminé
+        // sinon l'objet disparait au début du dialogue
+        if (!dialogHandler.isDialogActiv()){
+            super.collectBy(entity);
+        }
     }
 
     @Override

@@ -76,9 +76,7 @@ public class ICoop extends AreaGame implements DialogHandler {
         setCamera();
 
         // On met le dialog welcome au début du jeu
-        setActiveDialog("welcome");
-
-
+        publish(new Dialog("welcome"));
     }
 
     private void createPlayers(ICoopArea area) {
@@ -112,7 +110,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
     @Override
     public void update(float deltaTime) {
-        
+
 
         // A chaque tour de boucle on doit check
         // si un des joueurs traverse une porte
@@ -132,10 +130,8 @@ public class ICoop extends AreaGame implements DialogHandler {
         // Ajustement du scale factor
         ICoopArea currentICoopArea = (ICoopArea) getCurrentArea();
         currentICoopArea.updateScaleFactor(player1, player2);
-        
 
         super.update(deltaTime);
-
     }
 
     @Override
@@ -184,13 +180,13 @@ public class ICoop extends AreaGame implements DialogHandler {
                 getCurrentArea().requestResume();
             }
         }
-
-
     }
 
-    public void setActiveDialog(String fileName){
-        activeDialog = new Dialog(fileName);
+    @Override
+    public boolean isDialogActiv() {
+        return activeDialog != null;
     }
+
 
     @Override
     public void publish(Dialog dialog) {

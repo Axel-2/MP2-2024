@@ -24,16 +24,15 @@ public abstract class ICoopArea extends Area {
     // pour garantir un premier affichage
     private boolean hasBeenInitialised;
 
-    private DialogHandler dialogHandler;
+    // Ça ne pose pas de problème de mettre cette
+    // objet de façon publique car l'objet en lui même
+    // n'a que des getter et des setter publiques
+    public DialogHandler dialogHandler;
 
     public ICoopArea(DialogHandler dialogHandler) {
         this.dialogHandler = dialogHandler;
-
     }
 
-    public void setDialog(Dialog dialog) {
-        dialogHandler.publish(dialog);
-    }
 
     public void setCameraScaleFactor(float cameraScaleFactor) {
         this.cameraScaleFactor = cameraScaleFactor;
