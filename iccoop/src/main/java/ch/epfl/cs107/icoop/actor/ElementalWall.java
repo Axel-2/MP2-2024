@@ -162,10 +162,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
             // Seulement si le mur est actif
             if (isActive.isOn()) {
-
-                // Si ils ne sont pas du même éléments, alors l'intéraction n'existe même pas donc à ce stade les deux (joueur et mur) ont le même élément
-                
-                // player.loseHealth(Damage.EXPLOSION);      * "la méthode faisant subir des dommages ne peut pas être définie à ce niveau d’abstraction.""
+            //    player.loseHealth(Damage.element();      
                 }
             }
 
