@@ -304,11 +304,6 @@ public abstract class Area implements Playable, Graphics, PauseMenu.Pausable {
 
     @Override
     public void update(float deltaTime) {
-
-        if (paused) {
-            System.out.println("L'aire est en pause, les acteurs ne sont pas mis à jour. (POURTANT SI FCK)");
-        }
-
         purgeRegistration();
 
         // Decide if we update the contextual menu or this content
@@ -460,7 +455,6 @@ public abstract class Area implements Playable, Graphics, PauseMenu.Pausable {
 
     @Override
     public final void requestPause() {
-        System.out.println("requestPause appelée correctement");
         this.paused = true;
     }
 
@@ -471,7 +465,6 @@ public abstract class Area implements Playable, Graphics, PauseMenu.Pausable {
      */
     @Override
     public final void requestResume() {
-        System.out.println("requestResume appelée correctement");
         this.paused = false;
     }
 

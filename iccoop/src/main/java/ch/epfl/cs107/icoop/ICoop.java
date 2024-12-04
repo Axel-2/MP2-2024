@@ -42,7 +42,7 @@ public class ICoop extends AreaGame implements DialogHandler {
      */
     private void createAreas() {
         spawnArea = new Spawn(this); // Peut-être mettre en ICoop Area plutot ? jsp
-        orbWayArea = new OrbWay();
+        orbWayArea = new OrbWay(this);
 
         addArea(spawnArea);
         addArea(orbWayArea);
@@ -138,6 +138,15 @@ public class ICoop extends AreaGame implements DialogHandler {
 
     }
 
+    @Override
+    public void draw() {
+
+        if (activeDialog != null) {
+            activeDialog.draw(getWindow());
+        }
+        super.draw();
+    }
+
     // On test si les players ont encore de la
     // vie sinon on reset la map
     private void checkHealth() {
@@ -155,12 +164,13 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Affiche le dialogue s'il y en a un en cours, et pause le jeu
         if (activeDialog != null){
-            activeDialog.draw(getWindow());
+            //activeDialog.draw(getWindow());
 
             // Pause pendant les dialogues
-            if (!getCurrentArea().isPaused()){
-                getCurrentArea().requestPause();
-            }
+            //if (!getCurrentArea().isPaused()){
+            //    getCurrentArea().requestPause();
+            //}
+            getCurrentArea().requestPause();
             
 
             // Check si le joueur veut skip le dialogue

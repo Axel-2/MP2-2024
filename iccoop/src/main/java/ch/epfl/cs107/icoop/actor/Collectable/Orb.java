@@ -1,5 +1,7 @@
 package ch.epfl.cs107.icoop.actor.Collectable;
 
+import ch.epfl.cs107.icoop.ElementalEntity;
+import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.Animation;
@@ -35,6 +37,21 @@ public class Orb extends ElementalItem {
     }
 
     @Override
+    public void collectBy(ElementalEntity entity) {
+
+        // La condition est importante
+        // sinon c'est impossible de quitter le dialogue
+        if (!isCollected()) {
+            // Ajout du dialogue
+            ((ICoopArea) getOwnerArea()).setDialog(new Dialog(orbType.dialogName));
+        }
+
+        super.collectBy(entity);
+
+
+    }
+
+    @Override
     public void drawCollectable(Canvas canvas) {
         animation.draw(canvas);
     }
@@ -60,6 +77,11 @@ public class Orb extends ElementalItem {
             this.dialogName = dialogName;
             this.elementType = elementType;
         }
+    }
+
+    @Override
+    public Element element() {
+        return elementalType;
     }
 }
 

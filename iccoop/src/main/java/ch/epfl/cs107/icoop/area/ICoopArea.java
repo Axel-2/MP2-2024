@@ -4,9 +4,12 @@ import static java.lang.Math.max;
 
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
+import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
 
@@ -16,6 +19,21 @@ import ch.epfl.cs107.play.window.Window;
 public abstract class ICoopArea extends Area {
     public final static float DEFAULT_SCALE_FACTOR = 18.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
+
+    // Variable utile pour la fonction update
+    // pour garantir un premier affichage
+    private boolean hasBeenInitialised;
+
+    private DialogHandler dialogHandler;
+
+    public ICoopArea(DialogHandler dialogHandler) {
+        this.dialogHandler = dialogHandler;
+
+    }
+
+    public void setDialog(Dialog dialog) {
+        dialogHandler.publish(dialog);
+    }
 
     public void setCameraScaleFactor(float cameraScaleFactor) {
         this.cameraScaleFactor = cameraScaleFactor;
@@ -42,10 +60,39 @@ public abstract class ICoopArea extends Area {
         if (super.begin(window, fileSystem)) {
             setBehavior(new ICoopBehavior(window, getTitle()));
             createArea();
+
+            // Il faut de nouveau assurer
+            // à l'aide de cette variable
+            // qu'il y a au minimum un
+            // appel à update()
+            hasBeenInitialised = false;
+
             return true;
         }
         return false;
     }
+
+
+    @Override
+    public void update(float deltaTime){
+
+        // IMPORTANT:
+        // Il faut etre sûr que l'aire a bien
+        // reçu au moins une seule update
+        // avant le dialogue de démarrage sinon rien
+        // ne s'affiche
+        if (!hasBeenInitialised) {
+            super.update(deltaTime);
+            hasBeenInitialised = true;
+        }
+
+        // Si l'aire est en pause on update pas
+        if (!this.isPaused()) {
+            super.update(deltaTime);
+        }
+
+    }
+
 
     /**
      * Getter for Icoop's scale factor
@@ -60,4 +107,4 @@ public abstract class ICoopArea extends Area {
         float distance = fire.getPosition().sub(water.getPosition()).getLength();
         cameraScaleFactor = (float) max(DEFAULT_SCALE_FACTOR, DEFAULT_SCALE_FACTOR * 0.75 + distance / 2);
     }
-}
+ }
