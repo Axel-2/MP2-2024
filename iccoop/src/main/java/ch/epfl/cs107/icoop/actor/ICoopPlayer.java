@@ -8,6 +8,7 @@ import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.ElementalItem;
+import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -222,7 +223,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
     /**
-     * Get this Interactor's current field of view cells coordinates
+     * Get this Interactor's curr
+     *
+     * ent field of view cells coordinates
      * @return (List of DiscreteCoordinates). May be empty but not null
      */
     @Override
@@ -335,12 +338,18 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
             if (isCellInteraction) {
                 // Si c'est une intéraction de contact on prend l'objet
-                explo.collect();
+                //explo.collect();
             } else {
                 // Si c'est à distance on active la bombre
                 if (keyboard.get(playerKeyBindings.useItem()).isPressed()) {
                     explo.activate();
                 }
+            }
+        }
+
+        public void interactWith(ICoopCollectable collectable, boolean isCellInteraction) {
+            if (isCellInteraction) {
+                collectable.collect();
             }
         }
 

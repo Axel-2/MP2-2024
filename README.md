@@ -9,4 +9,9 @@
 # les murs n'ont que des intéractions de contacts, donc j'ai retourné un array vide mais y'a l'option de copier coller celui Explosif.java qui est détaillé
 
 # Conception 1
-# Le dialogue welcome dans Init
+
+
+# QUESTION A POSER JEUDI
+
+DialogHandler a qui le passer attribut publique etc...
+bomb.collect() comment evite de repeter
