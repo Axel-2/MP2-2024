@@ -3,8 +3,8 @@ package ch.epfl.cs107.icoop.enums;
 public enum Damage {
 
     EXPLOSION(50),
-    FIRE(1),
-    WATER(1)
+    FIRE(20),
+    WATER(20)
         ;
 
     private final int damagePoints;

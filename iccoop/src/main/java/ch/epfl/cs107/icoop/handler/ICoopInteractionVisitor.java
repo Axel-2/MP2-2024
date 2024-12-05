@@ -2,6 +2,7 @@ package ch.epfl.cs107.icoop.handler;
 
 import ch.epfl.cs107.icoop.actor.Collectable.ElementalItem;
 import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
+import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
@@ -9,6 +10,7 @@ import ch.epfl.cs107.icoop.actor.Obstacle;
 import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopBehavior.ICoopCell;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.signal.logic.Or;
 
 /**
  * InteractionVisitor for the ICoop entities
@@ -47,7 +49,10 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
     }
 
     default void interactWith(ElementalItem elemItem, boolean isCellInteraction) {
-    }    
-    
+    }
+
+    default void interactWith(Orb elemItem, boolean isCellInteraction) {
+    }
+
 
 }

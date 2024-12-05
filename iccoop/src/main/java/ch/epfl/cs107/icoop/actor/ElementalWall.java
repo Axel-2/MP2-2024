@@ -20,28 +20,10 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
-//public class ElementalWall extends AreaEntity implements ElementalEntity, Interactor {
-//
-//    // Indique si le mur est actif
-//    private Logic isActive;
-//
-//    // Peut être détruit, (doit disparaître s'il l'est)
-//    private boolean isDestroyed;
-//
-//    // L'aire, l'orientation et la position sont passées via super()
-//
-//    // Image du mur
-//    private final Sprite sprite;
-//
-//    // Constructeur classique
-//    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, Logic isActive){
-//        super(owner, orientation, coordinates);
-//        this.isActive = isActive;
-//        this.sprite = new Sprite(spriteName, 1.f, 1.f, this);
-//        this.isDestroyed = false;
-//    }
-//
-//}
+public class ElementalWall extends AreaEntity implements ElementalEntity, Interactor {
+
+    // Indique si le mur est actif
+    private Logic isActive;
 
     // Peut être détruit, (doit disparaître s'il l'est)
     private boolean isDestroyed;
@@ -67,8 +49,8 @@ import ch.epfl.cs107.play.window.Canvas;
         this.spriteName = spriteName;
         this.sprite = new Sprite(spriteName, 1.f, 1.f, this);
         this.isDestroyed = false;
-        this.wallSprites = RPGSprite.extractSprites(spriteName, 
-        4, 1, 1, this , Vector.ZERO , 256, 256);
+        this.wallSprites = RPGSprite.extractSprites(spriteName,
+                4, 1, 1, this , Vector.ZERO , 256, 256);
     }
 
     /* Retourne l'élément de l'entité */
@@ -114,7 +96,7 @@ import ch.epfl.cs107.play.window.Canvas;
         return false;
     }
 
-        /**
+    /**
      * Do this Interactor interact with the given Interactable
      * The interaction is implemented on the interactor side !
      *
@@ -139,7 +121,7 @@ import ch.epfl.cs107.play.window.Canvas;
         return false;
     }
 
-        /**
+    /**
      * Call directly the interaction on this if accepted
      *
      * @param v (AreaInteractionVisitor) : the visitor
@@ -151,7 +133,7 @@ import ch.epfl.cs107.play.window.Canvas;
 
     }
 
-        /**
+    /**
      * Pas besoin de lui donner un corps spécifique étant donné qu'aucune intéraciton à distance n'intéresse cet objet
      * @return (List of DiscreteCoordinates). May be empty but not null
      */
@@ -180,9 +162,9 @@ import ch.epfl.cs107.play.window.Canvas;
 
             // Seulement si le mur est actif
             if (isActive.isOn()) {
-                player.loseHealth(element().toDamage());      
-                }
+                player.loseHealth(element().toDamage());
             }
+        }
 
     }
 }

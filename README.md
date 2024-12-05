@@ -15,3 +15,7 @@
 
 DialogHandler a qui le passer attribut publique etc...
 bomb.collect() comment evite de repeter
+
+
+# ATTENTION NE PAS OUBLIER DE METTRE 
+# LE acceptInbteraction dans les nouvelles classes

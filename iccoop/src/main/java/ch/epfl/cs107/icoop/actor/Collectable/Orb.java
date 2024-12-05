@@ -2,9 +2,12 @@ package ch.epfl.cs107.icoop.actor.Collectable;
 
 import ch.epfl.cs107.icoop.ElementalEntity;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Animation;
 import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.engine.actor.RPGSprite;
@@ -39,9 +42,12 @@ public class Orb extends ElementalItem {
 
     }
 
+    public Damage getDamage() {
+        return orbType.damage;
+    }
+
     @Override
     public void collectBy(ElementalEntity entity) {
-
         // On a besoin du dialogHandler ici
         DialogHandler dialogHandler = ((ICoopArea) getOwnerArea()).dialogHandler;
 
@@ -84,18 +90,25 @@ public class Orb extends ElementalItem {
     }
 
     public enum OrbType {
-        WATER(0, "orb_water_msg", Element.WATER),
-        FIRE(64, "orb_fire_msg", Element.FIRE),;
+        WATER(0, "orb_water_msg", Element.WATER, Damage.WATER),
+        FIRE(64, "orb_fire_msg", Element.FIRE, Damage.FIRE),;
 
         private final int spriteYDelta;
         private final String dialogName;
         private final Element elementType;
+        private final Damage damage;
 
-        OrbType(int spriteYDelta, String dialogName, Element elementType) {
+        OrbType(int spriteYDelta, String dialogName, Element elementType, Damage damage) {
             this.spriteYDelta = spriteYDelta;
             this.dialogName = dialogName;
             this.elementType = elementType;
+            this.damage = damage;
         }
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
     }
 
     @Override

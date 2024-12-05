@@ -2,6 +2,7 @@ package ch.epfl.cs107.icoop.actor;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.DelayQueue;
 
 import ch.epfl.cs107.icoop.ElementalEntity;
 import ch.epfl.cs107.icoop.KeyBindings;
@@ -9,6 +10,7 @@ import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.ElementalItem;
 import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
+import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -64,7 +66,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private boolean isInvulnerableTemporary;
     private Damage invulnerableDamageType;
     private int invulnerableDuration;
-
     private final static float IMMUNITY_TIME = 24;
     private float immunityTimer;
     private boolean isImmunityTime;
@@ -337,10 +338,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             Keyboard keyboard = getOwnerArea().getKeyboard();
 
             if (isCellInteraction) {
-                // Si c'est une intéraction de contact on prend l'objet
-                //explo.collect();
+                // Si c'est une intéraction de contact, on prend l'objet
+                interactWith(((ICoopCollectable) explo), true);
+
             } else {
-                // Si c'est à distance on active la bombre
+                // Si c'est à distance on active la bombe
                 if (keyboard.get(playerKeyBindings.useItem()).isPressed()) {
                     explo.activate();
                 }
@@ -359,6 +361,18 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             // Si on est en contact de l'item et du même élément, on collecte.
             if (isCellInteraction){
                 elemItem.collectBy(ICoopPlayer.this);
+            }
+        }
+
+        @Override
+        public void interactWith(Orb orb, boolean isCellInteraction) {
+            if (isCellInteraction){
+
+                // On collecte
+                interactWith(((ElementalItem) orb), true);
+
+                // on le rend résistant aux murs
+                invulnerableDamageType = orb.getDamage();
             }
         }
     }
