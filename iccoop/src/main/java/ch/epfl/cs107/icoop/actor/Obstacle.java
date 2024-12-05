@@ -69,8 +69,8 @@ public class Obstacle extends AreaEntity {
      */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
-        System.out.println("Intéraction acceptée par l'obstacle");
+        // JE CROIS QUE CETTE FONCTION SERT A RIEN CAR ELLE EST JAMAIS APPELEE
+        // MAIS FAUDRA VERIFIER UN JOUR
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
-
     }
 }

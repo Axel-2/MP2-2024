@@ -19,6 +19,14 @@
 - faut mettre a chaque fois chaque fonction dans le handler ???
 - Demander pour les bords du jeu c'est moche de fou
 - le Handler du Icoop devient enorme. Normale ? comment arranger ca.
-- 
+- Je pense qu'il faut créer plus souvent des Handlers directement dans la 
+- classe de l'actore que de directement tout gérer dans IcoopPlayer
+- les coeurs et orb réaparraisent quand on part et on revient dans la map ->
+- CAD EST-ce que faut tout gerer dans Icoop ?
 - # ATTENTION NE PAS OUBLIER DE METTRE 
 # LE acceptInbteraction dans les nouvelles classes
+
+# A DIRE A YOANN
+- spritename dans elementWALL
+-  mieux vaut utiliser directement l'enum et gerer 
+- a partir de l'enum la sprite a prendre mais l'inverse

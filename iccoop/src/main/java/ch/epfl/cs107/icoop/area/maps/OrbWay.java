@@ -6,6 +6,7 @@ import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
+import ch.epfl.cs107.icoop.actor.PressurePlate;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Element;
@@ -113,6 +114,12 @@ public final class OrbWay extends ICoopArea {
         for (DiscreteCoordinates heartPosition : heartPositions) {
             registerActor(new Heart(this, heartPosition));
         }
+
+        // ----------------- PRESSURE PLATES ------------------
+        registerActor(new PressurePlate(this, new DiscreteCoordinates(5, 7)));
+        registerActor(new PressurePlate(this, new DiscreteCoordinates(5, 10)));
+
+
 
     }
 
