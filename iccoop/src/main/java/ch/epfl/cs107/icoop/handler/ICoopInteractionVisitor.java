@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icoop.handler;
 
 import ch.epfl.cs107.icoop.actor.Collectable.ElementalItem;
+import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Door;
@@ -51,8 +52,12 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
     default void interactWith(ElementalItem elemItem, boolean isCellInteraction) {
     }
 
-    default void interactWith(Orb elemItem, boolean isCellInteraction) {
+    default void interactWith(Orb orb, boolean isCellInteraction) {
     }
+
+    default void interactWith(Heart heart, boolean isCellInteraction) {
+    }
+
 
 
 }

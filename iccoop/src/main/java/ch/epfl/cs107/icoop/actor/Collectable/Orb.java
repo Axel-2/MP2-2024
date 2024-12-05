@@ -28,8 +28,9 @@ public class Orb extends ElementalItem {
 
     private boolean dialogHasBeenStarted;
 
-    public Orb(Area area, Orientation orientation, DiscreteCoordinates position, OrbType orbType) {
-        super(area, orientation, position, orbType.elementType);
+    public Orb(Area area, DiscreteCoordinates position, OrbType orbType) {
+        // PAR DEFAUT l'orientation est DOWN, il n'y a pas de cas ou on veut une autre orientation ici
+        super(area, Orientation.DOWN, position, orbType.elementType);
         this.sprites = new Sprite[ANIMATION_FRAMES];
         this.orbType = orbType;
 

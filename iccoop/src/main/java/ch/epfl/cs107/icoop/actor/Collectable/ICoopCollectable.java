@@ -1,7 +1,9 @@
 package ch.epfl.cs107.icoop.actor.Collectable;
 
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.CollectableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
@@ -50,4 +52,5 @@ public abstract class ICoopCollectable extends CollectableAreaEntity {
     public boolean isViewInteractable() {
         return false;
     }
+
 }

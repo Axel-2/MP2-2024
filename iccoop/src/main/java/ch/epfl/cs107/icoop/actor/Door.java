@@ -106,7 +106,6 @@ public class Door extends AreaEntity {
      @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
-
     }
 
 

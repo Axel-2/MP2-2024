@@ -2,6 +2,7 @@ package ch.epfl.cs107.icoop.area.maps;
 
 import java.util.Arrays;
 
+import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
@@ -85,8 +86,8 @@ public final class OrbWay extends ICoopArea {
         // ----------------- ORBS ------------------
         DiscreteCoordinates fireOrbCoord = new DiscreteCoordinates(17, 12);
         DiscreteCoordinates waterOrbCoord = new DiscreteCoordinates(17, 6);
-        Orb fireOrb = new Orb(this, Orientation.DOWN, fireOrbCoord, Orb.OrbType.FIRE);
-        Orb waterOrb = new Orb(this, Orientation.DOWN, waterOrbCoord, Orb.OrbType.WATER);
+        Orb fireOrb = new Orb(this, fireOrbCoord, Orb.OrbType.FIRE);
+        Orb waterOrb = new Orb(this, waterOrbCoord, Orb.OrbType.WATER);
 
         registerActor(fireOrb);
         registerActor(waterOrb);
@@ -101,7 +102,17 @@ public final class OrbWay extends ICoopArea {
         registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 6), "fire_wall", Logic.TRUE));
         registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 12), "water_wall", Logic.TRUE));
         
+        // ----------------- COEURS ------------------
+        DiscreteCoordinates[] heartPositions = {
+                new DiscreteCoordinates(8, 4),
+                new DiscreteCoordinates(10, 6),
+                new DiscreteCoordinates(5, 13),
+                new DiscreteCoordinates(10, 11),
+        };
 
+        for (DiscreteCoordinates heartPosition : heartPositions) {
+            registerActor(new Heart(this, heartPosition));
+        }
 
     }
 

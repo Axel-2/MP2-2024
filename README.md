@@ -13,9 +13,12 @@
 
 # QUESTION A POSER JEUDI
 
-DialogHandler a qui le passer attribut publique etc...
-bomb.collect() comment evite de repeter
-
-
-# ATTENTION NE PAS OUBLIER DE METTRE 
+- DialogHandler a qui le passer attribut publique etc...
+- bomb.collect() comment evite de repeter
+- le acceptIbteraction on le remet partout ???
+- faut mettre a chaque fois chaque fonction dans le handler ???
+- Demander pour les bords du jeu c'est moche de fou
+- le Handler du Icoop devient enorme. Normale ? comment arranger ca.
+- 
+- # ATTENTION NE PAS OUBLIER DE METTRE 
 # LE acceptInbteraction dans les nouvelles classes
