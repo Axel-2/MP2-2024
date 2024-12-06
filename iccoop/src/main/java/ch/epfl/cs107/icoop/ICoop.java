@@ -72,8 +72,7 @@ public class ICoop extends AreaGame implements DialogHandler {
         // Le jeu commence dans l'aire spwan
 
         // ORBWAY POUR DEBUG
-        // FORCEBING = True car on est dans le init
-        ICoopArea area = (ICoopArea) setCurrentArea("OrbWay", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         createPlayers(area);
 
         // On centre la caméra sur le centre de masse
@@ -244,13 +243,7 @@ public class ICoop extends AreaGame implements DialogHandler {
             if (playerEl.isLeaving()) {
                 playerEl.setLeaving(false);
                 Door door = playerEl.getLeavingDoor();
-                Area areaToGo;
-                setCurrentArea(door.getDestinationArea(), false);
-
-                switch (door.getDestinationArea()) {
-                    case "OrbWay" -> areaToGo = orbWayArea;
-                    default -> areaToGo = spawnArea;
-                }
+                Area areaToGo = setCurrentArea(door.getDestinationArea(), false);
 
                 player1.leaveArea();
                 player2.leaveArea();

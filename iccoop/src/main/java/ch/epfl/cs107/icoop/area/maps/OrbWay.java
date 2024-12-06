@@ -22,7 +22,7 @@ import ch.epfl.cs107.play.signal.logic.Logic;
  */
 public final class OrbWay extends ICoopArea {
 
-    private  DialogHandler dialogHandler;
+    private final  DialogHandler dialogHandler;
 
     public OrbWay(DialogHandler dialogHandler) {
         this.dialogHandler = dialogHandler;
