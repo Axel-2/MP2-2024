@@ -44,7 +44,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     private void createAreas() {
         spawnArea = new Spawn(); // Peut-être mettre en ICoop Area plutot ? jsp
         orbWayArea = new OrbWay(this);
-        mazeArea = new Maze(this);
+        mazeArea = new Maze();
 
         addArea(spawnArea);
         addArea(orbWayArea);
@@ -72,7 +72,7 @@ public class ICoop extends AreaGame implements DialogHandler {
         // Le jeu commence dans l'aire spwan
 
         // ORBWAY POUR DEBUG
-        ICoopArea area = (ICoopArea) setCurrentArea("OrbWay", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         createPlayers(area);
 
         // On centre la caméra sur le centre de masse
@@ -243,13 +243,7 @@ public class ICoop extends AreaGame implements DialogHandler {
             if (playerEl.isLeaving()) {
                 playerEl.setLeaving(false);
                 Door door = playerEl.getLeavingDoor();
-                Area areaToGo;
-                setCurrentArea(door.getDestinationArea(), true);
-
-                switch (door.getDestinationArea()) {
-                    case "OrbWay" -> areaToGo = orbWayArea;
-                    default -> areaToGo = spawnArea;
-                }
+                Area areaToGo = setCurrentArea(door.getDestinationArea(), false);
 
                 player1.leaveArea();
                 player2.leaveArea();

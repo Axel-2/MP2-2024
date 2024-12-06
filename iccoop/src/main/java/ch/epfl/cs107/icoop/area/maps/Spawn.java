@@ -8,7 +8,6 @@ import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Element;
-import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -25,6 +24,7 @@ public final class Spawn extends ICoopArea {
     // le getter ci-dessous ne suffit pas
     static final SpawnPosition spawnPosition = new SpawnPosition(new DiscreteCoordinates(14, 6), new DiscreteCoordinates(13, 6));
 
+    @Override
     public  DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
             case WATER -> spawnPosition.getWaterSpawn();
@@ -49,9 +49,9 @@ public final class Spawn extends ICoopArea {
             );
 
         Door toMazeDoor = new Door(
-            "OrbWay",                                                                // Aire vers laquelle la porte emmène
+            "Maze",                                                                // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                           // Toujours open
-            Arrays.asList(Maze.spawnPosition.getWaterSpawn(), Maze.spawnPosition.getFireSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(Maze.spawnPosition.getWaterSpawn(), new DiscreteCoordinates(2,39)), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                 // Map actuelle, donc Spawn
             new DiscreteCoordinates(4,0),                                                   // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(5,0)                                                    // Autre cellule de la porte (l'autre "case" rouge)

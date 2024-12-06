@@ -7,7 +7,6 @@ import ch.epfl.cs107.icoop.actor.PressurePlate;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Element;
-import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -25,10 +24,6 @@ public final class Maze extends ICoopArea {
             // WATER
             new DiscreteCoordinates(3, 39)
     );
-
-    public Maze(DialogHandler dialogHandler) {
-        super(dialogHandler);
-    }
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
@@ -52,24 +47,29 @@ public final class Maze extends ICoopArea {
 
         // ----------------- ORBS ------------------
 
+        // ----------------- PRESSURE PLATES ------------------
+        PressurePlate firstPP = new PressurePlate(this, new DiscreteCoordinates(6, 33));
+        registerActor(firstPP);
+        PressurePlate secondPP = new PressurePlate(this, new DiscreteCoordinates(9, 25));
+        registerActor(secondPP);
         // ----------------- WALLS ------------------
         // Attention aux paramètres
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,35), "water_wall", null));
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,36), "water_wall", null));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,35), "water_wall"));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,36), "water_wall"));
 
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(6,35), "fire_wall", null));
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7,36), "fire_wall", null));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(6,35), "fire_wall", firstPP)); //pression 4
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7,36), "fire_wall", firstPP)); //pression4
 
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(2,34), "fire_wall", null));
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(3,34), "fire_wall", null));        
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(2,34), "fire_wall"));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(3,34), "fire_wall"));        
 
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(5,24), "water_wall", null));
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(6,24), "water_wall", null));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(5,24), "water_wall"));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(6,24), "water_wall"));
 
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,21), "fire_wall", null)); 
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,21), "fire_wall", secondPP)); //composant7
         
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,4), "water_wall", null));
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13,4), "water_wall", null));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,4), "water_wall"));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13,4), "water_wall"));
         // ----------------- COEURS ------------------
         DiscreteCoordinates[] heartPositions = {
                 new DiscreteCoordinates(15, 18),
@@ -83,9 +83,7 @@ public final class Maze extends ICoopArea {
         }
         // ----------------- Explosifs ---------------
         registerActor(new Explosif(this, Orientation.DOWN, new DiscreteCoordinates(6, 25), 50));
-        // ----------------- PRESSURE PLATES ------------------
-        registerActor(new PressurePlate(this, new DiscreteCoordinates(6, 33)));
-        registerActor(new PressurePlate(this, new DiscreteCoordinates(9, 25)));
+
 
     }
 
