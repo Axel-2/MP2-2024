@@ -40,7 +40,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     public boolean isOff() {
         return !isOn();
     }
-    
+
     // Peut être détruit, (doit disparaître s'il l'est)
     private boolean isDestroyed;
 
@@ -108,8 +108,6 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         if (isOn()){
             wallSprites[getOrientation().ordinal()].draw(canvas);
             // super.draw(canvas); pas sûr de cette ligne je commente pour l'instant
-        } else {
-            System.out.println(isOn());
         }
     }
 
