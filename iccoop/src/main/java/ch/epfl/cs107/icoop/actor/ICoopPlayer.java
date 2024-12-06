@@ -339,19 +339,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
             if (isCellInteraction) {
                 // Si c'est une intéraction de contact, on prend l'objet
-                interactWith(((ICoopCollectable) explo), true);
+                explo.collect();
 
             } else {
                 // Si c'est à distance on active la bombe
                 if (keyboard.get(playerKeyBindings.useItem()).isPressed()) {
                     explo.activate();
                 }
-            }
-        }
-
-        public void interactWith(ICoopCollectable collectable, boolean isCellInteraction) {
-            if (isCellInteraction) {
-                collectable.collect();
             }
         }
 
@@ -384,10 +378,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 // Un point seulement dans la doc mais sinon on voit rien
                 // A CHANGER PLUS TARD
                 health.increase(10);
+                heart.collect();
             }
 
-            // On collecte
-            interactWith(((ICoopCollectable) heart), true);
+
         }
     }
 }

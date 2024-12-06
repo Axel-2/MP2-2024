@@ -22,8 +22,10 @@ import ch.epfl.cs107.play.signal.logic.Logic;
  */
 public final class OrbWay extends ICoopArea {
 
+    private  DialogHandler dialogHandler;
+
     public OrbWay(DialogHandler dialogHandler) {
-        super(dialogHandler);
+        this.dialogHandler = dialogHandler;
     }
 
     // On a besoin d'une variable static car des fois,
@@ -87,22 +89,31 @@ public final class OrbWay extends ICoopArea {
         // ----------------- ORBS ------------------
         DiscreteCoordinates fireOrbCoord = new DiscreteCoordinates(17, 12);
         DiscreteCoordinates waterOrbCoord = new DiscreteCoordinates(17, 6);
-        Orb fireOrb = new Orb(this, fireOrbCoord, Orb.OrbType.FIRE);
-        Orb waterOrb = new Orb(this, waterOrbCoord, Orb.OrbType.WATER);
+        Orb fireOrb = new Orb(this, fireOrbCoord, Orb.OrbType.FIRE, dialogHandler);
+        Orb waterOrb = new Orb(this, waterOrbCoord, Orb.OrbType.WATER, dialogHandler);
 
         registerActor(fireOrb);
         registerActor(waterOrb);
 
+
+        // ----------------- PRESSURE PLATES ------------------
+        PressurePlate plate1 = new PressurePlate(this, new DiscreteCoordinates(5, 7));
+        PressurePlate plate2 = new PressurePlate(this, new DiscreteCoordinates(5, 10));
+        registerActor(plate1);
+        registerActor(plate2);
+
+
+
         // ----------------- WALLS ------------------
         for (int i = 0; i < 5; i++) {
-            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 10+i), "fire_wall", Logic.TRUE));
-            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 4+i), "water_wall", Logic.TRUE));
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 10+i), "fire_wall", plate1));
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 4+i), "water_wall", plate2));
         }
 
         // Deux murs de tests
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 6), "fire_wall", Logic.TRUE));
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 12), "water_wall", Logic.TRUE));
-        
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 6), "fire_wall"));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 12), "water_wall"));
+
         // ----------------- COEURS ------------------
         DiscreteCoordinates[] heartPositions = {
                 new DiscreteCoordinates(8, 4),
@@ -114,12 +125,6 @@ public final class OrbWay extends ICoopArea {
         for (DiscreteCoordinates heartPosition : heartPositions) {
             registerActor(new Heart(this, heartPosition));
         }
-
-        // ----------------- PRESSURE PLATES ------------------
-        registerActor(new PressurePlate(this, new DiscreteCoordinates(5, 7)));
-        registerActor(new PressurePlate(this, new DiscreteCoordinates(5, 10)));
-
-
 
     }
 
