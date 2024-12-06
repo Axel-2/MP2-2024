@@ -5,10 +5,9 @@ import java.util.Arrays;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.Rock;
-import ch.epfl.cs107.icoop.area.SpawnPosition;
-import ch.epfl.cs107.icoop.enums.Damage;
-import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.area.SpawnPosition;
+import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
@@ -45,7 +44,7 @@ public final class Spawn extends ICoopArea {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
-        Door spawnDoor = new Door(
+        Door toOrbWayDoor = new Door(
             "OrbWay",                                                                // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                           // Toujours open
             Arrays.asList(OrbWay.spawnPosition.getWaterSpawn(), OrbWay.spawnPosition.getFireSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
@@ -54,7 +53,18 @@ public final class Spawn extends ICoopArea {
             new DiscreteCoordinates(19,16)                                                    // Autre cellule de la porte (l'autre "case" rouge)
             );
 
-        registerActor(spawnDoor);
+        Door toMazeDoor = new Door(
+            "OrbWay",                                                                // Aire vers laquelle la porte emmène
+            Logic.TRUE,                                                                           // Toujours open
+            Arrays.asList(Maze.spawnPosition.getWaterSpawn(), Maze.spawnPosition.getFireSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            this,                                                                                 // Map actuelle, donc Spawn
+            new DiscreteCoordinates(4,0),                                                   // Cellule principale de la porte (une des deux "cases" rouges)
+            new DiscreteCoordinates(5,0)                                                    // Autre cellule de la porte (l'autre "case" rouge)
+            );            
+        
+
+        registerActor(toOrbWayDoor);
+        registerActor(toMazeDoor);
 
 
         // Création du rock et de l'explo

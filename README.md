@@ -1,5 +1,8 @@
 # MP2-2024
 
+# Conception 2 : 
+# element dans mur
+
 # Remarque 1 
 # A chaque fois je recrée un keyboard (dans l'interaction du icoop avec l'explosif par exemple), pas sûr que ce soit the way to go
 
@@ -9,6 +12,7 @@
 # les murs n'ont que des intéractions de contacts, donc j'ai retourné un array vide mais y'a l'option de copier coller celui Explosif.java qui est détaillé
 
 # Conception 1
+# Dialog Handler dans spawn je pense ? ou init
 
 
 # QUESTION A POSER JEUDI
@@ -25,8 +29,3 @@
 - CAD EST-ce que faut tout gerer dans Icoop ?
 - # ATTENTION NE PAS OUBLIER DE METTRE 
 # LE acceptInbteraction dans les nouvelles classes
-
-# A DIRE A YOANN
-- spritename dans elementWALL
--  mieux vaut utiliser directement l'enum et gerer 
-- a partir de l'enum la sprite a prendre mais l'inverse

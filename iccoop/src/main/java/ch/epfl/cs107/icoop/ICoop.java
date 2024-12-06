@@ -5,6 +5,7 @@ import ch.epfl.cs107.icoop.actor.CenterOfMass;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.area.maps.Maze;
 import ch.epfl.cs107.icoop.area.maps.OrbWay;
 import ch.epfl.cs107.icoop.area.maps.Spawn;
 import ch.epfl.cs107.icoop.enums.Element;
@@ -21,13 +22,13 @@ import ch.epfl.cs107.play.window.Window;
 
 public class ICoop extends AreaGame implements DialogHandler {
 
-
     private ICoopPlayer player1;
     private ICoopPlayer player2;
     private ICoopPlayer[] players;
 
     private Area spawnArea;
     private Area orbWayArea;
+    private Area mazeArea;
 
     private Dialog activeDialog = null;
 
@@ -43,9 +44,11 @@ public class ICoop extends AreaGame implements DialogHandler {
     private void createAreas() {
         spawnArea = new Spawn(this); // Peut-être mettre en ICoop Area plutot ? jsp
         orbWayArea = new OrbWay(this);
+        mazeArea = new Maze(this);
 
         addArea(spawnArea);
         addArea(orbWayArea);
+        addArea(mazeArea);
     }
 
     /**
