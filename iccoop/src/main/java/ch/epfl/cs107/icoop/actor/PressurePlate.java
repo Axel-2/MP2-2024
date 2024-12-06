@@ -21,8 +21,10 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
     private Sprite sprite;
 
     private boolean isPressed;
+    private ICoopPlayer currentPlayer;
+    private ElementalWall currentWall;
 
-    private final WallInteractionHandler interactionHandler = new WallInteractionHandler();
+    private final PressurePlateInteractionHandler interactionHandler = new PressurePlateInteractionHandler();
 
 
     public PressurePlate(Area area, DiscreteCoordinates position) {
@@ -31,6 +33,11 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
 
         // On est pas guidé sur les paramètres donc j'ai mis 1f comme d'hab mais jsp
         this.sprite = new Sprite(spriteName, 1f, 1f, this);
+
+        // Par défaut il n y a pas de player sur la plaque de pression.
+        this.currentPlayer = null;
+
+        this.currentWall = null;
     }
 
     @Override
@@ -104,7 +111,13 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
 
     @Override
     public void update(float deltaTime) {
-        isPressed = false;
+
+        // Si le player en memoire n'est plus sur la position ou si il est null on remet le isPressed sur false
+        if (currentPlayer == null) {
+            isPressed = false;
+        } else if (!currentPlayer.getCurrentCells().getFirst().equals(this.getCurrentCells())) {
+            isPressed = false;
+        }
     }
 
     @Override
@@ -112,17 +125,15 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
         sprite.draw(canvas);
     }
 
-    // JE ME POSE DES QUESTIONS SI C?EST APPROPRIE DE TRAITER
-    // LA PLAQUE COMME UN INTERACTOR
+
     // ----- Handler -----
-    private final class WallInteractionHandler implements ICoopInteractionVisitor {
+    private final class PressurePlateInteractionHandler implements ICoopInteractionVisitor {
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
             // Seulement si le mur est actif
+            PressurePlate.this.currentPlayer = player;
             isPressed = true;
-            System.out.println("C'est pressé askip");
         }
-
-    }
+        }
 }

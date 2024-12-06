@@ -27,11 +27,6 @@ public abstract class ICoopArea extends Area {
     // Ça ne pose pas de problème de mettre cette
     // objet de façon publique car l'objet en lui même
     // n'a que des getter et des setter publiques
-    public DialogHandler dialogHandler;
-
-    public ICoopArea(DialogHandler dialogHandler) {
-        this.dialogHandler = dialogHandler;
-    }
 
 
     public void setCameraScaleFactor(float cameraScaleFactor) {

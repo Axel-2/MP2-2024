@@ -17,13 +17,29 @@ import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.Vector;
+import ch.epfl.cs107.play.signal.Signal;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
-public class ElementalWall extends AreaEntity implements ElementalEntity, Interactor {
+public class ElementalWall extends AreaEntity implements ElementalEntity, Interactor, Logic {
 
-    // Indique si le mur est actif
-    private Logic isActive;
+    private boolean isActive;
+    private boolean isAlwaysActive;
+
+    @Override
+    public boolean isOn() {
+        if (isAlwaysActive) {
+            return true;
+        } else {
+            // Si la plaque est off le mur est activée
+            return pressurePlate.isOff();
+        }
+    }
+
+    @Override
+    public boolean isOff() {
+        return !isOn();
+    }
 
     // Peut être détruit, (doit disparaître s'il l'est)
     private boolean isDestroyed;
@@ -42,15 +58,26 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     // TEST
     private final Sprite[] wallSprites;
 
-    // Constructeur classique
-    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, Logic isActive){
+    private PressurePlate pressurePlate;
+
+    // Constructeur classique toujours actif
+    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName){
         super(owner, orientation, coordinates);
-        this.isActive = isActive;
+        this.isAlwaysActive = true;
+        this.isActive = true;
         this.spriteName = spriteName;
         this.sprite = new Sprite(spriteName, 1.f, 1.f, this);
         this.isDestroyed = false;
         this.wallSprites = RPGSprite.extractSprites(spriteName,
                 4, 1, 1, this , Vector.ZERO , 256, 256);
+        this.pressurePlate = null;
+    }
+
+    // Constructeur avec plaque de pression
+    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, PressurePlate pressurePlate) {
+        this(owner, orientation, coordinates, spriteName);
+        this.pressurePlate = pressurePlate;
+        this.isAlwaysActive = false;
     }
 
     /* Retourne l'élément de l'entité */
@@ -78,11 +105,12 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     @Override
     public void draw(Canvas canvas){
 
-        if (isActive.isOn()){
+        if (this.isOn()){
             wallSprites[getOrientation().ordinal()].draw(canvas);
             // super.draw(canvas); pas sûr de cette ligne je commente pour l'instant
         }
     }
+
 
     /**@return (boolean): true if this is able to have cell interactions*/
     @Override
@@ -151,6 +179,10 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     // ----- Handler -----
     private final class WallInteractionHandler implements ICoopInteractionVisitor {
 
@@ -161,7 +193,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
 
             // Seulement si le mur est actif
-            if (isActive.isOn()) {
+            if (ElementalWall.this.isOn()) {
                 player.loseHealth(element().toDamage());
             }
         }

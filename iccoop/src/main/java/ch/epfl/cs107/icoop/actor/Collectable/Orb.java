@@ -27,12 +27,14 @@ public class Orb extends ElementalItem {
     final Sprite[] sprites;
 
     private boolean dialogHasBeenStarted;
+    private DialogHandler dialogHandler;
 
-    public Orb(Area area, DiscreteCoordinates position, OrbType orbType) {
+    public Orb(Area area, DiscreteCoordinates position, OrbType orbType, DialogHandler dialogHandler) {
         // PAR DEFAUT l'orientation est DOWN, il n'y a pas de cas ou on veut une autre orientation ici
         super(area, Orientation.DOWN, position, orbType.elementType);
         this.sprites = new Sprite[ANIMATION_FRAMES];
         this.orbType = orbType;
+        this.dialogHandler = dialogHandler;
 
         for (int i = 0; i < ANIMATION_FRAMES; i++) {
             sprites[i] = new RPGSprite("icoop/orb", 1, 1, this ,
@@ -49,9 +51,6 @@ public class Orb extends ElementalItem {
 
     @Override
     public void collectBy(ElementalEntity entity) {
-        // On a besoin du dialogHandler ici
-        DialogHandler dialogHandler = ((ICoopArea) getOwnerArea()).dialogHandler;
-
         // ATTENTION
         // Les variables dialogHasBeenStarted et isDialogActiv ne se comportent pas de la
         // même façon. dialogHasBeenStarted est un attribut de cette classe elle-même qui nous
