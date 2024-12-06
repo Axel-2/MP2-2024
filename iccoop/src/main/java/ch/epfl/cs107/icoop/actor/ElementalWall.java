@@ -40,14 +40,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     public boolean isOff() {
         return !isOn();
     }
-
-    @Override
-    public void update(float deltaTime) {
-
-        System.out.println(isOn());
-        super.update(deltaTime);
-    }
-
+    
     // Peut être détruit, (doit disparaître s'il l'est)
     private boolean isDestroyed;
 
