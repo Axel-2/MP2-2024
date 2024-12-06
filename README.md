@@ -15,6 +15,9 @@
 # Dialog Handler dans spawn je pense ? ou init
 
 
+# TO DO
+spritename -> enum
+
 # QUESTION A POSER JEUDI
 
 - DialogHandler a qui le passer attribut publique etc...
@@ -30,13 +33,15 @@
 - REPONSE: 
 - 
 - Demander pour les bords du jeu c'est moche de fou
-- REPONSE: 
+- REPONSE: ON S'ENFOUT
 - 
 - le Handler du Icoop devient enorme. Normale ? comment arranger ca.
 - Je pense qu'il faut créer plus souvent des Handlers directement dans la 
 - classe de l'actore que de directement tout gérer dans IcoopPlayer
+
 - les coeurs et orb réaparraisent quand on part et on revient dans la map ->
-- CAD EST-ce que faut tout gerer dans Icoop ?
-- 
+- REPONSE forebegin en false
+
+
 - # ATTENTION NE PAS OUBLIER DE METTRE 
 # LE acceptInbteraction dans les nouvelles classes

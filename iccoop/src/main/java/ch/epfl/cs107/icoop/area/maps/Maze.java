@@ -26,9 +26,7 @@ public final class Maze extends ICoopArea {
             new DiscreteCoordinates(3, 39)
     );
 
-    public Maze(DialogHandler dialogHandler) {
-        super(dialogHandler);
-    }
+
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {

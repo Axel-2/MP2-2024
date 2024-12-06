@@ -115,7 +115,7 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
         // Si le player en memoire n'est plus sur la position ou si il est null on remet le isPressed sur false
         if (currentPlayer == null) {
             isPressed = false;
-        } else if (!currentPlayer.getCurrentCells().getFirst().equals(this.getCurrentCells())) {
+        } else if (!currentPlayer.getCurrentCells().equals(this.getCurrentCells())) {
             isPressed = false;
         }
     }

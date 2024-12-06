@@ -44,7 +44,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     private void createAreas() {
         spawnArea = new Spawn(); // Peut-être mettre en ICoop Area plutot ? jsp
         orbWayArea = new OrbWay(this);
-        mazeArea = new Maze(this);
+        mazeArea = new Maze();
 
         addArea(spawnArea);
         addArea(orbWayArea);
@@ -72,6 +72,7 @@ public class ICoop extends AreaGame implements DialogHandler {
         // Le jeu commence dans l'aire spwan
 
         // ORBWAY POUR DEBUG
+        // FORCEBING = True car on est dans le init
         ICoopArea area = (ICoopArea) setCurrentArea("OrbWay", true);
         createPlayers(area);
 
@@ -87,11 +88,11 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Création du joueur 1
         DiscreteCoordinates coords = area.getPlayerSpawnPosition(Element.WATER);
-        player1 =  new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player", Element.WATER);
+        player1 =  new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player", Element.FIRE);
 
         // Création du joueur 2
         coords =  area.getPlayerSpawnPosition(Element.FIRE);
-        player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player2", Element.FIRE);
+        player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player2", Element.WATER);
 
 
         // Register des acteurs
@@ -244,7 +245,7 @@ public class ICoop extends AreaGame implements DialogHandler {
                 playerEl.setLeaving(false);
                 Door door = playerEl.getLeavingDoor();
                 Area areaToGo;
-                setCurrentArea(door.getDestinationArea(), true);
+                setCurrentArea(door.getDestinationArea(), false);
 
                 switch (door.getDestinationArea()) {
                     case "OrbWay" -> areaToGo = orbWayArea;

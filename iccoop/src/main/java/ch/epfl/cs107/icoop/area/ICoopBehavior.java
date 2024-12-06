@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icoop.area;
 
 import ch.epfl.cs107.icoop.ElementalEntity;
+import ch.epfl.cs107.icoop.actor.ElementalWall;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.AreaBehavior;
@@ -86,14 +87,14 @@ public final class ICoopBehavior extends AreaBehavior {
         }
 
         @Override
-        protected boolean canEnter(Interactable entity) {
+        protected boolean canEnter(Interactable player) {
 
             boolean authorisation = true;
 
             // Trois checks pour savoir si on peut entrer dans la cellules :
             // 1 : elle doit être Walkable
             // 2 : aucun des entities présentes ne doit prendre la place de la cellule (takeCellSpace)
-            // 3 : si l'entity a un élément, toutes les elemental entities présentes doivent avoir le même type
+            // 3 : si l'player a un élément, toutes les elemental entities présentes doivent avoir le même type
 
             // 1: La cellule doit être Walkable
             if (!type.isWalkable){authorisation = false;}
@@ -106,11 +107,13 @@ public final class ICoopBehavior extends AreaBehavior {
             }
 
             // 3 : L'entité entrante, si elle a un élément, doit avoir le même que tous ceux des entités présentes
-            if (entity instanceof ElementalEntity){
+            if (player instanceof ElementalEntity){
                 for (Interactable ent : this.entities){
-                    if (ent instanceof ElementalEntity){
-                        if (!((ElementalEntity) ent).element().equals(((ElementalEntity) entity).element())){
-                            authorisation = false;
+                    if (ent instanceof ElementalWall){
+                        if (!((ElementalWall) ent).element().equals(((ElementalEntity) player).element())) {
+                            if (((ElementalWall) ent).isOn()) {
+                                return false;
+                            }
                         }
                     }
                 }
