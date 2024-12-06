@@ -27,8 +27,9 @@ public final class Spawn extends ICoopArea {
     @Override
     public  DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
-            case WATER -> spawnPosition.getWaterSpawn();
             case FIRE -> spawnPosition.getFireSpawn();
+            case WATER -> spawnPosition.getWaterSpawn();
+        
         };
 
         return coordinates;
@@ -42,7 +43,7 @@ public final class Spawn extends ICoopArea {
         Door toOrbWayDoor = new Door(
             "OrbWay",                                                                // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                           // Toujours open
-            Arrays.asList(OrbWay.spawnPosition.getWaterSpawn(), OrbWay.spawnPosition.getFireSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(OrbWay.spawnPosition.getFireSpawn(), OrbWay.spawnPosition.getWaterSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                 // Map actuelle, donc Spawn
             new DiscreteCoordinates(19,15),                                                   // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(19,16)                                                    // Autre cellule de la porte (l'autre "case" rouge)
@@ -51,7 +52,7 @@ public final class Spawn extends ICoopArea {
         Door toMazeDoor = new Door(
             "Maze",                                                                // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                           // Toujours open
-            Arrays.asList(Maze.spawnPosition.getWaterSpawn(), new DiscreteCoordinates(2,39)), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(Maze.spawnPosition.getFireSpawn(), Maze.spawnPosition.getWaterSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                 // Map actuelle, donc Spawn
             new DiscreteCoordinates(4,0),                                                   // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(5,0)                                                    // Autre cellule de la porte (l'autre "case" rouge)
