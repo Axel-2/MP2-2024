@@ -6,5 +6,5 @@ import ch.epfl.cs107.icoop.enums.Element;
 public interface ElementalEntity {
 
     /* Retourne l'élément de l'entité */
-    Element element();
+    Element getElement();
 }

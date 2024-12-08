@@ -17,7 +17,6 @@ import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.Vector;
-import ch.epfl.cs107.play.signal.Signal;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
@@ -46,6 +45,9 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     // L'aire, l'orientation et la position sont passées via super()
 
+    // Element du mur
+    private Element element;
+
     // Image du mur
     private Sprite sprite;
 
@@ -61,11 +63,16 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     private PressurePlate pressurePlate;
 
     // Constructeur classique toujours actif
-    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName){
+    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element elem){
         super(owner, orientation, coordinates);
         this.isAlwaysActive = true;
         this.isActive = true;
-        this.spriteName = spriteName;
+        this.element = elem;
+        if (elem.equals(Element.FIRE)){
+            spriteName = "fire_wall";
+        }else{
+            spriteName = "water_wall";
+        }
         this.sprite = new Sprite(spriteName, 1.f, 1.f, this);
         this.isDestroyed = false;
         this.wallSprites = RPGSprite.extractSprites(spriteName,
@@ -74,21 +81,16 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     }
 
     // Constructeur avec plaque de pression
-    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, PressurePlate pressurePlate) {
-        this(owner, orientation, coordinates, spriteName);
+    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element elem, PressurePlate pressurePlate) {
+        this(owner, orientation, coordinates, elem);
         this.pressurePlate = pressurePlate;
         this.isAlwaysActive = false;
     }
 
     /* Retourne l'élément de l'entité */
     @Override
-    public Element element(){
-        // Le pdf ne demande pas de saison l'élément dans le constructeur. je pense qu'il faut donc se baser sur le spriteName mais c'est pas très flexible
-        if (this.spriteName.equals("fire_wall")){
-            return Element.FIRE;
-        }else{
-            return Element.WATER;
-        }
+    public Element getElement(){
+        return element;
     }
 
     /**
@@ -194,7 +196,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
             // Seulement si le mur est actif
             if (ElementalWall.this.isOn()) {
-                player.loseHealth(element().toDamage());
+                player.loseHealth(getElement().toDamage());
             }
         }
 

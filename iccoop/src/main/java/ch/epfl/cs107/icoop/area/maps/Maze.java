@@ -56,22 +56,22 @@ public final class Maze extends ICoopArea {
         registerActor(secondPP);
         // ----------------- WALLS ------------------
         // Attention aux paramètres
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,35), "water_wall"));
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,36), "water_wall"));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,35), Element.WATER));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,36), Element.WATER));
 
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(6,35), "fire_wall", firstPP)); //pression 4
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7,36), "fire_wall", firstPP)); //pression4
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(6,35), Element.FIRE, firstPP)); //pression 4
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7,36), Element.FIRE, firstPP)); //pression4
 
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(2,34), "fire_wall"));
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(3,34), "fire_wall"));        
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(2,34), Element.FIRE));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(3,34), Element.FIRE));        
 
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(5,24), "water_wall"));
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(6,24), "water_wall"));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(5,24), Element.WATER));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(6,24), Element.WATER));
 
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,21), "fire_wall", secondPP)); //composant7
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,21), Element.FIRE, secondPP)); //composant7
         
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,4), "water_wall"));
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13,4), "water_wall"));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,4), Element.WATER));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13,4), Element.WATER));
         // ----------------- COEURS ------------------
         DiscreteCoordinates[] heartPositions = {
                 new DiscreteCoordinates(15, 18),

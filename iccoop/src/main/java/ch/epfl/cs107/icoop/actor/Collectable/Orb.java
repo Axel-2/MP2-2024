@@ -1,7 +1,6 @@
 package ch.epfl.cs107.icoop.actor.Collectable;
 
 import ch.epfl.cs107.icoop.ElementalEntity;
-import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
@@ -22,18 +21,26 @@ public class Orb extends ElementalItem {
     final static int  ANIMATION_DURATION = 24;
     final static int ANIMATION_FRAMES = 6;
 
+    final private Element element;
     final private OrbType orbType;
     final private Animation animation;
     final Sprite[] sprites;
 
+
+
     private boolean dialogHasBeenStarted;
     private DialogHandler dialogHandler;
 
-    public Orb(Area area, DiscreteCoordinates position, OrbType orbType, DialogHandler dialogHandler) {
+    public Orb(Area area, DiscreteCoordinates position, Element elem, DialogHandler dialogHandler) {
         // PAR DEFAUT l'orientation est DOWN, il n'y a pas de cas ou on veut une autre orientation ici
-        super(area, Orientation.DOWN, position, orbType.elementType);
+        super(area, Orientation.DOWN, position, elem);
         this.sprites = new Sprite[ANIMATION_FRAMES];
-        this.orbType = orbType;
+        this.element = elem;
+        if (elem.equals(Element.FIRE)){
+            this.orbType = OrbType.FIRE;
+        }else{
+            this.orbType = OrbType.WATER;
+        }
         this.dialogHandler = dialogHandler;
 
         for (int i = 0; i < ANIMATION_FRAMES; i++) {
@@ -90,18 +97,16 @@ public class Orb extends ElementalItem {
     }
 
     public enum OrbType {
-        WATER(0, "orb_water_msg", Element.WATER, Damage.WATER),
-        FIRE(64, "orb_fire_msg", Element.FIRE, Damage.FIRE),;
+        WATER(0, "orb_water_msg", Damage.WATER),
+        FIRE(64, "orb_fire_msg", Damage.FIRE),;
 
         private final int spriteYDelta;
         private final String dialogName;
-        private final Element elementType;
         private final Damage damage;
 
-        OrbType(int spriteYDelta, String dialogName, Element elementType, Damage damage) {
+        OrbType(int spriteYDelta, String dialogName, Damage damage) {
             this.spriteYDelta = spriteYDelta;
             this.dialogName = dialogName;
-            this.elementType = elementType;
             this.damage = damage;
         }
     }
@@ -112,7 +117,7 @@ public class Orb extends ElementalItem {
     }
 
     @Override
-    public Element element() {
+    public Element getElement() {
         return elementalType;
     }
 }

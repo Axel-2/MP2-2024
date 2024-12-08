@@ -209,7 +209,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      * Retourne l'élément du ICoopPlayer (Feu ou eau)
      */
     @Override
-    public Element element() {
+    public Element getElement() {
         return this.element;
     }
 
@@ -258,10 +258,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         // Il faut faire de cette manière pour utiliser le handler
         other.acceptInteraction(interactionHandler, isCellInteraction);
 
-    }
-
-    public Element getElement() {
-        return element;
     }
 
     // PARTIe QUI CONCERNE LES PORTES ET TRANSFERTS

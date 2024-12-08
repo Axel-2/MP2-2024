@@ -109,7 +109,7 @@ public final class ICoopBehavior extends AreaBehavior {
             if (player instanceof ElementalEntity){
                 for (Interactable ent : this.entities){
                     if (ent instanceof ElementalWall){
-                        if (!((ElementalWall) ent).element().equals(((ElementalEntity) player).element())) {
+                        if (!((ElementalWall) ent).getElement().equals(((ElementalEntity) player).getElement())) {
                             if (((ElementalWall) ent).isOn()) {
                                 return false;
                             }
