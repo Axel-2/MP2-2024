@@ -41,10 +41,12 @@ public abstract class ElementalItem extends ICoopCollectable implements Logic, E
      * Avant d'être collecté, check si son collecteur est du même élément
      */
     public void collectBy(ElementalEntity entity){
-        if (entity.element().equals(this.element())){
+        if (entity.getElement().equals(this.getElement())){
             collect();
         }
     }
+    
+    
 
 }
 

@@ -1,14 +1,21 @@
 # MP2-2024
 
-# Conception 2 : 
-# element dans mur
-
 # Conception 1
-# Dialog Handler dans spawn je pense ? ou init
+# welcome à la création
 
+# Conception 2 
+# Element dans mur
 
-# TO DO
-spritename -> enum
+# Bug 1
+# Spam des portes qui marche pas
+
+# Remarque 1
+s. Il vous est demandé d’implémenter le concept ICoopItem, une spécialisation
+de InventoryItem modélisant les articles d’inventaire spécifiques au jeu ICoop. Vous pouvez
+placer ce concept dans le répertoire areagame.handler du votre jeu. 
+# Je dois coder dans gameengine selon la citation du dessus. bizarre
+
+# Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
 
 # QUESTION A POSER JEUDI
 

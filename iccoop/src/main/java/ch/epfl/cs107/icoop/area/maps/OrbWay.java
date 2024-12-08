@@ -53,14 +53,14 @@ public final class OrbWay extends ICoopArea {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
-        DiscreteCoordinates fireSpawnReturnCoord = new DiscreteCoordinates(18, 16);
+        DiscreteCoordinates fireSpawnReturnCoords = new DiscreteCoordinates(18, 16);
         DiscreteCoordinates waterSpawnReturnCoords = new DiscreteCoordinates(18, 15);
 
         // ----------------- DOORS ------------------
         Door orbWayDoor1 = new Door(
             "Spawn",                                                                    // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                              // Toujours open
-            Arrays.asList(waterSpawnReturnCoords, fireSpawnReturnCoord), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(fireSpawnReturnCoords, waterSpawnReturnCoords), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                    // Map actuelle, donc Spawn
             new DiscreteCoordinates(0,14),                                                       // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(0,13),
@@ -74,7 +74,7 @@ public final class OrbWay extends ICoopArea {
         Door orbWayDoor2 = new Door(
             "Spawn",                                                                    // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                              // Toujours open
-            Arrays.asList(waterSpawnReturnCoords, fireSpawnReturnCoord), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(fireSpawnReturnCoords, waterSpawnReturnCoords), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                    // Map actuelle, donc Spawn
             new DiscreteCoordinates(0,8),                                                        // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(0,7),
@@ -89,8 +89,8 @@ public final class OrbWay extends ICoopArea {
         // ----------------- ORBS ------------------
         DiscreteCoordinates fireOrbCoord = new DiscreteCoordinates(17, 12);
         DiscreteCoordinates waterOrbCoord = new DiscreteCoordinates(17, 6);
-        Orb fireOrb = new Orb(this, fireOrbCoord, Orb.OrbType.FIRE, dialogHandler);
-        Orb waterOrb = new Orb(this, waterOrbCoord, Orb.OrbType.WATER, dialogHandler);
+        Orb fireOrb = new Orb(this, fireOrbCoord, Element.FIRE, dialogHandler);
+        Orb waterOrb = new Orb(this, waterOrbCoord, Element.WATER, dialogHandler);
 
         registerActor(fireOrb);
         registerActor(waterOrb);
@@ -106,13 +106,13 @@ public final class OrbWay extends ICoopArea {
 
         // ----------------- WALLS ------------------
         for (int i = 0; i < 5; i++) {
-            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 10+i), "fire_wall", plate1));
-            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 4+i), "water_wall", plate2));
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 10+i), Element.FIRE, plate1));
+            registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(12, 4+i), Element.WATER, plate2));
         }
 
         // Deux murs de tests
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 6), "fire_wall"));
-        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 12), "water_wall"));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 6), Element.FIRE));
+        registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(7, 12), Element.WATER));
 
         // ----------------- COEURS ------------------
         DiscreteCoordinates[] heartPositions = {

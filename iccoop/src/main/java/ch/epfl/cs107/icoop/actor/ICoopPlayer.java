@@ -2,7 +2,6 @@ package ch.epfl.cs107.icoop.actor;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.DelayQueue;
 
 import ch.epfl.cs107.icoop.ElementalEntity;
 import ch.epfl.cs107.icoop.KeyBindings;
@@ -10,7 +9,6 @@ import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.ElementalItem;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
-import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
@@ -211,7 +209,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      * Retourne l'élément du ICoopPlayer (Feu ou eau)
      */
     @Override
-    public Element element() {
+    public Element getElement() {
         return this.element;
     }
 
@@ -260,10 +258,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         // Il faut faire de cette manière pour utiliser le handler
         other.acceptInteraction(interactionHandler, isCellInteraction);
 
-    }
-
-    public Element getElement() {
-        return element;
     }
 
     // PARTIe QUI CONCERNE LES PORTES ET TRANSFERTS
