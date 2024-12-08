@@ -86,11 +86,11 @@ public class ICoop extends AreaGame implements DialogHandler {
         // ----- JOUEURS -----
 
         // Création du joueur 1
-        DiscreteCoordinates coords = area.getPlayerSpawnPosition(Element.WATER);
+        DiscreteCoordinates coords = area.getPlayerSpawnPosition(Element.FIRE);
         player1 =  new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player", Element.FIRE);
 
         // Création du joueur 2
-        coords =  area.getPlayerSpawnPosition(Element.FIRE);
+        coords =  area.getPlayerSpawnPosition(Element.WATER);
         player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player2", Element.WATER);
 
 
@@ -243,10 +243,13 @@ public class ICoop extends AreaGame implements DialogHandler {
             if (playerEl.isLeaving()) {
                 playerEl.setLeaving(false);
                 Door door = playerEl.getLeavingDoor();
-                Area areaToGo = setCurrentArea(door.getDestinationArea(), false);
 
+                // Important, il faut leave l'area avant de set la nouvelle
+                // sinon les players bloquent les portes
                 player1.leaveArea();
                 player2.leaveArea();
+
+                Area areaToGo = setCurrentArea(door.getDestinationArea(), false);
 
                 player1.enterArea(areaToGo, door.getFuturePositions().get(0));
                 player2.enterArea(areaToGo, door.getFuturePositions().get(1));

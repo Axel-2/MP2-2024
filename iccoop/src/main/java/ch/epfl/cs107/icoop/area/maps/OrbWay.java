@@ -60,7 +60,7 @@ public final class OrbWay extends ICoopArea {
         Door orbWayDoor1 = new Door(
             "Spawn",                                                                    // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                              // Toujours open
-            Arrays.asList(waterSpawnReturnCoords, fireSpawnReturnCoord), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(fireSpawnReturnCoord, waterSpawnReturnCoords), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                    // Map actuelle, donc Spawn
             new DiscreteCoordinates(0,14),                                                       // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(0,13),
@@ -74,7 +74,7 @@ public final class OrbWay extends ICoopArea {
         Door orbWayDoor2 = new Door(
             "Spawn",                                                                    // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                              // Toujours open
-            Arrays.asList(waterSpawnReturnCoords, fireSpawnReturnCoord), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(fireSpawnReturnCoord, waterSpawnReturnCoords), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                    // Map actuelle, donc Spawn
             new DiscreteCoordinates(0,8),                                                        // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(0,7),
