@@ -1,4 +1,6 @@
-package ch.epfl.cs107.play.areagame.handler;
+package ch.epfl.cs107.icoop.handler;
+
+import ch.epfl.cs107.play.areagame.handler.InventoryItem;
 
 enum ICoopItem implements InventoryItem {
 
