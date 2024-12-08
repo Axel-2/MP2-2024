@@ -20,8 +20,8 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
     private final static int ANIMATION_DURATION = 24;
 
-    private Animation tickingAnimation;
-    private Animation explosionAnimation;
+    private final Animation tickingAnimation;
+    private final Animation explosionAnimation;
 
     private boolean isActivated;
     private int counter;
@@ -60,6 +60,9 @@ public class Explosif extends ICoopCollectable implements Interactor{
     @Override
     public void update(float deltaTime){
 
+        // TODO VOIR SI FAUT update le counter en fonction du deltaTIME
+        // TODO de la même manière qu'
+
 
         if (isActivated) {
             counter -= 1;
@@ -72,7 +75,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
             isExploding = true;
         }
 
-        // On attend très légérement avant d'update pour bien voir la
+        // On attend très légèrement avant d'update pour bien voir la
         // toute première image
         if (counter <= -2) {
             explosionAnimation.update(deltaTime);

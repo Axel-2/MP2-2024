@@ -34,6 +34,12 @@ spritename -> enum
 - les coeurs et orb réaparraisent quand on part et on revient dans la map ->
 - REPONSE forebegin en false
 
+- Demander à JAMILA pour les valeurs par défauts non statiques si c'est mieux de les initialiser 
+- dans le constructeur ou pas
+
+# TO DO
+- evtl si ca marche changer les counters avec le deltaTime mais je suis pas sur
+- que ca marche encore
 
 - # ATTENTION NE PAS OUBLIER DE METTRE 
 # LE acceptInbteraction dans les nouvelles classes
