@@ -75,7 +75,7 @@ public class Health implements Graphics, Logic {
         return !isOn();
     }
 
-    
+
     /**
      * @return (float): 1 is the entity still has health points, 0 otherwise.
      */

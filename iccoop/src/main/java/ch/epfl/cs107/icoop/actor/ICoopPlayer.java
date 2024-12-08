@@ -58,7 +58,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     // Barre de vie
     private static final int MAX_LIFE = 100;
-    private Health health = new Health(this , Transform.I.translated(0, 1.75f), MAX_LIFE , true);
+    private final Health health = new Health(this , Transform.I.translated(0, 1.75f), MAX_LIFE , true);
 
     // Dégats
 
