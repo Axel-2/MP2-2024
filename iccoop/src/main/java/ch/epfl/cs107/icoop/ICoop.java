@@ -71,9 +71,11 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Le jeu commence dans l'aire spwan
 
-        // ORBWAY POUR DEBUG
         ICoopArea area = (ICoopArea) setCurrentArea("Maze", true);
         createPlayers(area);
+
+        // Interface GUI
+
 
         // On centre la caméra sur le centre de masse
         setCamera();
@@ -87,11 +89,11 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Création du joueur 1
         DiscreteCoordinates coords = area.getPlayerSpawnPosition(Element.FIRE);
-        player1 =  new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player", Element.FIRE);
+        player1 =  new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player", Element.FIRE, true);
 
         // Création du joueur 2
         coords =  area.getPlayerSpawnPosition(Element.WATER);
-        player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player2", Element.WATER);
+        player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player2", Element.WATER, false);
 
 
         // Register des acteurs
