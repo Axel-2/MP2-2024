@@ -2,7 +2,7 @@ package ch.epfl.cs107.icoop.handler;
 
 import ch.epfl.cs107.play.areagame.handler.InventoryItem;
 
-enum ICoopItem implements InventoryItem {
+public enum ICoopItem implements InventoryItem {
 
     SWORD("Sword", 0, "resources/images/sprites/sword.icon"),
     FIREKEY("FireKey", 0,  "resources/images/sprites/key_blue"),

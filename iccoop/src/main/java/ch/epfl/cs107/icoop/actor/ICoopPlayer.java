@@ -13,11 +13,15 @@ import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.icoop.handler.ICoopInventory;
+import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.areagame.handler.Inventory;
+import ch.epfl.cs107.play.areagame.handler.InventoryItem;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -34,7 +38,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 /**
  * A ICoopPlayer is a player for the ICoop game.
  */
-public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor {
+public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor, Inventory.Holder {
 
     // Type (Feu ou eau)
     private final Element element;
@@ -47,6 +51,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final static int ANIMATION_DURATION = 4;
     private final OrientedAnimation animation;
     private final ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
+
+    private ICoopInventory inventory;
+    private ICoopItem currentItem;
 
     // Touches
     private KeyBindings.PlayerKeyBindings playerKeyBindings;
@@ -76,7 +83,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      */
     public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, Element element) {
         super(owner, orientation, coordinates);
+
+        this.sprite = new Sprite(spriteName, 1.f, 1.f, this);
+
         this.element = element;
+
+        this.inventory = new ICoopInventory();
+        inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
+        inventory.addPocketItem(ICoopItem.SWORD, 1);
+        // this.currentItem = inventory A CONTINUER
 
         this.animation = new OrientedAnimation(element.getSpriteName(), ANIMATION_DURATION, this,
                 anchor, orders, 4, 1, 2, 16, 32, true);
@@ -305,6 +320,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     // On a besoin de ce getter dans ICoop
     public boolean isAlive() {
         return health.isOn();
+    }
+
+    @Override
+    public boolean possess(InventoryItem item) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private final class ICoopPlayerInteractionHandler implements ICoopInteractionVisitor {
