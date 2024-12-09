@@ -139,7 +139,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         }
 
         // Gestion des items
-        manageItem(keyboard);
+        manageSwitchItem(keyboard);
+        manageUseItem(keyboard);
 
 
         super.update(deltaTime);
@@ -149,7 +150,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     /*
      *  S'occupe de gérer le currentitem en fonction de ce qui est disponible dans l'inventaire
      */
-    public void manageItem(Keyboard kbd){
+    public void manageSwitchItem(Keyboard kbd){
 
         // Si le joueur veut switch d'item
         if (kbd.get(playerKeyBindings.switchItem()).isPressed()) {
@@ -178,6 +179,42 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             currentItem = itemList.get(nextIndex);
             
 
+        }
+    }
+
+
+    /**
+     * S'occupe de gérer l'utilisation des items
+     * @param kbd
+     */
+    public void manageUseItem(Keyboard kbd){
+        if (kbd.get(playerKeyBindings.useItem()).isPressed()){
+            switch (currentItem){
+
+                case EXPLOSIVE :
+                    // Pose la bombe devant le joueur
+                    DiscreteCoordinates position = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
+                    Explosif explo = new Explosif(getOwnerArea(), getOrientation(), position, 10);
+                    this.getOwnerArea().registerActor(explo);
+                    break;
+
+                case SWORD :
+                    // ne fait rien pour l'instant
+
+                case WATERKEY:
+                    // ne fait rien pour l'instant
+
+                case FIREKEY:
+                    // ne fait rien pour l'instant
+
+                case WATERSTAFF:
+                    // ne fait rien pour l'instant
+
+                case FIRESTAFF:
+                    // ne fait rien pour l'instant
+
+
+            }
         }
     }
 
