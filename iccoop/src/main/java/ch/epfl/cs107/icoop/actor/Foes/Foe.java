@@ -45,6 +45,7 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
         this.vulnerabilityList = vulnerabilityList;
         this.deathAnimation = new Animation("icoop/vanish", 7, 2, 2, this , 32, 32, new
                 Vector(-0.5f, 0f), ANIMATION_DURATION/7, false);
+        this.isAlive = true;
     }
 
     abstract int getMaxLife();
@@ -127,8 +128,9 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
             }
         }
 
+        // TODO PAS SUR ENFT POUR LA BARRE DE VIE
         // Il faut aussi dessiner la barre de vie
-        health.draw(canvas);
+        // health.draw(canvas);
 
         if (!isAlive) {
             // Lorqu'il est mort on draw l'animation

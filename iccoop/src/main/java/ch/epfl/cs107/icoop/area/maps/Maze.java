@@ -3,6 +3,7 @@ package ch.epfl.cs107.icoop.area.maps;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
 import ch.epfl.cs107.icoop.actor.Explosif;
+import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.actor.PressurePlate;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
@@ -11,6 +12,7 @@ import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.math.Vector;
 
 /**
  * A class that represent the inital spawn area
@@ -54,6 +56,7 @@ public final class Maze extends ICoopArea {
         registerActor(firstPP);
         PressurePlate secondPP = new PressurePlate(this, new DiscreteCoordinates(9, 25));
         registerActor(secondPP);
+
         // ----------------- WALLS ------------------
         // Attention aux paramètres
         registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,35), Element.WATER));
@@ -72,6 +75,8 @@ public final class Maze extends ICoopArea {
         
         registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,4), Element.WATER));
         registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13,4), Element.WATER));
+
+
         // ----------------- COEURS ------------------
         DiscreteCoordinates[] heartPositions = {
                 new DiscreteCoordinates(15, 18),
@@ -83,9 +88,30 @@ public final class Maze extends ICoopArea {
         for (DiscreteCoordinates heartPosition : heartPositions) {
             registerActor(new Heart(this, heartPosition));
         }
+
         // ----------------- Explosifs ---------------
         registerActor(new Explosif(this, Orientation.DOWN, new DiscreteCoordinates(6, 25), 50));
 
+        // ----------------- Skulls ---------------
+
+        //(12,33), (12,31), (12,29), (12,27), (12,25),
+        //(10,33), (10,32), (10,30), (10,28) et (10,26).
+        DiscreteCoordinates[] skullCoordinates =  {
+                new DiscreteCoordinates(12, 33),
+                new DiscreteCoordinates(12, 31),
+                new DiscreteCoordinates(12, 29),
+                new DiscreteCoordinates(12, 27),
+                new DiscreteCoordinates(12,25),
+                new DiscreteCoordinates(10, 33),
+                new DiscreteCoordinates(10, 32),
+                new DiscreteCoordinates(10, 30),
+                new DiscreteCoordinates(10, 28),
+                new DiscreteCoordinates(10, 26)
+        };
+
+        for (DiscreteCoordinates skullCoordinate : skullCoordinates) {
+            registerActor(new HellSkull(this, Orientation.RIGHT, skullCoordinate));
+        }
 
     }
 
