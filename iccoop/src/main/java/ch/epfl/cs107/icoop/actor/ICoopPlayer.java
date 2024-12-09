@@ -84,7 +84,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, Element element) {
         super(owner, orientation, coordinates);
 
-        this.sprite = new Sprite(spriteName, 1.f, 1.f, this);
 
         this.element = element;
 
