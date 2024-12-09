@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.actor;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final static int ANIMATION_DURATION = 4;
     private final OrientedAnimation animation;
     private final ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
+    private final Sprite sprite;
 
     private ICoopInventory inventory;
     private ICoopItem currentItem;
@@ -91,7 +93,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         this.inventory = new ICoopInventory();
         inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
         inventory.addPocketItem(ICoopItem.SWORD, 1);
-        // this.currentItem = inventory A CONTINUER
+        this.currentItem = ICoopItem.SWORD;
 
         this.animation = new OrientedAnimation(element.getSpriteName(), ANIMATION_DURATION, this,
                 anchor, orders, 4, 1, 2, 16, 32, true);
@@ -135,8 +137,47 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             isImmunityTime = false;
         }
 
+        // Gestion des items
+        manageItem(keyboard);
+
 
         super.update(deltaTime);
+    }
+
+
+    /*
+     *  S'occupe de gérer le currentitem en fonction de ce qui est disponible dans l'inventaire
+     */
+    public void manageItem(Keyboard kbd){
+
+        // Si le joueur veut switch d'item
+        if (kbd.get(playerKeyBindings.switchItem()).isPressed()) {
+
+            // Pour implémenter le concept de circularité, nous crééons un tableau des items (sûrement plus simple mais ça me paraissait naturel)
+            List<ICoopItem> itemList = new ArrayList<>();
+            for (ICoopItem i : ICoopItem.values()){
+                itemList.add(i);
+            }
+
+            // On établit l'index de l'item actuel
+            int currentIndex = 0;
+            for (int i = 0; i < itemList.size(); i++){
+                if (itemList.get(i).equals(currentItem)){
+                    currentIndex = i;
+                }
+            }
+
+            // On cherche l'index du prochain item qu'il y a de disponible dans l'inventaire
+            int nextIndex = (currentIndex + 1) % itemList.size();
+            while(!inventory.contains(itemList.get(nextIndex))){
+                nextIndex = (nextIndex + 1) % itemList.size();
+            }
+
+            // On update 
+            currentItem = itemList.get(nextIndex);
+            
+
+        }
     }
 
     /**
