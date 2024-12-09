@@ -6,11 +6,19 @@
 # Conception 2 
 # Element dans mur
 
-# Pense-bête
-# Ptetre que jdois mettre autre chose dans le troisième paramètre des enum items, ici j'ai mis le path mais ptetre à modif on verra
+# To do 1
+# Prendre en considération la phrase suivante du pdf. reglera le probleme du double explo car e fait deux choses
+Cette création ne sera possible que si la case en face du personnage permet le
+placement d’un acteur
 
-# Remarque 1
-# On a pas de areagame.handler nous, on a juste handler. peut-être à rajouter 
+# To do 2
+# Rajouter 2 intéractions à l'explosif
+L’explosif sera doté d’interactions supplémentaires :
+• avec d’autres explosifs en les faisant exploser ;
+• avec les murs en les détruisant.
+
+# To do 3
+# 4.1.3
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
 

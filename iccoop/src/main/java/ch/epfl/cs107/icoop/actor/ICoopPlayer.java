@@ -196,6 +196,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     DiscreteCoordinates position = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
                     Explosif explo = new Explosif(getOwnerArea(), getOrientation(), position, 10);
                     this.getOwnerArea().registerActor(explo);
+                    inventory.removePocketItem(ICoopItem.EXPLOSIVE, 1);
                     break;
 
                 case SWORD :
