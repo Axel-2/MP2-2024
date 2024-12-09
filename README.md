@@ -6,14 +6,11 @@
 # Conception 2 
 # Element dans mur
 
-# Bug 1
-# Spam des portes qui marche pas
+# Pense-bête
+# Ptetre que jdois mettre autre chose dans le troisième paramètre des enum items, ici j'ai mis le path mais ptetre à modif on verra
 
 # Remarque 1
-s. Il vous est demandé d’implémenter le concept ICoopItem, une spécialisation
-de InventoryItem modélisant les articles d’inventaire spécifiques au jeu ICoop. Vous pouvez
-placer ce concept dans le répertoire areagame.handler du votre jeu. 
-# Je dois coder dans gameengine selon la citation du dessus. bizarre
+# On a pas de areagame.handler nous, on a juste handler. peut-être à rajouter 
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
 
