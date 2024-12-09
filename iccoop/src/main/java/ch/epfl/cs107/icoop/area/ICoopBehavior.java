@@ -2,6 +2,7 @@ package ch.epfl.cs107.icoop.area;
 
 import ch.epfl.cs107.icoop.ElementalEntity;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
+import ch.epfl.cs107.icoop.actor.Projectiles.Unstoppable;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.AreaBehavior;
@@ -86,9 +87,17 @@ public final class ICoopBehavior extends AreaBehavior {
         }
 
         @Override
-        protected boolean canEnter(Interactable player) {
+        protected boolean canEnter(Interactable movableEntity) {
 
             boolean authorisation = true;
+
+            // Dans tous les cas, un objet de type Unstoppable
+            // doit pouvoir entrer dans n'importe que cellule
+            // car il "survole les cellules"
+            if (movableEntity instanceof Unstoppable) {
+
+                return true;
+            }
 
             // Trois checks pour savoir si on peut entrer dans la cellules :
             // 1 : elle doit être Walkable
@@ -96,7 +105,9 @@ public final class ICoopBehavior extends AreaBehavior {
             // 3 : si l'player a un élément, toutes les elemental entities présentes doivent avoir le même type
 
             // 1: La cellule doit être Walkable
-            if (!type.isWalkable){authorisation = false;}
+            if (!type.isWalkable) {
+                authorisation = false;
+            }
 
             // 2 : Aucune des entités présentes ne doit prendre la place de la cellule
             for (Interactable ent : this.entities){
@@ -106,12 +117,12 @@ public final class ICoopBehavior extends AreaBehavior {
             }
 
             // 3 : L'entité entrante, si elle a un élément, doit avoir le même que tous ceux des entités présentes
-            if (player instanceof ElementalEntity){
+            if (movableEntity instanceof ElementalEntity){
                 for (Interactable ent : this.entities){
                     if (ent instanceof ElementalWall){
-                        if (!((ElementalWall) ent).getElement().equals(((ElementalEntity) player).getElement())) {
+                        if (!((ElementalWall) ent).getElement().equals(((ElementalEntity) movableEntity).getElement())) {
                             if (((ElementalWall) ent).isOn()) {
-                                return false;
+                                authorisation =  false;
                             }
                         }
                     }

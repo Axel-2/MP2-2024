@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
+import ch.epfl.cs107.icoop.actor.Projectiles.Fire;
 import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
@@ -61,6 +62,12 @@ public final class Spawn extends ICoopArea {
 
         registerActor(toOrbWayDoor);
         registerActor(toMazeDoor);
+
+        // DEBUG projectiles
+        Fire fire = new Fire(this, Orientation.RIGHT, new DiscreteCoordinates(0, 10), 1, 200);
+        registerActor(fire);
+        Fire fire1 = new Fire(this, Orientation.UP, new DiscreteCoordinates(7, 5), 3, 200);
+        registerActor(fire1);
 
 
         // Création du rock et de l'explo

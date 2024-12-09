@@ -42,12 +42,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final Vector anchor = new Vector(0, 0);
 
     // Attributs d'animation
-    private final Sprite sprite;
     private final static int MOVE_DURATION = 8;
     private final Orientation[] orders = {DOWN , RIGHT , UP, LEFT};
     private final static int ANIMATION_DURATION = 4;
-    private OrientedAnimation animation;
-    private ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
+    private final OrientedAnimation animation;
+    private final ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
 
     // Touches
     private KeyBindings.PlayerKeyBindings playerKeyBindings;
@@ -77,7 +76,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      */
     public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, Element element) {
         super(owner, orientation, coordinates);
-        sprite = new Sprite(spriteName, 1.f, 1.f, this);
         this.element = element;
 
         this.animation = new OrientedAnimation(element.getSpriteName(), ANIMATION_DURATION, this,

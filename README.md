@@ -48,5 +48,7 @@ placer ce concept dans le répertoire areagame.handler du votre jeu.
 - evtl si ca marche changer les counters avec le deltaTime mais je suis pas sur
 - que ca marche encore
 
+- LEs unstoppbale doivent s'arreter si la Celle est en mode canFly = false ???
+
 - # ATTENTION NE PAS OUBLIER DE METTRE 
 # LE acceptInbteraction dans les nouvelles classes
