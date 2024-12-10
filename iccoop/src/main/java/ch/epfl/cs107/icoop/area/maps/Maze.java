@@ -3,6 +3,7 @@ package ch.epfl.cs107.icoop.area.maps;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
 import ch.epfl.cs107.icoop.actor.Explosif;
+import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
 import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.actor.PressurePlate;
 import ch.epfl.cs107.icoop.area.ICoopArea;
@@ -112,6 +113,20 @@ public final class Maze extends ICoopArea {
         for (DiscreteCoordinates skullCoordinate : skullCoordinates) {
             registerActor(new HellSkull(this, Orientation.RIGHT, skullCoordinate));
         }
+
+        // ----------------- Artificiers ---------------
+        DiscreteCoordinates[] bombFoesCoordinates =  {
+                new DiscreteCoordinates(5, 15),
+                new DiscreteCoordinates(6, 17),
+                new DiscreteCoordinates(10, 17),
+                new DiscreteCoordinates(5, 14),
+        };
+
+        for (DiscreteCoordinates bombFoeCoord : bombFoesCoordinates) {
+            registerActor(new BombFoe(this, bombFoeCoord));
+        }
+
+
 
     }
 

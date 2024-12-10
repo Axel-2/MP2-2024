@@ -10,6 +10,7 @@ import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.Vector;
+import ch.epfl.cs107.play.math.random.RandomGenerator;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.ArrayList;
@@ -18,12 +19,9 @@ import java.util.List;
 import static ch.epfl.cs107.play.math.Orientation.*;
 
 public class BombFoe extends Foe {
-    
-    private State state;
 
-    // Animations
-    private final Vector anchor = new Vector(-0.5f, 0);
-    private final Orientation[] orders = {DOWN , RIGHT , UP, LEFT};
+    // Différents états de l'artificier
+    private State state;
 
     private OrientedAnimation nonProtectedAnimation;
     private OrientedAnimation protectedAnimation;
@@ -34,28 +32,46 @@ public class BombFoe extends Foe {
     private static final int EXTENDED_VIEW_DISTANCE = 8;
 
     private final BombFoeInteractionHandler interactionHandler = new BombFoeInteractionHandler();
+
+
+    // Moments d'inactions ou il ne fait rien
     private int inactionCounter = 0;
     private static final int MAX_INACTION_STEPS = 24;
 
+    // variables pour le mode attack
+    private ICoopPlayer targetedPlayer;
 
-    public BombFoe(Area area, Orientation orientation, DiscreteCoordinates position) {
+
+    public BombFoe(Area area, DiscreteCoordinates position) {
 
         // TODO AJOUTER DOMMAGE PHYSIQUES ???
-        super(area, orientation, position, new Damage[]{Damage.FIRE});
+        // Orienté par défaut vers le bas
+        super(area, DOWN, position, new Damage[]{Damage.FIRE, Damage.PHYSICAL});
+
+        // par défaut il est en IDLE
         this.state = State.IDLE;
 
+        // Animations
+        Vector anchor = new Vector(-0.5f, 0);
+        Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
+
         this.nonProtectedAnimation = new OrientedAnimation("icoop/bombFoe", ANIMATION_DURATION/3,
-                this , anchor , orders , 4, 2, 2, 32, 32,
+                this , anchor, orders, 4, 2, 2, 32, 32,
                 true);
 
         this.protectedAnimation = new OrientedAnimation("icoop/bombFoe.protecting",
-                ANIMATION_DURATION/3,this , anchor , orders , 4, 2, 2, 32, 32,
+                ANIMATION_DURATION/3,this , anchor, orders, 4, 2, 2, 32, 32,
                 false);
     }
 
     @Override
     void drawFoeSprite(Canvas canvas) {
-        protectedAnimation.draw(canvas);
+        System.out.println("hheheh");
+
+
+        switch (state) {
+            case ATTACK, HIDE, IDLE -> nonProtectedAnimation.draw(canvas);
+        }
     }
 
     @Override
@@ -64,7 +80,22 @@ public class BombFoe extends Foe {
     }
 
     private enum State {
-        IDLE, ATTACK, HIDE
+        IDLE(1),
+        ATTACK(2),
+        HIDE(0),
+        ;
+
+        private final int speedFactor;
+
+        State(int speedFactor) {
+            this.speedFactor = speedFactor;
+        }
+
+        public int getSpeedFactor() {
+            return speedFactor;
+        }
+
+
     }
 
     @Override
@@ -93,7 +124,7 @@ public class BombFoe extends Foe {
 
 
         if (state.name().equals(State.ATTACK.name())) {
-            // En mode attaque il ne voir que l'unique cellule en face de lui
+            // En mode attaque, il ne voit que l'unique cellule en face de lui
             fieldOfViewCells.add(currentPosition.jump(orientationVector));
         } else {
 
@@ -115,11 +146,24 @@ public class BombFoe extends Foe {
 
     @Override
     public void update(float deltaTime) {
+
+        // Ne fait absolument rien si en mode inactif
+        if (inactionCounter < MAX_INACTION_STEPS) {
+            inactionCounter++;
+
+            // on sort donc directement de update
+            return;
+        }
         
         switch (state) {
-            case IDLE -> move(8);
-            case ATTACK -> {
 
+            case IDLE -> {
+                // En état IDLE, il ne fait rien d'autre que de se déplacer
+                // de façon aléatoire
+                randomMove();
+            }
+            case ATTACK -> {
+                // en mode
             }
             case HIDE -> {
 
@@ -131,11 +175,65 @@ public class BombFoe extends Foe {
         super.update(deltaTime);
     }
 
+    private void randomMove() {
+        double changeOrientationProbability = 0.4;
+
+        // il n y a que 40% de chance de changer l'orientation
+        if (RandomGenerator.getInstance().nextDouble() < changeOrientationProbability) {
+            int randomIndex = RandomGenerator.getInstance().nextInt(Orientation.values().length);
+            orientate(Orientation.values()[randomIndex]);
+        }
+
+        move(ANIMATION_DURATION/ state.speedFactor);
+    }
+
+    private void targetedMove() {
+
+        // on s'assure qu'il y a bien un player
+        // a cibler
+        if (targetedPlayer == null) {
+            return;
+        }
+
+        // vecteur séparant l’artificier de sa cible
+        Vector v = targetedPlayer.getPosition().sub(this.getPosition());
+        // composantes
+        float deltaX = v.x;
+        float deltaY = v.y;
+
+        // condition pour la nouvelle orientation vers le player
+        Orientation orientation;
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            orientation = Orientation.fromVector(new Vector(deltaX, 0));
+        } else {
+            orientation = Orientation.fromVector(new Vector(0, deltaY));
+        }
+
+
+        // TODO pourquoi le changement d'orientation ne pourrait pas se faire ??
+        // si le changement d’orientation n’a pas pu se faire, un pas de déplacement à vitesse
+        //rapide aura lieu.
+        if (orientation != null) {
+            orientate(orientation);
+        } else {
+
+            // sinon on double la vitesse
+            move(2 * ANIMATION_DURATION / state.getSpeedFactor());
+        }
+
+
+
+    }
+
 
     private class BombFoeInteractionHandler implements ICoopInteractionVisitor {
+
+        // Il n interagit que avec les personnages principaux
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
+            // Si il voit un player dans son champ de vision il se met en mode attaque
             state = State.ATTACK;
+            targetedPlayer = player;
         }
     }
 }

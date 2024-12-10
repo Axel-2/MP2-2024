@@ -4,7 +4,8 @@ public enum Damage {
 
     EXPLOSION(50),
     FIRE(20),
-    WATER(20)
+    WATER(20),
+    PHYSICAL(30)
         ;
 
     private final int damagePoints;
