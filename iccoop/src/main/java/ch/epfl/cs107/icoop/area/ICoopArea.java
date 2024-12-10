@@ -17,6 +17,8 @@ import ch.epfl.cs107.play.window.Window;
  * Base class for all the areas of ICoop
  */
 public abstract class ICoopArea extends Area {
+
+    // TODO remettre à 18.f après debug
     public final static float DEFAULT_SCALE_FACTOR = 18.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
 

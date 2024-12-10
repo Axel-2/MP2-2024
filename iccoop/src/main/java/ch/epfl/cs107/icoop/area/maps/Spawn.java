@@ -4,10 +4,12 @@ import java.util.Arrays;
 
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
+import ch.epfl.cs107.icoop.actor.Foes.RockFoe;
 import ch.epfl.cs107.icoop.actor.Projectiles.Fire;
 import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
+import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
@@ -76,6 +78,10 @@ public final class Spawn extends ICoopArea {
 
         registerActor(rock);
         registerActor(explo);
+
+
+        RockFoe rockFoe = new RockFoe(this, Orientation.DOWN, new DiscreteCoordinates(11, 8), new Damage[]{Damage.FIRE});
+        registerActor(rockFoe);
     }
 
     @Override

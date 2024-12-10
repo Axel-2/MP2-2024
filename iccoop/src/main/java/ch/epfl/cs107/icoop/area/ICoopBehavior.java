@@ -2,6 +2,8 @@ package ch.epfl.cs107.icoop.area;
 
 import ch.epfl.cs107.icoop.ElementalEntity;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
+import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
+import ch.epfl.cs107.icoop.actor.Foes.RockFoe;
 import ch.epfl.cs107.icoop.actor.Projectiles.Unstoppable;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
@@ -99,6 +101,16 @@ public final class ICoopBehavior extends AreaBehavior {
                 return true;
             }
 
+            // TODO enlever ca
+            if (movableEntity instanceof BombFoe) {
+                return true;
+            }
+            if (movableEntity instanceof RockFoe) {
+                return true;
+            }
+
+
+
             // Trois checks pour savoir si on peut entrer dans la cellules :
             // 1 : elle doit être Walkable
             // 2 : aucun des entities présentes ne doit prendre la place de la cellule (takeCellSpace)
@@ -128,6 +140,7 @@ public final class ICoopBehavior extends AreaBehavior {
                     }
                 }
             }
+
             return authorisation;
         }
         
