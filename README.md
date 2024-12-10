@@ -1,22 +1,18 @@
 # MP2-2024
 
-# Conception 1
-# welcome à la création
-
-# Conception 2 
+# Conception 1 ---- Note des trucs à mettre dans le fichier conception
+# Welcome à la création
 # Element dans mur
 
 # Remarque 1 :
-j'ai passer les murs en isViewInteractable true pour que l'explo puisse se poser une case à côté
+j'ai passé les murs en isViewInteractable true pour que l'explo puisse se poser une case à côté
+
+# Remarque 2 :
+J'avais créé un système de isStockable mais au final j'ai trouvé plus simple, mais peut -être moins bien. donc je laisse la variable stockable en attendant
+là je gère le +1 de quantité dans l'intéraction
 
 # Détail à régler 1 :
-On peut poser et activer un explosif en même temps, pas ouf
 
-# Pas détail à régler : 
-Faut que quand y'ait plus de quantity, ça switch item et ça dessine plus et on peut pas utiliser l'item
-
-# To do 3
-# 4.1.3
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
 

@@ -90,8 +90,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         this.inventory = new ICoopInventory();
         inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
-        inventory.addPocketItem(ICoopItem.SWORD, 1);
-        this.currentItem = ICoopItem.SWORD;
+        // inventory.addPocketItem(ICoopItem.SWORD, 1);
+        //this.currentItem = ICoopItem.SWORD;
 
         this.statusGui = new ICoopPlayerStatusGUI(this, flipped);
 
@@ -138,7 +138,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         }
 
         // Gestion des items
-        manageSwitchItem(keyboard);
+        if (keyboard.get(playerKeyBindings.switchItem()).isPressed()) {
+            SwitchItem();
+        }
         manageUseItem(keyboard);
 
 
@@ -149,45 +151,46 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     /*
      *  S'occupe de gérer le currentitem en fonction de ce qui est disponible dans l'inventaire
      */
-    public void manageSwitchItem(Keyboard kbd){
+    public void SwitchItem(){
 
-        // Si le joueur veut switch d'item
-        if (kbd.get(playerKeyBindings.switchItem()).isPressed()) {
+        // Pour implémenter le concept de circularité, nous crééons un tableau des items (sûrement plus simple mais ça me paraissait naturel)
+        List<ICoopItem> itemList = new ArrayList<>();
+        for (ICoopItem i : ICoopItem.values()){
+            itemList.add(i);
+        }
 
-            // Pour implémenter le concept de circularité, nous crééons un tableau des items (sûrement plus simple mais ça me paraissait naturel)
-            List<ICoopItem> itemList = new ArrayList<>();
-            for (ICoopItem i : ICoopItem.values()){
-                itemList.add(i);
+        // On établit l'index de l'item actuel
+        int currentIndex = 0;
+        for (int i = 0; i < itemList.size(); i++){
+            if (itemList.get(i).equals(currentItem)){
+                currentIndex = i;
             }
+        }
 
-            // On établit l'index de l'item actuel
-            int currentIndex = 0;
-            for (int i = 0; i < itemList.size(); i++){
-                if (itemList.get(i).equals(currentItem)){
-                    currentIndex = i;
-                }
-            }
+        // On cherche l'index du prochain item qu'il y a de disponible dans l'inventaire
+        int nextIndex = (currentIndex + 1) % itemList.size();
+        while(!inventory.contains(itemList.get(nextIndex))){
+            nextIndex = (nextIndex + 1) % itemList.size();
+        }
 
-            // On cherche l'index du prochain item qu'il y a de disponible dans l'inventaire
-            int nextIndex = (currentIndex + 1) % itemList.size();
-            while(!inventory.contains(itemList.get(nextIndex))){
-                nextIndex = (nextIndex + 1) % itemList.size();
-            }
-
-            // On update 
-            currentItem = itemList.get(nextIndex);
+        // On update 
+        currentItem = itemList.get(nextIndex);
             
 
-        }
+    
     }
 
+    @Override 
+    public boolean possess(InventoryItem item) {
+        return (item != null && inventory.contains(item));
+    }
 
     /**
      * S'occupe de gérer l'utilisation des items
      * @param kbd
      */
     public void manageUseItem(Keyboard kbd){
-        if (kbd.get(playerKeyBindings.useItem()).isPressed()){
+        if (kbd.get(playerKeyBindings.useItem()).isPressed() && possess(currentItem)){
             switch (currentItem){
 
                 case EXPLOSIVE :
@@ -218,6 +221,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
 
             }
+            if (!inventory.contains(currentItem)){
+                SwitchItem();
+            }
+
         }
     }
 
@@ -407,10 +414,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return health.isOn();
     }
 
-    @Override // A IMPLEMENTER QUAND L'OPPORTUNITé SE PRéSENTERA
-    public boolean possess(InventoryItem item) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+
 
     public ICoopItem getCurrentItem(){
         return currentItem;
@@ -438,9 +442,18 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             // Interaction à distance only, donc si le joueur presse le bouton pour useitem()
             Keyboard keyboard = getOwnerArea().getKeyboard();
 
+            // Si c'est une intéraction de contact, on prend l'objet
             if (isCellInteraction) {
-                // Si c'est une intéraction de contact, on prend l'objet
-                explo.collect();
+                
+                // On ne veut pas qu'il se collecte plusieurs fois
+                if (!explo.isCollected()){
+                    explo.collect();
+
+                    // ajoute à l'inventaire ( il y a peut être mieux que de le faire là )
+                    inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
+
+                }
+
 
             } else {
                 // Si c'est à distance on active la bombe

@@ -22,6 +22,10 @@ public abstract class ICoopCollectable extends CollectableAreaEntity {
         
     }
 
+    public boolean isStockable(){
+        return isStockable;
+    }
+
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         // La seule Cell est la principale
