@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
-import ch.epfl.cs107.icoop.actor.Foes.RockFoe;
 import ch.epfl.cs107.icoop.actor.Projectiles.Fire;
 import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopArea;
@@ -79,9 +78,6 @@ public final class Spawn extends ICoopArea {
         registerActor(rock);
         registerActor(explo);
 
-
-        RockFoe rockFoe = new RockFoe(this, Orientation.DOWN, new DiscreteCoordinates(11, 8), new Damage[]{Damage.FIRE});
-        registerActor(rockFoe);
     }
 
     @Override

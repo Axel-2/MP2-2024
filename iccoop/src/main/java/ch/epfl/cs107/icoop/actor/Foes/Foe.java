@@ -95,6 +95,7 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
 
     @Override
     public void update(float deltaTime) {
+        super.update(deltaTime);
 
         // Si les pv sont = 0 ou < 0
         if (health.isOff() || health.getIntensity() < 0) {
@@ -110,6 +111,9 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
             // On unregister l'actor
             getOwnerArea().unregisterActor(this);
         }
+
+
+        super.update(deltaTime);
     }
 
     abstract void drawFoeSprite(Canvas canvas);

@@ -25,11 +25,11 @@ public class BombFoe extends Foe {
     // Différents états de l'artificier
     private State state;
 
-    private OrientedAnimation nonProtectedAnimation;
-    private OrientedAnimation protectedAnimation;
+    private final OrientedAnimation nonProtectedAnimation;
+    private final OrientedAnimation protectedAnimation;
 
     // TODO cette constante est la meme partout faudra ptet centraliser
-    private int ANIMATION_DURATION = 8;
+    private final int ANIMATION_DURATION = 16;
 
     private static final int EXTENDED_VIEW_DISTANCE = 8;
 
@@ -147,59 +147,30 @@ public class BombFoe extends Foe {
     @Override
     public void update(float deltaTime) {
 
-//        // Ne fait absolument rien si en mode inactif
-//         if (inactionCounter < MAX_INACTION_STEPS) {
-//             inactionCounter++;
-//
-//            // on sort donc directement de update
-//            return;
-//        }
+        // Ne fait absolument rien si en mode inactif
+         if (inactionCounter < MAX_INACTION_STEPS) {
+             inactionCounter += 1;
 
-        // TODO pourquoi il avance pas ???
-        if (!isDisplacementOccurs()) {
-            System.out.println("quoi");
-            move(8);
+            // on sort donc directement de update
+            return;
+        } else {
+             switch (state) {
+                 // En état IDLE, il ne fait rien d'autre que de se déplacer// de façon aléatoire
+                 case IDLE -> randomMove();
+                 case ATTACK -> targetedMove();
+
+                 case HIDE -> {
+
+                 }
+         }
         }
 
-
-//        switch (state) {
-//
-//            case IDLE -> {
-//
-//                    // En état IDLE, il ne fait rien d'autre que de se déplacer
-//                    // de façon aléatoire
-//                //randomMove();
-//                //move(10);
-//
-//            }
-//            case ATTACK -> {
-//                // en mode
-//                randomMove();
-//            }
-//            case HIDE -> {
-//                randomMove();
-//            }
-//        }
-//
-//        protectedAnimation.update(deltaTime);
+        protectedAnimation.update(deltaTime);
 
         super.update(deltaTime);
     }
 
-    /**
-     * Orientate and Move this player in the given orientation if the given button is down
-     *
-     * @param orientation (Orientation): given orientation, not null
-     * @param b           (Button): button corresponding to the given orientation, not null
-     */
-    private void moveIfPressed(Orientation orientation, Button b) {
-        if (b.isDown()) {
-            if (!isDisplacementOccurs()) {
-                orientate(orientation);
-                move(8);
-            }
-        }
-    }
+
     private void randomMove() {
 
         if (!isDisplacementOccurs()) {
@@ -213,6 +184,8 @@ public class BombFoe extends Foe {
 
 
             move(ANIMATION_DURATION / state.speedFactor);
+            inactionCounter = 0;
+
         }
 
     }
@@ -262,8 +235,8 @@ public class BombFoe extends Foe {
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
             // Si il voit un player dans son champ de vision il se met en mode attaque
-//            state = State.ATTACK;
-//            targetedPlayer = player;
+            state = State.ATTACK;
+            targetedPlayer = player;
         }
     }
 }
