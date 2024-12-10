@@ -33,7 +33,7 @@ public class Orb extends ElementalItem {
 
     public Orb(Area area, DiscreteCoordinates position, Element elem, DialogHandler dialogHandler) {
         // PAR DEFAUT l'orientation est DOWN, il n'y a pas de cas ou on veut une autre orientation ici
-        super(area, Orientation.DOWN, position, elem);
+        super(area, Orientation.DOWN, position, elem, false);
         this.sprites = new Sprite[ANIMATION_FRAMES];
         this.element = elem;
         if (elem.equals(Element.FIRE)){

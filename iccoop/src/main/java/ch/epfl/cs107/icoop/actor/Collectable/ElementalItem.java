@@ -13,8 +13,8 @@ public abstract class ElementalItem extends ICoopCollectable implements Logic, E
 
     Element elementalType;
 
-    public ElementalItem(Area area, Orientation orientation, DiscreteCoordinates position, Element elementalType) {
-        super(area, orientation, position);
+    public ElementalItem(Area area, Orientation orientation, DiscreteCoordinates position, Element elementalType, boolean isStockable) {
+        super(area, orientation, position, isStockable);
         this.elementalType = elementalType;
     }
 

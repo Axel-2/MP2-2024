@@ -8,7 +8,6 @@ import ch.epfl.cs107.icoop.ElementalEntity;
 import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
-import ch.epfl.cs107.icoop.actor.Collectable.ElementalItem;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.enums.Damage;
@@ -65,7 +64,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private Door leavingDoor = null;
 
     // Barre de vie
-    private static final int MAX_LIFE = 100;
+    private static final int MAX_LIFE = 1000;
     private final Health health = new Health(this , Transform.I.translated(0, 1.75f), MAX_LIFE , true);
 
     // Dégats
@@ -194,9 +193,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 case EXPLOSIVE :
                     // Pose la bombe devant le joueur
                     DiscreteCoordinates position = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
-                    Explosif explo = new Explosif(getOwnerArea(), getOrientation(), position, 10);
-                    this.getOwnerArea().registerActor(explo);
-                    inventory.removePocketItem(ICoopItem.EXPLOSIVE, 1);
+                    Explosif explo = new Explosif(getOwnerArea(), getOrientation(), position, 50);
+                    if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(position))){
+                        this.getOwnerArea().registerActor(explo);
+                        inventory.removePocketItem(ICoopItem.EXPLOSIVE, 1);
+                    }
+
                     break;
 
                 case SWORD :

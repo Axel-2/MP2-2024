@@ -6,23 +6,21 @@
 # Conception 2 
 # Element dans mur
 
-# To do 1
-# Prendre en considération la phrase suivante du pdf. reglera le probleme du double explo car e fait deux choses
-Cette création ne sera possible que si la case en face du personnage permet le
-placement d’un acteur
+# Remarque 1 :
+j'ai passer les murs en isViewInteractable true pour que l'explo puisse se poser une case à côté
 
-# To do 2
-# Rajouter 2 intéractions à l'explosif
-L’explosif sera doté d’interactions supplémentaires :
-• avec d’autres explosifs en les faisant exploser ;
-• avec les murs en les détruisant.
+# Détail à régler 1 :
+On peut poser et activer un explosif en même temps, pas ouf
+
+# Pas détail à régler : 
+Faut que quand y'ait plus de quantity, ça switch item et ça dessine plus et on peut pas utiliser l'item
 
 # To do 3
 # 4.1.3
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
 
-# QUESTION A POSER JEUDI
+# QUESTION A POSER VENDREDI
 
 - DialogHandler a qui le passer attribut publique etc...
 - REPONSE: ON LE MET A CHAQUE FOIS EN ATTRIBUT SI LE SOUS OBJET A BESOIN

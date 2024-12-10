@@ -8,7 +8,6 @@ import ch.epfl.cs107.icoop.actor.Projectiles.Fire;
 import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
-import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
@@ -73,9 +72,11 @@ public final class Spawn extends ICoopArea {
 
         // Création du rock et de l'explo
         Rock rock = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(11, 9 ) );
+        Rock rock2 = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(3, 7 ) );
         Explosif explo = new Explosif(this, Orientation.DOWN, new DiscreteCoordinates(11, 10), 50);
 
         registerActor(rock);
+        registerActor(rock2);
         registerActor(explo);
 
     }

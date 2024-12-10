@@ -31,7 +31,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
             return true;
         } else {
             // Si la plaque est off le mur est activée
-            return pressurePlate.isOff();
+            return pressurePlate.isOff() && !isDestroyed;
         }
     }
 
@@ -93,6 +93,13 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         return element;
     }
 
+    /*
+     * Détruit le mur (causé par un explosif par exemple)
+     */
+    public void destroy(){
+        this.isDestroyed = true;
+    }
+
     /**
      * Indicate if the current Interactable take the whole cell space or not
      * i.e. only one Interactable which takeCellSpace can be in a cell
@@ -123,7 +130,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     /**@return (boolean): true if this is able to have view interactions*/
     @Override
     public boolean isViewInteractable(){
-        return false;
+        return true;
     }
 
     /**

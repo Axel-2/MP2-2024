@@ -32,7 +32,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
     // Constructeur ici
     public Explosif(Area area, Orientation orientation, DiscreteCoordinates position, int counter){
-        super(area, orientation, position);
+        super(area, orientation, position, true);
 
         // Désactivé par défaut
         this.isActivated = false;
@@ -56,13 +56,18 @@ public class Explosif extends ICoopCollectable implements Interactor{
         isActivated = true;
     }
 
+    /*
+     * Fait exploser l'explosifg
+     */
+    public void explode() {
+        isExploding = true;
+    }
     
     @Override
     public void update(float deltaTime){
 
         // TODO VOIR SI FAUT update le counter en fonction du deltaTIME
         // TODO de la même manière qu'
-
 
         if (isActivated) {
             counter -= 1;
@@ -220,7 +225,9 @@ public class Explosif extends ICoopCollectable implements Interactor{
         // Intéraction avec un rocher : le fait disparaitre 
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
-            rock.destroy();
+            if (isExploding){
+                rock.destroy();
+            }
         }
 
         @Override
@@ -234,6 +241,26 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
         }
 
+        @Override
+        public void interactWith(Explosif explo, boolean isCellInteraction){
+            if (explo != Explosif.this) {
+
+                activate();
+                counter = 0;
+                explode();
+
+                explo.activate();
+                explo.counter = 0;
+                explo.explode();
+            } 
+        }
+
+        @Override
+        public void interactWith(ElementalWall wall, boolean isCellIntweraction) {
+            if (isExploding) {
+                wall.destroy();
+            }
+        }
 
     }
 }

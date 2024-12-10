@@ -1,23 +1,25 @@
 package ch.epfl.cs107.icoop.actor.Collectable;
 
-import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.cs107.play.areagame.actor.CollectableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
-import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
-import java.util.Collections;
-import java.util.List;
-
 public abstract class ICoopCollectable extends CollectableAreaEntity {
 
     private boolean isVisible;
+    private final boolean isStockable;
 
-    public ICoopCollectable(Area area, Orientation orientation, DiscreteCoordinates position) {
+
+    public ICoopCollectable(Area area, Orientation orientation, DiscreteCoordinates position, boolean isStockable) {
         // L'object n'est pas collecté par défaut
         super(area, orientation, position);
+        this.isStockable = isStockable;
+        
     }
 
     @Override

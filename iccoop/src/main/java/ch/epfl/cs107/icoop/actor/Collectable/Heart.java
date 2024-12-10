@@ -4,7 +4,6 @@ import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Animation;
-import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
@@ -17,7 +16,7 @@ public class Heart extends ICoopCollectable {
 
     public Heart(Area area, DiscreteCoordinates position) {
         // On force Orientation.DOWN
-        super(area, Orientation.DOWN, position);
+        super(area, Orientation.DOWN, position, false);
         this.animation =  new Animation("icoop/heart", 4, 1, 1, this , 16, 16,
                 ANIMATION_DURATION/4, true);
     }

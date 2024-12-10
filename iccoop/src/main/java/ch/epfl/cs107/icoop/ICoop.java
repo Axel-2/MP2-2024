@@ -71,7 +71,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Le jeu commence dans l'aire spwan
 
-        ICoopArea area = (ICoopArea) setCurrentArea("Maze", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         createPlayers(area);
 
         // Interface GUI
