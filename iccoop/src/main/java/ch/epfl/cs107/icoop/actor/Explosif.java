@@ -24,7 +24,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
     private final Animation explosionAnimation;
 
     private boolean isActivated;
-    private int counter;
+    private float counter;
     private boolean isExploding;
 
     private final ExplosifInteractionHandler interactionHandler = new ExplosifInteractionHandler();
@@ -66,11 +66,10 @@ public class Explosif extends ICoopCollectable implements Interactor{
     @Override
     public void update(float deltaTime){
 
-        // TODO VOIR SI FAUT update le counter en fonction du deltaTIME
-        // TODO de la même manière qu'
+        super.update(deltaTime);
 
         if (isActivated) {
-            counter -= 1;
+            counter -= deltaTime;
             tickingAnimation.update(deltaTime);
         }
 
@@ -78,20 +77,15 @@ public class Explosif extends ICoopCollectable implements Interactor{
         // et on commence l'animation d'explosion
         if (counter <= 0) {
             isExploding = true;
-        }
-
-        // On attend très légèrement avant d'update pour bien voir la
-        // toute première image
-        if (counter <= -2) {
             explosionAnimation.update(deltaTime);
         }
+
+
         // Lorsque l'animation a eu le temps de s'afficher
         // on peut finalement unregister l'actor
-        if (counter <= -6) {
+        if (counter <= -1) {
             getOwnerArea().unregisterActor(this);
         }
-
-        super.update(deltaTime);
 
     }
 
@@ -99,11 +93,11 @@ public class Explosif extends ICoopCollectable implements Interactor{
     @Override
     public void drawCollectable(Canvas canvas){
 
-        tickingAnimation.draw(canvas);
-
-        if (isActivated){
+        // Si la bombe n'explose pas on draw la tickingAnimation
+        // cela marche aussi si la bombe n'est pas activée car
+        // dans ce cas on update simplement pas cette animation
+        if (!isExploding){
             tickingAnimation.draw(canvas);
-
         }
 
         if (isExploding){
@@ -243,7 +237,13 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction){
+
+            // TODO CE CODE EST APPELE QUAND ON POSE DES BOMBE trop vite
+            // TODO OU bien avec les artificier faut essaier de trouver une solution
+
             if (explo != Explosif.this) {
+
+                // TODO DEMANDER a yoann d'expliquer pourquoi on met counter = 0
 
                 activate();
                 counter = 0;

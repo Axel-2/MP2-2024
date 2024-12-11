@@ -204,15 +204,26 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
                 case EXPLOSIVE :
                     // Pose la bombe devant le joueur
-                    DiscreteCoordinates position = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
-                    Explosif explo = new Explosif(getOwnerArea(), getOrientation(), position, 50);
-                    if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(position))){
-                        this.getOwnerArea().registerActor(explo);
-                        inventory.removePocketItem(ICoopItem.EXPLOSIVE, 1);
-                    }
-                    if (!inventory.contains(currentItem)){
+                    DiscreteCoordinates exploPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
+                    Explosif explo = new Explosif(getOwnerArea(), getOrientation(), exploPosition, 3);
+
+                    if (inventory.contains(currentItem)) {
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(exploPosition))) {
+                            this.getOwnerArea().registerActor(explo);
+                            inventory.removePocketItem(ICoopItem.EXPLOSIVE, 1);
+                        } else {
+
+                            // TODO demander aux assistants
+
+                            // On est obligé de mettre ce return ici car sinon
+                            // bizzarement c'est le else plus bas qui est appelé
+                            // et on veut pas ça
+                            return;
+                        }
+                    } else {
                         SwitchItem();
                     }
+
 
                     break;
 

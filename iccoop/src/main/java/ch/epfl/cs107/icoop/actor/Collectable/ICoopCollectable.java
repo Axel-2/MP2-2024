@@ -39,6 +39,17 @@ public abstract class ICoopCollectable extends CollectableAreaEntity {
         }
     }
 
+    @Override
+    public void update(float deltaTime) {
+
+        // Ceci est important car sinon les collectables restent
+        // restent dans l'aire mais
+        // ne sont simplement plus visibles
+        if (isCollected() ) {
+            getOwnerArea().unregisterActor(this);
+        }
+    }
+
     public abstract void  drawCollectable(Canvas canvas);
 
     // Par défaut un Collectable est traversable.

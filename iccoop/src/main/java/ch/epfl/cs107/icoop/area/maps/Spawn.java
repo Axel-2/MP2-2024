@@ -77,7 +77,7 @@ public final class Spawn extends ICoopArea {
         // Création du rock et de l'explo
         Rock rock = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(11, 9 ) );
         Rock rock2 = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(3, 7 ) );
-        Explosif explo = new Explosif(this, Orientation.DOWN, new DiscreteCoordinates(11, 10), 50);
+        Explosif explo = new Explosif(this, Orientation.DOWN, new DiscreteCoordinates(11, 10), 3);
 
         registerActor(rock);
         registerActor(rock2);

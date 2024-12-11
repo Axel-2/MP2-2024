@@ -14,6 +14,7 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.math.random.RandomGenerator;
 import ch.epfl.cs107.play.window.Canvas;
 
+import java.util.Collections;
 import java.util.List;
 
 public class HellSkull extends Foe {
@@ -84,15 +85,20 @@ public class HellSkull extends Foe {
         animation.update(deltaTime);
 
         if (deltaFireTime <= 0) {
-            // TODO tester si l'emplacement
-            // est accessible mais je sais pas trop comment faire
-            Fire fire = new Fire(
-                    getOwnerArea(),
-                    getOrientation(),
-                    getCurrentMainCellCoordinates().jump(getOrientation().toVector()),
-                    1, 100
-            );
-            getOwnerArea().registerActor(fire);
+
+            DiscreteCoordinates frontCell = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
+            // test pour voir si l'emplacement est accesible pour lancer la flamme devant
+            if (!getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCell))) {
+                Fire fire = new Fire(
+                        getOwnerArea(),
+                        getOrientation(),
+                        frontCell,
+                        1, 100
+                );
+                getOwnerArea().registerActor(fire);
+            }
+
+
 
             // On remet un deltaFireTime au hasard pour
             // la prochaine flamme

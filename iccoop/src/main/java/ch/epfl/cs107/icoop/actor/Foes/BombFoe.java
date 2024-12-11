@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.actor.Foes;
 
+import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -16,6 +17,7 @@ import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static ch.epfl.cs107.play.math.Orientation.*;
@@ -70,7 +72,8 @@ public class BombFoe extends Foe {
     void drawFoeSprite(Canvas canvas) {
 
         switch (state) {
-            case ATTACK, HIDE, IDLE -> nonProtectedAnimation.draw(canvas);
+            case ATTACK, IDLE -> nonProtectedAnimation.draw(canvas);
+            case HIDE -> protectedAnimation.draw(canvas);
         }
     }
 
@@ -147,6 +150,10 @@ public class BombFoe extends Foe {
     @Override
     public void update(float deltaTime) {
 
+        // On update les deux animations en permanence
+        nonProtectedAnimation.update(deltaTime);
+        protectedAnimation.update(deltaTime);
+
         // Ne fait absolument rien si en mode inactif
          if (inactionCounter < MAX_INACTION_STEPS) {
              inactionCounter += 1;
@@ -156,16 +163,18 @@ public class BombFoe extends Foe {
         } else {
              switch (state) {
                  // En état IDLE, il ne fait rien d'autre que de se déplacer// de façon aléatoire
-                 case IDLE -> randomMove();
-                 case ATTACK -> targetedMove();
-
+                 case IDLE -> {
+                     randomMove();
+                 }
+                 case ATTACK ->
+                         targetedMove();
                  case HIDE -> {
 
                  }
          }
         }
 
-        protectedAnimation.update(deltaTime);
+
 
         super.update(deltaTime);
     }
@@ -191,6 +200,8 @@ public class BombFoe extends Foe {
     }
 
     private void targetedMove() {
+
+        int localSpeedFactor = 1;
 
         // on s'assure qu'il y a bien un player
         // a cibler
@@ -218,10 +229,36 @@ public class BombFoe extends Foe {
         //rapide aura lieu.
         if (orientation != null) {
             orientate(orientation);
+            localSpeedFactor = 1;
+        } else {
+            // sinon on double la vitesse
+            localSpeedFactor = 2;
+        }
+
+        // distance entre le player et l'artificier
+        float distancePlayerFoe = DiscreteCoordinates.distanceBetween(getCurrentMainCellCoordinates(), targetedPlayer.getCurrentMainCellCoordinates());
+
+        // si la distance entre l'artificier est plus grande que 3 on le fait avancer
+        if (distancePlayerFoe > 3) {
+            move(localSpeedFactor * ANIMATION_DURATION / state.getSpeedFactor());
         } else {
 
-            // sinon on double la vitesse
-            move(2 * ANIMATION_DURATION / state.getSpeedFactor());
+            // TODO COMMENT SAVOIR SI LA CELL EST LIBRE ??
+            // si l'artificier est assez proche il largue une bombre
+            DiscreteCoordinates frontCell = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
+
+            // on vérifie si la cell est libre pour poser la bobre
+            if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCell))) {
+                Explosif explosif = new Explosif(getOwnerArea(), DOWN, frontCell, 2);
+                getOwnerArea().registerActor(explosif);
+
+                // la bombe est tout de suite activée
+                explosif.activate();
+
+                // l'artificier passe en mode protégé
+                state = State.HIDE;
+            }
+
         }
 
 

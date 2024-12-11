@@ -16,6 +16,11 @@ Régler le problème que quand on récupère un item, ça switch
 
 Puis reprendre au niveau des boules de feu
 
+# TO DO 
+regler probleme caillou disparait alors qu'on a deja enlevé la bombe
+le pb et que la flamme active la bombe alors qu'on la deja collect
+il faut donc en qq sort l'unregister ??
+
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
 
@@ -49,8 +54,11 @@ Puis reprendre au niveau des boules de feu
 # TO DO
 - evtl si ca marche changer les counters avec le deltaTime mais je suis pas sur
 - que ca marche encore
+- UPDATE: J'AI CHANGE LE COUNTER DE BOMBE ET CA MARCHE
+
 
 - LEs unstoppbale doivent s'arreter si la Celle est en mode canFly = false ???
+
 
 - # ATTENTION NE PAS OUBLIER DE METTRE 
 # LE acceptInbteraction dans les nouvelles classes

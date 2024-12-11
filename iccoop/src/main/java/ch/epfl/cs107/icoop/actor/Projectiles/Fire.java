@@ -13,6 +13,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
+import java.util.Collections;
 import java.util.List;
 
 // TODO SUPPRIMER LE PROJECTILE LORSQU'IL ARRIVE DANS UN MUR
@@ -43,7 +44,18 @@ public class Fire extends Unstoppable {
 
     @Override
     public void update(float deltaTime) {
+
+        // on update en permanence l'animation
         animation.update(deltaTime);
+
+        // Cette condition teste si la flamme peut continuer sa course
+        // en regardant si la prochaine cellule droit devant elle peut
+        // etre traversée
+        if (!getOwnerArea().canEnterAreaCells(this, Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector())))) {
+            // si elle ne peut plus avancer on la stop
+            stopUnstoppable();
+        }
+
         super.update(deltaTime);
     }
 
