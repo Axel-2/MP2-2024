@@ -92,7 +92,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         this.inventory = new ICoopInventory();
         inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
         //inventory.addPocketItem(ICoopItem.FIRESTAFF, 1);
-        //currentItem = ICoopItem.FIRESTAFF;
+        updateCurrentItem();
  
 
         this.statusGui = new ICoopPlayerStatusGUI(this, flipped);
@@ -210,6 +210,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                         this.getOwnerArea().registerActor(explo);
                         inventory.removePocketItem(ICoopItem.EXPLOSIVE, 1);
                     }
+                    if (!inventory.contains(currentItem)){
+                        SwitchItem();
+                    }
 
                     break;
 
@@ -223,15 +226,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     // ne fait rien pour l'instant
 
                 case WATERSTAFF:
-                    // ne fait rien pour l'instant
+                    return;
 
                 case FIRESTAFF:
-                    // ne fait rien pour l'instant
+                    return;
 
             }
-            if (!inventory.contains(currentItem)){
-                SwitchItem();
-            }
+
+
+            updateCurrentItem();
 
         }
     }
@@ -423,6 +426,21 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
 
+    /*
+     * Met à jour le current item
+     * Utile lors d'une collecte, ou pour la disparition d'un objet utilisé
+     */
+    private void updateCurrentItem(){
+        if (currentItem == null || !inventory.contains(currentItem)){
+            for (ICoopItem item : ICoopItem.values()){
+                if (inventory.contains(item)){
+                    currentItem = item;
+                    return;
+                }
+            }
+        }
+        currentItem = null;
+    }
 
     public ICoopItem getCurrentItem(){
         return currentItem;
@@ -456,12 +474,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 // On ne veut pas qu'il se collecte plusieurs fois
                 if (!explo.isCollected()){
                     explo.collect();
-                    if(currentItem == null){
-                        currentItem = ICoopItem.EXPLOSIVE;
-                    }
-
                     // ajoute à l'inventaire ( il y a peut être mieux que de le faire là )
                     inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
+                    updateCurrentItem();
 
                 }
 
@@ -508,11 +523,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             // On récupère le baton !
             if (isCellInteraction){
                 if (!staff.isCollected()) {
-                    System.out.println("Le staff va etre collecté !");
                     staff.collect();
-                    System.out.println("Le staff a été collecté !");
                     ICoopItem itemToAdd = staff.getElement() == Element.FIRE ? ICoopItem.FIRESTAFF : ICoopItem.WATERSTAFF;
                     inventory.addPocketItem(itemToAdd, 1);
+                    updateCurrentItem();
                 }
             }
         }

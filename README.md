@@ -11,7 +11,10 @@ j'ai passé les murs en isViewInteractable true pour que l'explo puisse se poser
 J'avais créé un système de isStockable mais au final j'ai trouvé plus simple, mais peut -être moins bien. donc je laisse la variable stockable en attendant
 là je gère le +1 de quantité dans l'intéraction
 
-# Détail à régler 1 :
+# TODO YOANN :
+Régler le problème que quand on récupère un item, ça switch
+
+Puis reprendre au niveau des boules de feu
 
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
