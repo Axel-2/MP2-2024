@@ -90,8 +90,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         this.inventory = new ICoopInventory();
         inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
+        currentItem = ICoopItem.EXPLOSIVE;
         // inventory.addPocketItem(ICoopItem.SWORD, 1);
-        //this.currentItem = ICoopItem.SWORD;
+ 
 
         this.statusGui = new ICoopPlayerStatusGUI(this, flipped);
 
@@ -160,10 +161,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         }
 
         // On établit l'index de l'item actuel
-        int currentIndex = 0;
+        int currentIndex = -1;
         for (int i = 0; i < itemList.size(); i++){
             if (itemList.get(i).equals(currentItem)){
                 currentIndex = i;
+                break;
             }
         }
 
@@ -171,6 +173,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         int nextIndex = (currentIndex + 1) % itemList.size();
         while(!inventory.contains(itemList.get(nextIndex))){
             nextIndex = (nextIndex + 1) % itemList.size();
+            // Pour éviter la infinite loop qui a causé un bug
+            if (nextIndex == currentIndex) {
+                currentItem = null;
+                return;
+            }
         }
 
         // On update 
@@ -182,7 +189,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     @Override 
     public boolean possess(InventoryItem item) {
-        return (item != null && inventory.contains(item));
+        return (item!= null && inventory.contains(item));
     }
 
     /**
@@ -218,7 +225,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
                 case FIRESTAFF:
                     // ne fait rien pour l'instant
-
 
             }
             if (!inventory.contains(currentItem)){
@@ -448,6 +454,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 // On ne veut pas qu'il se collecte plusieurs fois
                 if (!explo.isCollected()){
                     explo.collect();
+                    if(currentItem == null){
+                        currentItem = ICoopItem.EXPLOSIVE;
+                    }
 
                     // ajoute à l'inventaire ( il y a peut être mieux que de le faire là )
                     inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
