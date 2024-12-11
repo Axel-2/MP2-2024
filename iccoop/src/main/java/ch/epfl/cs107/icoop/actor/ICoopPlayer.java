@@ -90,8 +90,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         this.inventory = new ICoopInventory();
         inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
-        currentItem = ICoopItem.EXPLOSIVE;
-        // inventory.addPocketItem(ICoopItem.SWORD, 1);
+        inventory.addPocketItem(ICoopItem.FIRESTAFF, 1);
+        currentItem = ICoopItem.FIRESTAFF;
  
 
         this.statusGui = new ICoopPlayerStatusGUI(this, flipped);

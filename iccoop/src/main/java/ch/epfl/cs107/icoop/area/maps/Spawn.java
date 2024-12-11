@@ -2,6 +2,7 @@ package ch.epfl.cs107.icoop.area.maps;
 
 import java.util.Arrays;
 
+import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.Projectiles.Fire;
@@ -68,6 +69,9 @@ public final class Spawn extends ICoopArea {
         registerActor(fire);
         Fire fire1 = new Fire(this, Orientation.UP, new DiscreteCoordinates(7, 5), 3, 200);
         registerActor(fire1);
+
+        registerActor(new Staff(this, new DiscreteCoordinates(15, 4), Element.FIRE));
+        registerActor(new Staff(this, new DiscreteCoordinates(12, 4), Element.WATER));
 
 
         // Création du rock et de l'explo

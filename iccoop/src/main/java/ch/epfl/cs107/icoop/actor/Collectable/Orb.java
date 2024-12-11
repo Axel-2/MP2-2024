@@ -21,7 +21,7 @@ public class Orb extends ElementalItem {
     final static int  ANIMATION_DURATION = 24;
     final static int ANIMATION_FRAMES = 6;
 
-    final private Element element;
+    final private Element element; // PTETRE PAS BESOIN CAR DEJA ELEMENTALTYPE DANS LA SUPERCLASSE
     final private OrbType orbType;
     final private Animation animation;
     final Sprite[] sprites;
@@ -34,13 +34,12 @@ public class Orb extends ElementalItem {
     public Orb(Area area, DiscreteCoordinates position, Element elem, DialogHandler dialogHandler) {
         // PAR DEFAUT l'orientation est DOWN, il n'y a pas de cas ou on veut une autre orientation ici
         super(area, Orientation.DOWN, position, elem, false);
+
         this.sprites = new Sprite[ANIMATION_FRAMES];
+        
         this.element = elem;
-        if (elem.equals(Element.FIRE)){
-            this.orbType = OrbType.FIRE;
-        }else{
-            this.orbType = OrbType.WATER;
-        }
+        this.orbType = (elem.equals(Element.FIRE)) ? OrbType.FIRE : OrbType.WATER;
+
         this.dialogHandler = dialogHandler;
 
         for (int i = 0; i < ANIMATION_FRAMES; i++) {
