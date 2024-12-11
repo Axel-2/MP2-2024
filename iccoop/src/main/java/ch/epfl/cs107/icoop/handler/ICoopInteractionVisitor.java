@@ -4,6 +4,7 @@ import ch.epfl.cs107.icoop.actor.Collectable.ElementalItem;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
+import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
 import ch.epfl.cs107.icoop.actor.Explosif;
@@ -63,6 +64,10 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
     }
 
     default void interactWith(ElementalWall wall, boolean isCellInteraction) {  
+    }
+
+    default void interactWith(Staff staff, boolean isCellInteraction){
+        
     }
 
 

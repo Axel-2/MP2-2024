@@ -10,6 +10,7 @@ import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
+import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -90,8 +91,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         this.inventory = new ICoopInventory();
         inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
-        inventory.addPocketItem(ICoopItem.FIRESTAFF, 1);
-        currentItem = ICoopItem.FIRESTAFF;
+        //inventory.addPocketItem(ICoopItem.FIRESTAFF, 1);
+        //currentItem = ICoopItem.FIRESTAFF;
  
 
         this.statusGui = new ICoopPlayerStatusGUI(this, flipped);
@@ -161,18 +162,19 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         }
 
         // On établit l'index de l'item actuel
-        int currentIndex = -1;
+        int currentIndex = 0;
         for (int i = 0; i < itemList.size(); i++){
             if (itemList.get(i).equals(currentItem)){
                 currentIndex = i;
                 break;
             }
         }
-
+        
         // On cherche l'index du prochain item qu'il y a de disponible dans l'inventaire
         int nextIndex = (currentIndex + 1) % itemList.size();
         while(!inventory.contains(itemList.get(nextIndex))){
             nextIndex = (nextIndex + 1) % itemList.size();
+
             // Pour éviter la infinite loop qui a causé un bug
             if (nextIndex == currentIndex) {
                 currentItem = null;
@@ -496,6 +498,20 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 // A CHANGER PLUS TARD
                 health.increase(10);
                 heart.collect();
+            }
+
+
+        }
+        @Override
+        public void interactWith(Staff staff, boolean isCellInteraction) {
+
+            // On récupère le baton !
+            if (!staff.isCollected()) {
+     
+                staff.collect();
+                System.out.println("Le staff a été collecté !");
+                ICoopItem itemToAdd = staff.getElement() == Element.FIRE ? ICoopItem.FIRESTAFF : ICoopItem.WATERSTAFF;
+                inventory.addPocketItem(itemToAdd, 1);
             }
 
 
