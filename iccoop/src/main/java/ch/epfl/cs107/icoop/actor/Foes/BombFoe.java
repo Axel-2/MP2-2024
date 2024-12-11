@@ -42,6 +42,9 @@ public class BombFoe extends Foe {
     private int inactionCounter = 0;
     private static final int MAX_INACTION_STEPS = 24;
 
+    // Mode protégé
+    private int hideCounter;
+
     // variables pour le mode attack
     private ICoopPlayer targetedPlayer;
 
@@ -85,7 +88,7 @@ public class BombFoe extends Foe {
     private enum State {
         IDLE(1),
         ATTACK(2),
-        HIDE(0),
+        HIDE(1),
         ;
 
         private final int speedFactor;
@@ -169,6 +172,23 @@ public class BombFoe extends Foe {
                  case ATTACK ->
                          targetedMove();
                  case HIDE -> {
+
+                     // En mode protégé l'artificier
+                     // oublie sa cible
+                     if (targetedPlayer != null) {
+                         targetedPlayer = null;
+                     }
+
+                     if (hideCounter >= 0) {
+                         // TODO changer le speed factor aussi
+                         randomMove();
+                         hideCounter -= 1;
+                     } else {
+
+                         // Si le counter touche à sa fin
+                         // l'artificier revient en mode IDLE
+                        state = State.IDLE;
+                     }
 
                  }
          }
@@ -256,6 +276,8 @@ public class BombFoe extends Foe {
                 explosif.activate();
 
                 // l'artificier passe en mode protégé
+                // et on met hideCounter à jour
+                hideCounter = RandomGenerator.getInstance().nextInt(72, 120);
                 state = State.HIDE;
             }
 
