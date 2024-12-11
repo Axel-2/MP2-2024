@@ -3,7 +3,9 @@ package ch.epfl.cs107.icoop.actor.Collectable;
 
 
 import ch.epfl.cs107.icoop.enums.Element;
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Animation;
 import ch.epfl.cs107.play.engine.actor.RPGSprite;
 import ch.epfl.cs107.play.engine.actor.Sprite;
@@ -41,6 +43,13 @@ public class Staff extends ElementalItem {
     @Override
     public void drawCollectable(Canvas canvas) {
         animation.draw(canvas);
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        // Fonction par défaut pout le modèle visiteur
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+
     }
 }
 

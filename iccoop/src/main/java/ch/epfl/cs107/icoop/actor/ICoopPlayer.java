@@ -506,15 +506,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         public void interactWith(Staff staff, boolean isCellInteraction) {
 
             // On récupère le baton !
-            if (!staff.isCollected()) {
-     
-                staff.collect();
-                System.out.println("Le staff a été collecté !");
-                ICoopItem itemToAdd = staff.getElement() == Element.FIRE ? ICoopItem.FIRESTAFF : ICoopItem.WATERSTAFF;
-                inventory.addPocketItem(itemToAdd, 1);
+            if (isCellInteraction){
+                if (!staff.isCollected()) {
+                    System.out.println("Le staff va etre collecté !");
+                    staff.collect();
+                    System.out.println("Le staff a été collecté !");
+                    ICoopItem itemToAdd = staff.getElement() == Element.FIRE ? ICoopItem.FIRESTAFF : ICoopItem.WATERSTAFF;
+                    inventory.addPocketItem(itemToAdd, 1);
+                }
             }
-
-
         }
     }
 }
