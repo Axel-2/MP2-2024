@@ -66,7 +66,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private Door leavingDoor = null;
 
     // Barre de vie
-    private static final int MAX_LIFE = 1000;
+    private static final int MAX_LIFE = 100;
     private final Health health = new Health(this , Transform.I.translated(0, 1.75f), MAX_LIFE , true);
 
     // Dégats
@@ -535,7 +535,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             } else {
                 // Si c'est à distance on active la bombe
                 if (keyboard.get(playerKeyBindings.useItem()).isPressed()) {
-                    explo.activate();
+                    explo.activate(1);
                 }
             }
         }
@@ -572,7 +572,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         public void interactWith(Staff staff, boolean isCellInteraction) {
 
             // On récupère le baton !
-            if (isCellInteraction){
+            if (isCellInteraction && element == staff.getElement()){
                 if (!staff.isCollected()) {
                     staff.collect();
                     ICoopItem itemToAdd = staff.getElement() == Element.FIRE ? ICoopItem.FIRESTAFF : ICoopItem.WATERSTAFF;

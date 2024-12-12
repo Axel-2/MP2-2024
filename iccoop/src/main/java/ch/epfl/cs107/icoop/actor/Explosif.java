@@ -52,8 +52,9 @@ public class Explosif extends ICoopCollectable implements Interactor{
     /*
      * Active l'explosif
      */
-    public void activate() {
+    public void activate(int counter) {
         isActivated = true;
+        this.counter = counter;
     }
 
     /*
@@ -245,13 +246,10 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
                 // TODO DEMANDER a yoann d'expliquer pourquoi on met counter = 0
 
-                activate();
-                counter = 0;
-                explode();
+                activate(1);
 
-                explo.activate();
-                explo.counter = 0;
-                explo.explode();
+                explo.activate(1);
+
             } 
         }
 

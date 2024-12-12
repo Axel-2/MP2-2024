@@ -1,5 +1,8 @@
 package ch.epfl.cs107.icoop.actor.Projectiles;
 
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.Foes.Foe;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
@@ -12,9 +15,6 @@ import ch.epfl.cs107.play.engine.actor.Animation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
-
-import java.util.Collections;
-import java.util.List;
 
 // TODO SUPPRIMER LE PROJECTILE LORSQU'IL ARRIVE DANS UN MUR
 // MAIS JSP COMMENT FAIRE
@@ -77,7 +77,7 @@ public class Fire extends Unstoppable {
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction) {
             // testé et validé
-            explo.activate();
+            explo.activate(1);
             stopUnstoppable();
         }
 

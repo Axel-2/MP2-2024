@@ -5,7 +5,6 @@ import java.util.List;
 
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.Foes.Foe;
-import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -17,7 +16,7 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
-// TODO SUPPRIMER LE PROJECTILE LORSQU'IL ARRIVE DANS UN MUR
+// TODO : "ELLES SERONT STOPPEES DANS LEUR COURSE EN LES TOUCHANT"
 // MAIS JSP COMMENT FAIRE
 
 public class StaffBall extends Unstoppable {
@@ -87,7 +86,7 @@ public class StaffBall extends Unstoppable {
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction) {
             // testé et validé
-            explo.activate();
+            explo.activate(1);
             stopUnstoppable();
         }
 
@@ -106,11 +105,5 @@ public class StaffBall extends Unstoppable {
             stopUnstoppable();
         }
 
-        @Override
-        public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-            // testé et validé
-            player.loseHealth(element.toDamage());
-            stopUnstoppable();
-        }
     }
 }
