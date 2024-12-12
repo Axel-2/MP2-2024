@@ -1,5 +1,9 @@
 package ch.epfl.cs107.icoop.actor.Foes;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.enums.Damage;
@@ -8,19 +12,15 @@ import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.OrientedAnimation;
-import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import static ch.epfl.cs107.play.math.Orientation.DOWN;
+import static ch.epfl.cs107.play.math.Orientation.LEFT;
+import static ch.epfl.cs107.play.math.Orientation.RIGHT;
+import static ch.epfl.cs107.play.math.Orientation.UP;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.math.random.RandomGenerator;
-import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import static ch.epfl.cs107.play.math.Orientation.*;
 
 public class BombFoe extends Foe {
 
@@ -292,7 +292,7 @@ public class BombFoe extends Foe {
                 getOwnerArea().registerActor(explosif);
 
                 // la bombe est tout de suite activée
-                explosif.activate();
+                explosif.activate(1);
 
                 // l'artificier passe en mode protégé
                 // et on met hideCounter à jour

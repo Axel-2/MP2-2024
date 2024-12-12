@@ -5,8 +5,8 @@ import java.util.List;
 
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.Foes.Foe;
-import ch.epfl.cs107.icoop.actor.ICoopPlayer;
-import ch.epfl.cs107.icoop.enums.Damage;
+import ch.epfl.cs107.icoop.actor.Rock;
+import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -16,17 +16,26 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
-// TODO SUPPRIMER LE PROJECTILE LORSQU'IL ARRIVE DANS UN MUR
+// TODO : "ELLES SERONT STOPPEES DANS LEUR COURSE EN LES TOUCHANT"
 // MAIS JSP COMMENT FAIRE
 
-public class Fire extends Unstoppable {
+public class StaffBall extends Unstoppable {
 
-    private final FireInteractionHandler interactionHandler = new FireInteractionHandler();
+    private final StaffBallInteractionHandler interactionHandler = new StaffBallInteractionHandler();
 
-    private Animation animation = new Animation("icoop/fire", 7, 1, 1, this , 16, 16, 4, true);
+    private final Animation animation;
+    final static int ANIMATION_DURATION = 12;
 
-    public Fire(Area area, Orientation orientation, DiscreteCoordinates position, int speed, int maxDistance) {
+    private final Element element;
+
+    public StaffBall(Area area, Orientation orientation, DiscreteCoordinates position, int speed, int maxDistance, Element elem) {
         super(area, orientation, position, speed, maxDistance);
+
+        this.element = elem;
+
+        String name = elem == Element.FIRE ? "icoop/magicFireProjectile" : "icoop/magicWaterProjectile";
+        this.animation = new Animation(name , 4, 1, 1, this , 32, 32,
+        ANIMATION_DURATION/4, true);
     }
 
     @Override
@@ -72,7 +81,7 @@ public class Fire extends Unstoppable {
         // Il n'accepte pas d'intéraction donc on laisse ca vide
     }
 
-    private final class FireInteractionHandler implements ICoopInteractionVisitor {
+    private final class StaffBallInteractionHandler implements ICoopInteractionVisitor {
 
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction) {
@@ -84,17 +93,17 @@ public class Fire extends Unstoppable {
         // TODO mettre des autres Damages ???
 
         @Override
+        public void interactWith(Rock rock, boolean isCellInteraction) {
+            // testé et validé
+            rock.destroy();
+            stopUnstoppable();
+        }
+        @Override
         public void interactWith(Foe foe, boolean isCellInteraction) {
             // Bizzare de choisir Fire mais bon
-            foe.loseHealth(Damage.FIRE);
+            foe.loseHealth(element.toDamage());
             stopUnstoppable();
         }
 
-        @Override
-        public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-            // testé et validé
-            player.loseHealth(Damage.FIRE);
-            stopUnstoppable();
-        }
     }
 }

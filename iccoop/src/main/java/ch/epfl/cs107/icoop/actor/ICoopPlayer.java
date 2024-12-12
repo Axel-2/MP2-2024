@@ -11,6 +11,7 @@ import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
+import ch.epfl.cs107.icoop.actor.Projectiles.StaffBall;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -65,7 +66,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private Door leavingDoor = null;
 
     // Barre de vie
-    private static final int MAX_LIFE = 1000;
+    private static final int MAX_LIFE = 100;
     private final Health health = new Health(this , Transform.I.translated(0, 1.75f), MAX_LIFE , true);
 
     // Dégats
@@ -199,16 +200,17 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      * @param kbd
      */
     public void manageUseItem(Keyboard kbd){
+        DiscreteCoordinates frontCellPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
+
         if (kbd.get(playerKeyBindings.useItem()).isPressed() && possess(currentItem)){
             switch (currentItem){
 
                 case EXPLOSIVE :
                     // Pose la bombe devant le joueur
-                    DiscreteCoordinates exploPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
-                    Explosif explo = new Explosif(getOwnerArea(), getOrientation(), exploPosition, 3);
+                    Explosif explo = new Explosif(getOwnerArea(), getOrientation(), frontCellPosition, 3);
 
                     if (inventory.contains(currentItem)) {
-                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(exploPosition))) {
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
                             this.getOwnerArea().registerActor(explo);
                             inventory.removePocketItem(ICoopItem.EXPLOSIVE, 1);
                         } else {
@@ -237,10 +239,47 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     // ne fait rien pour l'instant
 
                 case WATERSTAFF:
-                    return;
+                    // Lance une boule de feu
+                    StaffBall waterBall = new StaffBall(getOwnerArea(), getOrientation(), frontCellPosition, 3, 200, Element.WATER);
+
+                    if (inventory.contains(currentItem)) {
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
+                            this.getOwnerArea().registerActor(waterBall);
+                        } else {
+
+                            // TODO demander aux assistants
+
+                            // On est obligé de mettre ce return ici car sinon
+                            // bizzarement c'est le else plus bas qui est appelé
+                            // et on veut pas ça
+                            return;
+                        }
+                    } else {
+                        SwitchItem();
+                    }
+                    break;
 
                 case FIRESTAFF:
-                    return;
+                    // Lance une boule de feu
+                    StaffBall fireBall = new StaffBall(getOwnerArea(), getOrientation(), frontCellPosition, 3, 200, Element.FIRE);
+
+                    if (inventory.contains(currentItem)) {
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
+                            this.getOwnerArea().registerActor(fireBall);
+                        } else {
+
+                            // TODO demander aux assistants
+
+                            // On est obligé de mettre ce return ici car sinon
+                            // bizzarement c'est le else plus bas qui est appelé
+                            // et on veut pas ça
+                            return;
+                        }
+                    } else {
+                        SwitchItem();
+                    }
+                    break;
+    
 
             }
 
@@ -450,7 +489,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 }
             }
         }
-        currentItem = null;
+
     }
 
     public ICoopItem getCurrentItem(){
@@ -495,7 +534,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             } else {
                 // Si c'est à distance on active la bombe
                 if (keyboard.get(playerKeyBindings.useItem()).isPressed()) {
-                    explo.activate();
+                    explo.activate(1);
                 }
             }
         }
@@ -532,7 +571,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         public void interactWith(Staff staff, boolean isCellInteraction) {
 
             // On récupère le baton !
-            if (isCellInteraction){
+            if (isCellInteraction && element == staff.getElement()){
                 if (!staff.isCollected()) {
                     staff.collect();
                     ICoopItem itemToAdd = staff.getElement() == Element.FIRE ? ICoopItem.FIRESTAFF : ICoopItem.WATERSTAFF;
