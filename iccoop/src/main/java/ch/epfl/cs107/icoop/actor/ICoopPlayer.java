@@ -11,6 +11,7 @@ import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
+import ch.epfl.cs107.icoop.actor.Projectiles.StaffBall;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -237,10 +238,49 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     // ne fait rien pour l'instant
 
                 case WATERSTAFF:
-                    return;
+                                        // Lance une boule de feu
+                    DiscreteCoordinates waterBallPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
+                    StaffBall waterBall = new StaffBall(getOwnerArea(), getOrientation(), waterBallPosition, 3, 200, Element.WATER);
+
+                    if (inventory.contains(currentItem)) {
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(waterBallPosition))) {
+                            this.getOwnerArea().registerActor(waterBall);
+                        } else {
+
+                            // TODO demander aux assistants
+
+                            // On est obligé de mettre ce return ici car sinon
+                            // bizzarement c'est le else plus bas qui est appelé
+                            // et on veut pas ça
+                            return;
+                        }
+                    } else {
+                        SwitchItem();
+                    }
+                    break;
 
                 case FIRESTAFF:
-                    return;
+                    // Lance une boule de feu
+                    DiscreteCoordinates fireBallPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
+                    StaffBall fireBall = new StaffBall(getOwnerArea(), getOrientation(), fireBallPosition, 3, 200, Element.FIRE);
+
+                    if (inventory.contains(currentItem)) {
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(fireBallPosition))) {
+                            this.getOwnerArea().registerActor(fireBall);
+                        } else {
+
+                            // TODO demander aux assistants
+
+                            // On est obligé de mettre ce return ici car sinon
+                            // bizzarement c'est le else plus bas qui est appelé
+                            // et on veut pas ça
+                            return;
+                        }
+                    } else {
+                        SwitchItem();
+                    }
+                    break;
+    
 
             }
 
