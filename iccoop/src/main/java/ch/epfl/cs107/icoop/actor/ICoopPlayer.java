@@ -50,8 +50,19 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     // Attributs d'animation
     private final static int MOVE_DURATION = 8;
     private final Orientation[] orders = {DOWN , RIGHT , UP, LEFT};
+
     private final static int ANIMATION_DURATION = 4;
     private final OrientedAnimation animation;
+
+    private final Vector swordAnchor = new Vector(-.5f, 0);
+    private final static int SWORD_ANIMATION_DURATION = 2;
+    private OrientedAnimation swordAnimation;
+
+    private final Vector staffAnchor = new Vector(-.5f, -.20f);
+    private final static int STAFF_ANIMATION_DURATION = 2;
+    private OrientedAnimation staffAnimation;
+
+
     private final ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
     private final ICoopPlayerStatusGUI statusGui;
 
@@ -78,6 +89,18 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private float immunityTimer;
     private boolean isImmunityTime;
 
+    // Etats
+
+    // par défaut en IDLE
+    private  PlayerState playerState = PlayerState.IDLE;
+
+    private enum PlayerState {
+        IDLE,
+        SWORD,
+        STAFF,
+
+    }
+
     /**
      * @param owner (Area) area to which the player belong
      * @param orientation (Orientation) the initial orientation of the player
@@ -90,16 +113,35 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         this.element = element;
 
+        // Création de l'inventaire
         this.inventory = new ICoopInventory();
+
+
         inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
         //inventory.addPocketItem(ICoopItem.FIRESTAFF, 1);
         updateCurrentItem();
  
-
+        // barre d'état
         this.statusGui = new ICoopPlayerStatusGUI(this, flipped);
 
+        // Animations
         this.animation = new OrientedAnimation(element.getSpriteName(), ANIMATION_DURATION, this,
                 anchor, orders, 4, 1, 2, 16, 32, true);
+
+        this.swordAnimation =  new OrientedAnimation(element.getSpriteName()+".sword",
+                SWORD_ANIMATION_DURATION , this ,
+                swordAnchor , orders , 4, 2, 2, 32, 32);
+
+        // Conditions pour séléctionner la bonne sprite pour staffAnimation
+        String staffAnimationName;
+        if (element.name() == "fire") {
+            staffAnimationName = "icoop/player.staff_fire";
+        } else {
+            staffAnimationName = "icoop/player2.staff_water";
+        }
+        this.staffAnimation = new OrientedAnimation(staffAnimationName , STAFF_ANIMATION_DURATION , this ,
+                staffAnchor , orders , 4, 2, 2, 32, 32);
+
 
         // Les touches sont différentes selon l'élément
         switch (element) {
@@ -121,6 +163,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         moveIfPressed(Orientation.RIGHT, keyboard.get(playerKeyBindings.right()));
         moveIfPressed(Orientation.DOWN, keyboard.get(playerKeyBindings.down()));
 
+
+        // on update l'animation que si y a du mouvement
         if (isDisplacementOccurs()) {
             animation.update(deltaTime);
         } else {
@@ -231,6 +275,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
                 case SWORD :
                     // ne fait rien pour l'instant
+                    playerState = PlayerState.SWORD;
+
 
                 case WATERKEY:
                     // ne fait rien pour l'instant

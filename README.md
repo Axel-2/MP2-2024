@@ -4,6 +4,11 @@
 # Welcome à la création
 # Element dans mur
 
+
+# remaque:
+quand on pose une bombe elle reste affiché dans l'inventaire
+firestaff et waterstaff décomposer avec une fonction
+
 # Remarque 1 :
 j'ai passé les murs en isViewInteractable true pour que l'explo puisse se poser une case à côté
 
