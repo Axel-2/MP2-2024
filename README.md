@@ -14,10 +14,14 @@ là je gère le +1 de quantité dans l'intéraction
 # A voir : 
 Supprimer les doubles checks dans manageuseitem (explo et baton copier collé)
 
-# TODO YOANN :
-Régler le problème que quand on récupère un item, ça switch
+# Remarque 3 :
+dans le mangeuseitem j'ai ctrl c ctrl v deux fois, y'a surement moyen de faire mieux ( en plus de "A voir" au dessus)
 
-Puis reprendre au niveau des boules de feu
+# Question 1 : 
+Pour le 4.3.3, le perso va aussi devoir avoir un state, est-ce que je fais le même principe que ton private enum du bombfoe , ou est-ce quon fait 1 enum pour tous ? 
+
+# TODO YOANN :
+4.3.3 + debug ou clean des trucs, notamment le manageuseitem
 
 # TO DO 
 regler probleme caillou disparait alors qu'on a deja enlevé la bombe

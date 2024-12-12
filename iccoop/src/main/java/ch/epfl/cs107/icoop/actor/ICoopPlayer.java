@@ -200,16 +200,17 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      * @param kbd
      */
     public void manageUseItem(Keyboard kbd){
+        DiscreteCoordinates frontCellPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
+
         if (kbd.get(playerKeyBindings.useItem()).isPressed() && possess(currentItem)){
             switch (currentItem){
 
                 case EXPLOSIVE :
                     // Pose la bombe devant le joueur
-                    DiscreteCoordinates exploPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
-                    Explosif explo = new Explosif(getOwnerArea(), getOrientation(), exploPosition, 3);
+                    Explosif explo = new Explosif(getOwnerArea(), getOrientation(), frontCellPosition, 3);
 
                     if (inventory.contains(currentItem)) {
-                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(exploPosition))) {
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
                             this.getOwnerArea().registerActor(explo);
                             inventory.removePocketItem(ICoopItem.EXPLOSIVE, 1);
                         } else {
@@ -238,12 +239,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     // ne fait rien pour l'instant
 
                 case WATERSTAFF:
-                                        // Lance une boule de feu
-                    DiscreteCoordinates waterBallPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
-                    StaffBall waterBall = new StaffBall(getOwnerArea(), getOrientation(), waterBallPosition, 3, 200, Element.WATER);
+                    // Lance une boule de feu
+                    StaffBall waterBall = new StaffBall(getOwnerArea(), getOrientation(), frontCellPosition, 3, 200, Element.WATER);
 
                     if (inventory.contains(currentItem)) {
-                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(waterBallPosition))) {
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
                             this.getOwnerArea().registerActor(waterBall);
                         } else {
 
@@ -261,11 +261,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
                 case FIRESTAFF:
                     // Lance une boule de feu
-                    DiscreteCoordinates fireBallPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
-                    StaffBall fireBall = new StaffBall(getOwnerArea(), getOrientation(), fireBallPosition, 3, 200, Element.FIRE);
+                    StaffBall fireBall = new StaffBall(getOwnerArea(), getOrientation(), frontCellPosition, 3, 200, Element.FIRE);
 
                     if (inventory.contains(currentItem)) {
-                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(fireBallPosition))) {
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
                             this.getOwnerArea().registerActor(fireBall);
                         } else {
 
