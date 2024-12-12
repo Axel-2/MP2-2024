@@ -43,6 +43,15 @@ public class Staff extends ElementalItem {
     @Override
     public void drawCollectable(Canvas canvas) {
         animation.draw(canvas);
+        
+    }
+
+    @Override
+    public void update(float deltaTime) {
+
+        // Il ne faut pas oublier d'update l'animation
+        animation.update(deltaTime);
+        super.update(deltaTime);
     }
 
     @Override
