@@ -50,6 +50,10 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
 
     abstract int getMaxLife();
 
+    protected boolean isImmunityTime() {
+        return isImmunityTime;
+    }
+
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
         // On ne retoutne que la cell principale

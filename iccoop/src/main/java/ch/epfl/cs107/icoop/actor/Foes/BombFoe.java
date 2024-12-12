@@ -31,7 +31,10 @@ public class BombFoe extends Foe {
     private final OrientedAnimation protectedAnimation;
 
     // TODO cette constante est la meme partout faudra ptet centraliser
-    private final int ANIMATION_DURATION = 16;
+
+    // On met une valeur très élévée pour pouvoir mieux paramétrer par
+    // la suite avec les différents états
+    private final int ANIMATION_DURATION = 32;
 
     private static final int EXTENDED_VIEW_DISTANCE = 8;
 
@@ -51,7 +54,7 @@ public class BombFoe extends Foe {
 
     public BombFoe(Area area, DiscreteCoordinates position) {
 
-        // TODO AJOUTER DOMMAGE PHYSIQUES ???
+        // vulnérable aux dommages physiques et au feu
         // Orienté par défaut vers le bas
         super(area, DOWN, position, new Damage[]{Damage.FIRE, Damage.PHYSICAL});
 
@@ -80,14 +83,16 @@ public class BombFoe extends Foe {
         }
     }
 
+    // Valeur commune à toute les instances
     @Override
     int getMaxLife() {
         return 2;
     }
 
+    // différents états
     private enum State {
-        IDLE(1),
-        ATTACK(2),
+        IDLE(2),
+        ATTACK(6),
         HIDE(1),
         ;
 
@@ -125,6 +130,7 @@ public class BombFoe extends Foe {
     public List<DiscreteCoordinates> getFieldOfViewCells() {
 
         List<DiscreteCoordinates> fieldOfViewCells = new ArrayList<>();
+
         DiscreteCoordinates currentPosition = getCurrentMainCellCoordinates();
         Vector orientationVector = getOrientation().toVector();
 
@@ -132,10 +138,9 @@ public class BombFoe extends Foe {
         if (state.name().equals(State.ATTACK.name())) {
             // En mode attaque, il ne voit que l'unique cellule en face de lui
             fieldOfViewCells.add(currentPosition.jump(orientationVector));
+
         } else {
 
-            // TODO verifier que ca marche bien
-            // TODO que en IDLE ???
             // Dans les autres modes, il voit un ensemble constant de cellules en face de lui
             for (int i = 1; i <= EXTENDED_VIEW_DISTANCE; i++) {
                 fieldOfViewCells.add(currentPosition.jump(orientationVector.mul(i)));
@@ -152,27 +157,39 @@ public class BombFoe extends Foe {
 
     @Override
     public void update(float deltaTime) {
-
-        // On update les deux animations en permanence
         nonProtectedAnimation.update(deltaTime);
         protectedAnimation.update(deltaTime);
+
+
+
+        // Si l'artificier est en période d'immunité
+        // on le remet en IDLE avec un temps
+        // d'inaction nul
+        if (isImmunityTime()) {
+            state = State.IDLE;
+            inactionCounter = 0;
+        }
 
         // Ne fait absolument rien si en mode inactif
          if (inactionCounter < MAX_INACTION_STEPS) {
              inactionCounter += 1;
 
-            // on sort donc directement de update
+             // on sort donc directement de update
+             // pour ne rien faire
             return;
         } else {
+
+             // si il est pas inactif on test l'état
              switch (state) {
                  // En état IDLE, il ne fait rien d'autre que de se déplacer// de façon aléatoire
                  case IDLE -> {
                      randomMove();
                  }
-                 case ATTACK ->
-                         targetedMove();
-                 case HIDE -> {
+                 case ATTACK -> {
+                     targetedMove();
+                 }
 
+                 case HIDE -> {
                      // En mode protégé l'artificier
                      // oublie sa cible
                      if (targetedPlayer != null) {
@@ -180,7 +197,6 @@ public class BombFoe extends Foe {
                      }
 
                      if (hideCounter >= 0) {
-                         // TODO changer le speed factor aussi
                          randomMove();
                          hideCounter -= 1;
                      } else {
@@ -202,7 +218,10 @@ public class BombFoe extends Foe {
 
     private void randomMove() {
 
+        // en premier on teste si un déplacement est déjà en cours
         if (!isDisplacementOccurs()) {
+
+
             double changeOrientationProbability = 0.4;
 
             // il n y a que 40% de chance de changer l'orientation
@@ -213,8 +232,10 @@ public class BombFoe extends Foe {
 
 
             move(ANIMATION_DURATION / state.speedFactor);
-            inactionCounter = 0;
 
+            // on remet l'inactionCounter à 0
+            // à la fin du mouvement
+            inactionCounter = 0;
         }
 
     }
@@ -243,7 +264,6 @@ public class BombFoe extends Foe {
             orientation = Orientation.fromVector(new Vector(0, deltaY));
         }
 
-
         // TODO pourquoi le changement d'orientation ne pourrait pas se faire ??
         // si le changement d’orientation n’a pas pu se faire, un pas de déplacement à vitesse
         //rapide aura lieu.
@@ -263,7 +283,6 @@ public class BombFoe extends Foe {
             move(localSpeedFactor * ANIMATION_DURATION / state.getSpeedFactor());
         } else {
 
-            // TODO COMMENT SAVOIR SI LA CELL EST LIBRE ??
             // si l'artificier est assez proche il largue une bombre
             DiscreteCoordinates frontCell = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
 
