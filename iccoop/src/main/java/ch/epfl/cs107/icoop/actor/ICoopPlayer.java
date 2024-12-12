@@ -450,7 +450,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 }
             }
         }
-        currentItem = null;
+
     }
 
     public ICoopItem getCurrentItem(){
