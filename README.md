@@ -28,11 +28,6 @@ Pour le 4.3.3, le perso va aussi devoir avoir un state, est-ce que je fais le m�
 # TODO YOANN :
 4.3.3 + debug ou clean des trucs, notamment le manageuseitem
 
-# TO DO 
-regler probleme caillou disparait alors qu'on a deja enlevé la bombe
-le pb et que la flamme active la bombe alors qu'on la deja collect
-il faut donc en qq sort l'unregister ??
-
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
 

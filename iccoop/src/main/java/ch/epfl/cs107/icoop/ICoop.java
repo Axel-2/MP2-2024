@@ -5,6 +5,7 @@ import ch.epfl.cs107.icoop.actor.CenterOfMass;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.area.maps.Arena;
 import ch.epfl.cs107.icoop.area.maps.Maze;
 import ch.epfl.cs107.icoop.area.maps.OrbWay;
 import ch.epfl.cs107.icoop.area.maps.Spawn;
@@ -29,6 +30,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     private Area spawnArea;
     private Area orbWayArea;
     private Area mazeArea;
+    private Area arenaArea;
 
     private Dialog activeDialog = null;
 
@@ -46,9 +48,12 @@ public class ICoop extends AreaGame implements DialogHandler {
         orbWayArea = new OrbWay(this);
         mazeArea = new Maze();
 
+        arenaArea = new Arena();
+
         addArea(spawnArea);
         addArea(orbWayArea);
         addArea(mazeArea);
+        addArea(arenaArea);
     }
 
     /**
@@ -71,7 +76,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Le jeu commence dans l'aire spwan
 
-        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Arena", true);
         createPlayers(area);
 
         // Interface GUI

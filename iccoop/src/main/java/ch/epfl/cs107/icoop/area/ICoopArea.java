@@ -6,6 +6,7 @@ import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.area.AreaBehavior;
 import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -25,11 +26,6 @@ public abstract class ICoopArea extends Area {
     // Variable utile pour la fonction update
     // pour garantir un premier affichage
     private boolean hasBeenInitialised;
-
-    // Ça ne pose pas de problème de mettre cette
-    // objet de façon publique car l'objet en lui même
-    // n'a que des getter et des setter publiques
-
 
     public void setCameraScaleFactor(float cameraScaleFactor) {
         this.cameraScaleFactor = cameraScaleFactor;
@@ -54,7 +50,15 @@ public abstract class ICoopArea extends Area {
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
-            setBehavior(new ICoopBehavior(window, getTitle()));
+
+            // on stock l'instance du areaBehavior dans une variable pour
+            // pouvoir l'utiliser dans Arena
+            ICoopBehavior areaBehaviorInstance = new ICoopBehavior(window, getTitle());
+
+            // on crée les obstacles et les cailloux
+            areaBehaviorInstance.createActors(this);
+
+            setBehavior(areaBehaviorInstance);
             createArea();
 
             // Il faut de nouveau assurer
