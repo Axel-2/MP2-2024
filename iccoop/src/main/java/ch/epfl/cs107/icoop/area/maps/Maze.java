@@ -22,15 +22,15 @@ public final class Maze extends ICoopArea {
 
     // Spawn positions
     static final SpawnPosition spawnPosition = new SpawnPosition(
-            // FIRE
-            new DiscreteCoordinates(2, 39),
-            // WATER
-            new DiscreteCoordinates(3, 39)
+//            // FIRE
+//            new DiscreteCoordinates(2, 39),
+//            // WATER
+//            new DiscreteCoordinates(3, 39)
 
 
-//            // TODO seulement pour debug enlever après
-//            new DiscreteCoordinates(3, 10),
-//            new DiscreteCoordinates(4, 10)
+            // TODO seulement pour debug enlever après
+            new DiscreteCoordinates(3, 10),
+            new DiscreteCoordinates(4, 10)
 
 
     );

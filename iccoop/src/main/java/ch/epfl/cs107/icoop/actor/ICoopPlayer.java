@@ -257,14 +257,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                         if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
                             this.getOwnerArea().registerActor(explo);
                             inventory.removePocketItem(ICoopItem.EXPLOSIVE, 1);
-                        } else {
-
-                            // TODO demander aux assistants
-
-                            // On est obligé de mettre ce return ici car sinon
-                            // bizzarement c'est le else plus bas qui est appelé
-                            // et on veut pas ça
-                            return;
                         }
                     } else {
                         SwitchItem();
