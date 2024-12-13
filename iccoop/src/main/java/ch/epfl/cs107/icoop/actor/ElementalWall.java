@@ -130,7 +130,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     /**@return (boolean): true if this is able to have view interactions*/
     @Override
     public boolean isViewInteractable(){
-        return true;
+        return false;
     }
 
     /**

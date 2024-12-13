@@ -5,19 +5,9 @@
 # Element dans mur
 
 
-# remaque:
-quand on pose une bombe elle reste affiché dans l'inventaire
-firestaff et waterstaff décomposer avec une fonction
 
-# Remarque 1 :
-j'ai passé les murs en isViewInteractable true pour que l'explo puisse se poser une case à côté
 
-# Remarque 2 :
-J'avais créé un système de isStockable mais au final j'ai trouvé plus simple, mais peut -être moins bien. donc je laisse la variable stockable en attendant
-là je gère le +1 de quantité dans l'intéraction
 
-# A voir : 
-Supprimer les doubles checks dans manageuseitem (explo et baton copier collé)
 
 # Remarque 3 :
 dans le mangeuseitem j'ai ctrl c ctrl v deux fois, y'a surement moyen de faire mieux ( en plus de "A voir" au dessus)
