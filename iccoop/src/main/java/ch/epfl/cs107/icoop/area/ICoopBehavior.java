@@ -1,14 +1,25 @@
 package ch.epfl.cs107.icoop.area;
 
 import ch.epfl.cs107.icoop.ElementalEntity;
+import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
 import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
+import ch.epfl.cs107.icoop.actor.Obstacle;
 import ch.epfl.cs107.icoop.actor.Projectiles.Unstoppable;
+import ch.epfl.cs107.icoop.actor.Rock;
+import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
+import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.area.AreaBehavior;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
+import ch.epfl.cs107.play.math.DiscreteCoordinates;
+import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Window;
+
+import javax.management.ObjectName;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ICoopBehavior extends AreaBehavior {
     /**
@@ -27,6 +38,43 @@ public final class ICoopBehavior extends AreaBehavior {
                 ICoopCellType color = ICoopCellType.toType(getRGB(height - 1 - y, x));
                 setCell(x, y, new ICoopCell(x, y, color));
             }
+        }
+    }
+
+
+    // crée les rocks et les obstacles automatiquement
+    public void createActors(ICoopArea area) {
+        int height = getHeight();
+        int width = getWidth();
+
+        List<DiscreteCoordinates>  rockList = new ArrayList<DiscreteCoordinates>();
+        List<DiscreteCoordinates>  obstacleList = new ArrayList<DiscreteCoordinates>();
+
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (x == 1 && y == 6) {
+                    System.out.println(((ICoopCell) getCell(x, y)).getType());
+                }
+                if (((ICoopCell) getCell(x, y)).getType() == ICoopCellType.OBSTACLE) {
+                    rockList.add(new DiscreteCoordinates(x, y));
+                    //area.registerActor(new Obstacle(area, Orientation.DOWN, new DiscreteCoordinates(x, y)));
+                } else if (((ICoopCell) getCell(x, y)).getType() == ICoopCellType.ROCK) {
+                    //area.registerActor(new Key(area, Orientation.DOWN, new DiscreteCoordinates(x, y), Element.WATER, false));
+                    //area.registerActor(new Rock(area, Orientation.DOWN, new DiscreteCoordinates(x, y)));
+                    obstacleList.add(new DiscreteCoordinates(x, y));
+                }
+
+            }
+        }
+
+        System.out.println("????");
+        for (DiscreteCoordinates obstacle : obstacleList) {
+            area.registerActor(new Obstacle(area, Orientation.DOWN, obstacle));
+        }
+
+        for (DiscreteCoordinates rock : rockList) {
+            area.registerActor(new Rock(area, Orientation.DOWN, rock));
         }
     }
 
@@ -80,6 +128,10 @@ public final class ICoopBehavior extends AreaBehavior {
         public ICoopCell(int x, int y, ICoopCellType type) {
             super(x, y);
             this.type = type;
+        }
+
+        public ICoopCellType getType() {
+            return type;
         }
 
         @Override

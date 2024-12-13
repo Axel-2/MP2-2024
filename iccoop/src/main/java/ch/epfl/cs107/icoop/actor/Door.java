@@ -42,6 +42,8 @@ public class Door extends AreaEntity {
         this.futurePositions = futurePositions;
         this.signal = signal;
 
+        // TODO ce constructeur retourne une errer mais en soit il est jamais appelé
+        // TODO mais faudra trouver une solution si on a le temps
         // A revoir par la suite:
         // Est-ce qu'on laisse null comme ça ?
         this.otherCellsCoordinates = null;
