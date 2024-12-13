@@ -60,4 +60,6 @@ public class Staff extends ElementalItem {
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
 
     }
+
+
 }

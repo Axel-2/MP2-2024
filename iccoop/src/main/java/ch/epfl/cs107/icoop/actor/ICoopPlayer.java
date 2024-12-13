@@ -188,6 +188,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         if (keyboard.get(playerKeyBindings.switchItem()).isPressed()) {
             SwitchItem();
         }
+ 
         manageUseItem(keyboard);
 
 
@@ -229,8 +230,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         // On update 
         currentItem = itemList.get(nextIndex);
-            
-
     
     }
 
@@ -244,38 +243,30 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      * @param kbd
      */
     public void manageUseItem(Keyboard kbd){
-        DiscreteCoordinates frontCellPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
+        
+        // Si la touche est pressée 
+        if (kbd.get(playerKeyBindings.useItem()).isPressed()){
 
-        if (kbd.get(playerKeyBindings.useItem()).isPressed() && possess(currentItem)){
+            // On récupère la case de devant qui sera utile pour chacun des cas
+            DiscreteCoordinates frontCellPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
+
+            // En fonction de l'item actuel 
             switch (currentItem){
 
                 case EXPLOSIVE :
                     // Pose la bombe devant le joueur
-                    Explosif explo = new Explosif(getOwnerArea(), getOrientation(), frontCellPosition, 3);
 
-                    if (inventory.contains(currentItem)) {
-                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
-                            this.getOwnerArea().registerActor(explo);
-                            inventory.removePocketItem(ICoopItem.EXPLOSIVE, 1);
-                        } else {
-
-                            // TODO demander aux assistants
-
-                            // On est obligé de mettre ce return ici car sinon
-                            // bizzarement c'est le else plus bas qui est appelé
-                            // et on veut pas ça
-                            return;
-                        }
-                    } else {
-                        SwitchItem();
+                    if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
+                        Explosif explo = new Explosif(getOwnerArea(), getOrientation(), frontCellPosition, 3);
+                        this.getOwnerArea().registerActor(explo);
+                        inventory.removePocketItem(currentItem, 1);
                     }
-
-
                     break;
 
                 case SWORD :
                     // ne fait rien pour l'instant
                     playerState = PlayerState.SWORD;
+                    break;
 
 
                 case WATERKEY:
@@ -286,53 +277,43 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
                 case WATERSTAFF:
                     // Lance une boule de feu
-                    StaffBall waterBall = new StaffBall(getOwnerArea(), getOrientation(), frontCellPosition, 3, 200, Element.WATER);
-
-                    if (inventory.contains(currentItem)) {
-                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
-                            this.getOwnerArea().registerActor(waterBall);
-                        } else {
-
-                            // TODO demander aux assistants
-
-                            // On est obligé de mettre ce return ici car sinon
-                            // bizzarement c'est le else plus bas qui est appelé
-                            // et on veut pas ça
-                            return;
-                        }
-                    } else {
-                        SwitchItem();
+                    if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
+                        launchBall(frontCellPosition, Element.WATER);
                     }
                     break;
 
                 case FIRESTAFF:
                     // Lance une boule de feu
-                    StaffBall fireBall = new StaffBall(getOwnerArea(), getOrientation(), frontCellPosition, 3, 200, Element.FIRE);
-
-                    if (inventory.contains(currentItem)) {
-                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
-                            this.getOwnerArea().registerActor(fireBall);
-                        } else {
-
-                            // TODO demander aux assistants
-
-                            // On est obligé de mettre ce return ici car sinon
-                            // bizzarement c'est le else plus bas qui est appelé
-                            // et on veut pas ça
-                            return;
-                        }
-                    } else {
-                        SwitchItem();
+                    if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
+                        launchBall(frontCellPosition, Element.FIRE);
                     }
                     break;
-    
-
             }
 
-
-            updateCurrentItem();
-
         }
+        updateCurrentItem();
+    }
+        /*
+     * Met à jour le current item
+     * Utile lors d'une collecte, ou pour la disparition d'un objet utilisé
+     */
+    private void updateCurrentItem(){
+        if (currentItem == null || !inventory.contains(currentItem)){
+            for (ICoopItem item : ICoopItem.values()){
+                if (inventory.contains(item)){
+                    currentItem = item;
+                    return;
+                }
+            }
+            currentItem = null;
+        }
+
+    }
+
+    // Lance une boule de feu ou d'eau
+    public void launchBall(DiscreteCoordinates position, Element elem){
+        StaffBall Ball = new StaffBall(getOwnerArea(), getOrientation(), position, 3, 200, elem);
+        this.getOwnerArea().registerActor(Ball);
     }
 
     /**
@@ -519,23 +500,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     // On a besoin de ce getter dans ICoop
     public boolean isAlive() {
         return health.isOn();
-    }
-
-
-    /*
-     * Met à jour le current item
-     * Utile lors d'une collecte, ou pour la disparition d'un objet utilisé
-     */
-    private void updateCurrentItem(){
-        if (currentItem == null || !inventory.contains(currentItem)){
-            for (ICoopItem item : ICoopItem.values()){
-                if (inventory.contains(item)){
-                    currentItem = item;
-                    return;
-                }
-            }
-        }
-
     }
 
     public ICoopItem getCurrentItem(){
