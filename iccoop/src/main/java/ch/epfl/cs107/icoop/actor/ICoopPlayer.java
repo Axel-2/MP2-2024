@@ -113,7 +113,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
 
         inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
-        //inventory.addPocketItem(ICoopItem.FIRESTAFF, 1);
+        inventory.addPocketItem(ICoopItem.SWORD,1);
         updateCurrentItem();
  
         // barre d'état
@@ -154,20 +154,23 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
     
-    public void updateAnimation(){
-        switch(playerState){
-            case IDLE:
-                currentAnimation = defaultAnimation;
-                break;
+    // public void updateAnimation(){
+    //     switch(playerState){
+    //         case IDLE:
+    //             System.out.println("Default mise");
+    //             currentAnimation = defaultAnimation;
+    //             break;
             
-            case SWORD:
-                currentAnimation = swordAnimation;
-                break;
+    //         case SWORD:
+    //         System.out.println("Sword mise");
+    //             currentAnimation = swordAnimation;
+    //             break;
 
-            case STAFF:
-                currentAnimation = staffAnimation;
-        }
-    }
+    //         case STAFF:
+    //             System.out.println("Staff mise");
+    //             currentAnimation = staffAnimation;
+    //     }
+    // }
 
     /**
      * @param deltaTime elapsed time since last update, in seconds, non-negative
@@ -177,12 +180,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         // Gestion du mouvement
         Keyboard keyboard = getOwnerArea().getKeyboard();
-        moveIfPressed(Orientation.LEFT, keyboard.get(playerKeyBindings.left()));
-        moveIfPressed(Orientation.UP, keyboard.get(playerKeyBindings.up()));
-        moveIfPressed(Orientation.RIGHT, keyboard.get(playerKeyBindings.right()));
-        moveIfPressed(Orientation.DOWN, keyboard.get(playerKeyBindings.down()));
-
-
+       
+        if (playerState == PlayerState.IDLE) {
+            moveIfPressed(Orientation.LEFT, keyboard.get(playerKeyBindings.left()));
+            moveIfPressed(Orientation.UP, keyboard.get(playerKeyBindings.up()));
+            moveIfPressed(Orientation.RIGHT, keyboard.get(playerKeyBindings.right()));
+            moveIfPressed(Orientation.DOWN, keyboard.get(playerKeyBindings.down()));
+        }
         // on update l'animation que si y a du mouvement
         if (isDisplacementOccurs()) {
             currentAnimation.update(deltaTime);
@@ -190,6 +194,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             currentAnimation.reset();
         }
 
+        ////////// ----------------------------------------------------------------------------------ICI------------------------
+        if (playerState == PlayerState.SWORD){
+            if(!currentAnimation.isCompleted()){
+                currentAnimation.update(deltaTime);
+            }else{
+                currentAnimation = defaultAnimation;
+                playerState = PlayerState.IDLE;
+            } 
+        }
 
         // Update de la période d'immunité
         // du personnage
@@ -209,7 +222,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         }
  
         manageUseItem(keyboard);
-
 
         super.update(deltaTime);
     }
@@ -272,7 +284,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
             // En fonction de l'item actuel 
             switch (currentItem){
-
                 case null:
                     break;
 
@@ -287,8 +298,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     break;
 
                 case SWORD :
-                    // ne fait rien pour l'instant
+                    // ne fait rien pour l'instant ----------------------------------------------------------------------------------ICI-----
                     playerState = PlayerState.SWORD;
+                    currentAnimation = swordAnimation;
                     break;
 
 
@@ -357,6 +369,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         } else {
             currentAnimation.draw(canvas);
         }
+
+
 
         // Il faut aussi dessiner la barre de vie
         health.draw(canvas);
