@@ -4,24 +4,10 @@
 # Welcome à la création
 # Element dans mur
 
-# TODO YOANN :
-4.3.3 + debug ou clean des trucs, notamment le manageuseitem
-# A faire : bug de l'item qui ne disparait pas quand y'en a plus
-# A faire : rework launch Magic Projectile dans staff
-# Rework le manage use item
-
-# Question 1 : 
-Pour le 4.3.3, le perso va aussi devoir avoir un state, est-ce que je fais le même principe que ton private enum du bombfoe , ou est-ce quon fait 1 enum pour tous ? 
 
 
 
-# TO DO 
-regler probleme caillou disparait alors qu'on a deja enlevé la bombe
-le pb et que la flamme active la bombe alors qu'on la deja collect
-il faut donc en qq sort l'unregister ??
 
-
-# Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
 
 # QUESTION A POSER VENDREDI
 
