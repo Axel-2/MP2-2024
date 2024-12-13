@@ -29,6 +29,7 @@ public class BombFoe extends Foe {
 
     private final OrientedAnimation nonProtectedAnimation;
     private final OrientedAnimation protectedAnimation;
+    private  OrientedAnimation currentAnimation;
 
     // TODO cette constante est la meme partout faudra ptet centraliser
 
@@ -72,15 +73,22 @@ public class BombFoe extends Foe {
         this.protectedAnimation = new OrientedAnimation("icoop/bombFoe.protecting",
                 ANIMATION_DURATION/3,this , anchor, orders, 4, 2, 2, 32, 32,
                 false);
+
+        // Par défaut l'artificier n'est pas protégé
+        this.currentAnimation = nonProtectedAnimation;
+
+
     }
 
     @Override
     void drawFoeSprite(Canvas canvas) {
 
         switch (state) {
-            case ATTACK, IDLE -> nonProtectedAnimation.draw(canvas);
-            case HIDE -> protectedAnimation.draw(canvas);
+            case ATTACK, IDLE -> currentAnimation = nonProtectedAnimation;
+            case HIDE -> currentAnimation = protectedAnimation;
         }
+
+        currentAnimation.draw(canvas);
     }
 
     // Valeur commune à toute les instances
@@ -157,10 +165,7 @@ public class BombFoe extends Foe {
 
     @Override
     public void update(float deltaTime) {
-        nonProtectedAnimation.update(deltaTime);
-        protectedAnimation.update(deltaTime);
-
-
+        currentAnimation.update(deltaTime);
 
         // Si l'artificier est en période d'immunité
         // on le remet en IDLE avec un temps
@@ -197,13 +202,26 @@ public class BombFoe extends Foe {
                      }
 
                      if (hideCounter >= 0) {
-                         randomMove();
+
+                         // petite incohérence entre les vidéos de demo et l'énoncé:
+                         // mais l'assistant m'a dit de ne pas me préoccuper de ça et
+                         // donc s'il ne bouge pas dans la vidéo je peux faire la même
+                         // chose, j'ai donc commenté le randomMove()
+                         // l'artificier reste donc inactif après avoir posé la bombe au lieu de
+                         // bouger lentement comme dans l'énoncé
+
+                         // randomMove();
+
                          hideCounter -= 1;
                      } else {
 
                          // Si le counter touche à sa fin
                          // l'artificier revient en mode IDLE
                         state = State.IDLE;
+
+                        // on reset aussi l'animation pour la
+                         // prochaine attaque
+                        protectedAnimation.reset();
                      }
 
                  }
@@ -278,8 +296,8 @@ public class BombFoe extends Foe {
         // distance entre le player et l'artificier
         float distancePlayerFoe = DiscreteCoordinates.distanceBetween(getCurrentMainCellCoordinates(), targetedPlayer.getCurrentMainCellCoordinates());
 
-        // si la distance entre l'artificier est plus grande que 3 on le fait avancer
-        if (distancePlayerFoe > 3) {
+        // si la distance entre l'artificier est plus grande que 2 on le fait avancer
+        if (distancePlayerFoe > 2) {
             move(localSpeedFactor * ANIMATION_DURATION / state.getSpeedFactor());
         } else {
 
