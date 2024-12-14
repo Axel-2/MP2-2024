@@ -131,7 +131,9 @@ public class BombFoe extends Foe {
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-        // ????
+        // Fonction par défaut pout le modèle visiteur
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+
     }
 
     @Override
@@ -157,6 +159,8 @@ public class BombFoe extends Foe {
         return fieldOfViewCells;
 
     }
+
+
 
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {

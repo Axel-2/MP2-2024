@@ -1,19 +1,21 @@
 package ch.epfl.cs107.icoop.actor.Foes;
 
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.cs107.icoop.actor.Health;
 import ch.epfl.cs107.icoop.enums.Damage;
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Animation;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
-
-import java.util.Collections;
-import java.util.List;
 
  //Un ennemi est capable de se déplacer sur une grille
 // il hérite donc de MovableAreaEntity
@@ -65,7 +67,9 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
         // On peut marcher dessus que si le mob est mort
         return isAlive;
     }
-
+    public float getHealthIntensity() {
+        return health.getIntensity();
+    }
     @Override
     public boolean isCellInteractable() {
         // Il est possible d'avoir par
@@ -94,6 +98,13 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
         // Par défaut une Foe demande des intéractions
         // ils ne veulent pas que les subirs
         return true;
+    }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        // Fonction par défaut pout le modèle visiteur
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+
     }
 
 

@@ -11,6 +11,7 @@ import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
+import ch.epfl.cs107.icoop.actor.Foes.Foe;
 import ch.epfl.cs107.icoop.actor.Projectiles.StaffBall;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
@@ -51,7 +52,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private OrientedAnimation currentAnimation;
 
     private final static int MOVE_DURATION = 8;
-    private final Orientation[] orders = {DOWN , RIGHT , UP, LEFT};
+    private final Orientation[] orders = {DOWN , RIGHT, UP, LEFT};
+    private final Orientation[] itemOrders = {DOWN , UP, RIGHT, LEFT}; // Pour les animations du staff et de l'épée, l'ordre d'en haut n'est pas correct
 
     private final static int ANIMATION_DURATION = 4;
     private final OrientedAnimation defaultAnimation;
@@ -125,12 +127,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         swordAnimation =  new OrientedAnimation(element.getSpriteName()+".sword",
                 SWORD_ANIMATION_DURATION , this ,
-                swordAnchor , orders , 4, 2, 2, 32, 32);
+                swordAnchor , itemOrders , 4, 2, 2, 32, 32);
 
         // Conditions pour séléctionner la bonne sprite pour staffAnimation
         String staffAnimationName = (element.equals(Element.FIRE)) ? "icoop/player.staff_fire" : "icoop/player2.staff_water";
         staffAnimation = new OrientedAnimation(staffAnimationName , STAFF_ANIMATION_DURATION , this ,
-                staffAnchor , orders , 4, 2, 2, 32, 32);
+                staffAnchor , itemOrders , 4, 2, 2, 32, 32);
 
 
         // Les touches sont différentes selon l'élément
@@ -190,12 +192,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         
         }
 
-        // DEBUG
-        if (element.equals(Element.FIRE)){
-            System.out.println(playerState);
-        }
         
-
         // Update de la période d'immunité
         // du personnage
         if (isImmunityTime && immunityTimer > 0) {
@@ -473,7 +470,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     @Override
     public boolean wantsViewInteraction() {
 
-        // On veut les intéractions à distance seulement si le joueur appuie sur la touche useItem
+        // On veut les intéractions à distance seulement si le joueur est entrain de donné un coup d'épée
         return playerState.equals(PlayerState.SWORD);
 
     }
@@ -622,6 +619,12 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     updateCurrentItem();
                 }
             }
+        }
+        @Override
+        public void interactWith(Foe foe, boolean isCellInteraction) {
+            foe.loseHealth(Damage.PHYSICAL);
+            System.out.println("Damage dealt to Foe. Remaining health: " + foe.getHealthIntensity());
+            
         }
     }
 }

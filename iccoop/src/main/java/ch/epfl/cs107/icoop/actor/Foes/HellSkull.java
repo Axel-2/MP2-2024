@@ -1,5 +1,8 @@
 package ch.epfl.cs107.icoop.actor.Foes;
 
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
 import ch.epfl.cs107.icoop.actor.Projectiles.Fire;
 import ch.epfl.cs107.icoop.enums.Damage;
@@ -13,9 +16,6 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.math.random.RandomGenerator;
 import ch.epfl.cs107.play.window.Canvas;
-
-import java.util.Collections;
-import java.util.List;
 
 public class HellSkull extends Foe {
 
@@ -69,6 +69,8 @@ public class HellSkull extends Foe {
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        // Fonction par défaut pout le modèle visiteur
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
 
     }
 
