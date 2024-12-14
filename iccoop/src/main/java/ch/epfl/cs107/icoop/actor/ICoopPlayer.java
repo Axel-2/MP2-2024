@@ -54,15 +54,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private final Orientation[] orders = {DOWN , RIGHT , UP, LEFT};
 
     private final static int ANIMATION_DURATION = 4;
-    private static OrientedAnimation defaultAnimation;
+    private final OrientedAnimation defaultAnimation;
 
     private final Vector swordAnchor = new Vector(-.5f, 0);
     private final static int SWORD_ANIMATION_DURATION = 2;
-    private static OrientedAnimation swordAnimation;
+    private final OrientedAnimation swordAnimation;
 
     private final Vector staffAnchor = new Vector(-.5f, -.20f);
     private final static int STAFF_ANIMATION_DURATION = 2;
-    private static OrientedAnimation staffAnimation;
+    private final OrientedAnimation staffAnimation;
 
 
     private final ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
@@ -128,12 +128,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 swordAnchor , orders , 4, 2, 2, 32, 32);
 
         // Conditions pour séléctionner la bonne sprite pour staffAnimation
-        String staffAnimationName;
-        if (element.name().equals("fire")) {
-            staffAnimationName = "icoop/player.staff_fire";
-        } else {
-            staffAnimationName = "icoop/player2.staff_water";
-        }
+        String staffAnimationName = (element.equals(Element.FIRE)) ? "icoop/player.staff_fire" : "icoop/player2.staff_water";
         staffAnimation = new OrientedAnimation(staffAnimationName , STAFF_ANIMATION_DURATION , this ,
                 staffAnchor , orders , 4, 2, 2, 32, 32);
 
@@ -153,25 +148,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         STAFF;
     }
 
-    
-    // public void updateAnimation(){
-    //     switch(playerState){
-    //         case IDLE:
-    //             System.out.println("Default mise");
-    //             currentAnimation = defaultAnimation;
-    //             break;
-            
-    //         case SWORD:
-    //         System.out.println("Sword mise");
-    //             currentAnimation = swordAnimation;
-    //             break;
-
-    //         case STAFF:
-    //             System.out.println("Staff mise");
-    //             currentAnimation = staffAnimation;
-    //     }
-    // }
-
     /**
      * @param deltaTime elapsed time since last update, in seconds, non-negative
      */
@@ -181,28 +157,44 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         // Gestion du mouvement
         Keyboard keyboard = getOwnerArea().getKeyboard();
        
-        if (playerState == PlayerState.IDLE) {
+        if(playerState.equals(PlayerState.IDLE)){
+
             moveIfPressed(Orientation.LEFT, keyboard.get(playerKeyBindings.left()));
             moveIfPressed(Orientation.UP, keyboard.get(playerKeyBindings.up()));
             moveIfPressed(Orientation.RIGHT, keyboard.get(playerKeyBindings.right()));
             moveIfPressed(Orientation.DOWN, keyboard.get(playerKeyBindings.down()));
-        }
-        // on update l'animation que si y a du mouvement
-        if (isDisplacementOccurs()) {
-            currentAnimation.update(deltaTime);
-        } else {
-            currentAnimation.reset();
+
+            if (isDisplacementOccurs()) {
+                currentAnimation.update(deltaTime);
+            } else {
+                currentAnimation.reset();
+            }
         }
 
-        ////////// ----------------------------------------------------------------------------------ICI------------------------
-        if (playerState == PlayerState.SWORD){
-            if(!currentAnimation.isCompleted()){
+        if (!playerState.equals(PlayerState.IDLE)) {
+            if (!currentAnimation.isCompleted()) {
                 currentAnimation.update(deltaTime);
-            }else{
-                currentAnimation = defaultAnimation;
-                playerState = PlayerState.IDLE;
-            } 
+            } else {
+
+                // Check la touche est encore appuyée
+                if (keyboard.get(playerKeyBindings.useItem()).isDown()) {
+
+                    // Recommence l'animation de l'épée si la touche est encore appuyée
+                    currentAnimation.reset();
+                } else {
+                    // Retour à l'état IDLE seulement si aucune action n'est en cours
+                    currentAnimation = defaultAnimation;
+                    playerState = PlayerState.IDLE;
+                }
+            }
+        
         }
+
+        // DEBUG
+        if (element.equals(Element.FIRE)){
+            System.out.println(playerState);
+        }
+        
 
         // Update de la période d'immunité
         // du personnage
@@ -298,7 +290,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     break;
 
                 case SWORD :
-                    // ne fait rien pour l'instant ----------------------------------------------------------------------------------ICI-----
                     playerState = PlayerState.SWORD;
                     currentAnimation = swordAnimation;
                     break;
@@ -311,7 +302,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     // ne fait rien pour l'instant
 
                 case WATERSTAFF:
-                    // Lance une boule de feu
+                    // Lance une boule d'eau
+                    playerState = PlayerState.STAFF;
+                    currentAnimation = staffAnimation;
                     if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
                         launchBall(frontCellPosition, Element.WATER);
                     }
@@ -319,6 +312,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
                 case FIRESTAFF:
                     // Lance une boule de feu
+                    playerState = PlayerState.STAFF;
+                    currentAnimation = staffAnimation;
                     if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
                         launchBall(frontCellPosition, Element.FIRE);
                     }
@@ -479,8 +474,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     public boolean wantsViewInteraction() {
 
         // On veut les intéractions à distance seulement si le joueur appuie sur la touche useItem
-        Keyboard keyboard = getOwnerArea().getKeyboard();
-        return keyboard.get(playerKeyBindings.useItem()).isPressed();
+        return playerState.equals(PlayerState.SWORD);
 
     }
 
