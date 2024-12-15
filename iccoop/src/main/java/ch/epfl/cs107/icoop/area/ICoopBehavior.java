@@ -62,8 +62,6 @@ public final class ICoopBehavior extends AreaBehavior {
             }
         }
 
-        System.out.println("hh");
-
         for (DiscreteCoordinates obstacle : obstacleList) {
             area.registerActor(new Obstacle(area, Orientation.DOWN, obstacle));
         }
@@ -72,7 +70,6 @@ public final class ICoopBehavior extends AreaBehavior {
             area.registerActor(new Rock(area, Orientation.DOWN, rock));
         }
 
-        System.out.println("sjj");
     }
 
 

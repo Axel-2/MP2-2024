@@ -21,6 +21,7 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 
+
 public class ICoop extends AreaGame implements DialogHandler {
 
     private ICoopPlayer player1;
