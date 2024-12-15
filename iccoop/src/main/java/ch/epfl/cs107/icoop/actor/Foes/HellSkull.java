@@ -17,8 +17,12 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.math.random.RandomGenerator;
 import ch.epfl.cs107.play.window.Canvas;
 
+/** 
+ * Représente les crânes de feu lançeurs de flammes
+*/
 public class HellSkull extends Foe {
 
+    // Durée de feu 
     private float deltaFireTime;
 
     private final static int ANIMATION_DURATION = 12;
@@ -85,13 +89,16 @@ public class HellSkull extends Foe {
 
         super.update(deltaTime);
 
-        // Dans tous les cas on update l'animation
+        // Update de l'animation
         animation.update(deltaTime);
+
 
         if (deltaFireTime <= 0) {
 
+            // Position de devant, utile pour savoir si l'on peut y créer une instancew de flamme
             DiscreteCoordinates frontCell = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
-            // test pour voir si l'emplacement est accesible pour lancer la flamme devant
+
+            // Lance une flamme si c'est possible
             if (!getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCell))) {
                 Fire fire = new Fire(
                         getOwnerArea(),
@@ -102,40 +109,29 @@ public class HellSkull extends Foe {
                 getOwnerArea().registerActor(fire);
             }
 
-
-
-            // On remet un deltaFireTime au hasard pour
-            // la prochaine flamme
+            // Pour la prochaine flamme, on recrée un temps au hasard
             deltaFireTime = RandomGenerator.getInstance().nextFloat(MIN_FIRE_TIME , MAX_FIRE_TIME);
+
         } else {
-            // si le timer n'est pas terminé
-            // on decrémente
+            // Tant que le timer n'est pas fini, on décrémente
             deltaFireTime -= deltaTime;
         }
-
-
-
     }
 
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
-
-        // Il faut faire de cette manière pour utiliser le handler
         other.acceptInteraction(interactionHandler, isCellInteraction);
-
     }
 
+    /**
+     * Gestionnaire d'intéraction pour le crâne
+     */
     private final class HellSkullInteractionHandler implements ICoopInteractionVisitor {
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
             if (isCellInteraction) {
-
-                // TODO CHANGER LE DAMAGE POUR
-                // QU'ON PUISSE METTRE UN PARAMETRE
-
                 player.loseHealth(Damage.FIRE);
             }
+        }
     }
-}
-
 }

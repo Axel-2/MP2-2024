@@ -7,6 +7,9 @@
 # To do yoann :
 # Re faire les commentaires
 # faire un fichier help et conception
+# Review stockable
+# Je crois que mes elementalitems ont plusieurs elements
+# Orbtype tjr doute
 
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf

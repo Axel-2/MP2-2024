@@ -9,19 +9,34 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
+/**
+* Représente les items ramassables de notre jeu
+*/
 public abstract class ICoopCollectable extends CollectableAreaEntity {
 
+    // Visibilité de l'objet
     private boolean isVisible;
+
+    // Indique si l'objet est stockable dans l'inventaire
     private final boolean isStockable;
 
-
+/**
+ * Constructeur des ICoopCollectables
+ * @param area
+ * @param orientation
+ * @param position
+ * @param isStockable
+ */
     public ICoopCollectable(Area area, Orientation orientation, DiscreteCoordinates position, boolean isStockable) {
-        // L'object n'est pas collecté par défaut
         super(area, orientation, position);
-        this.isStockable = isStockable;
-        
+        this.isStockable = isStockable; 
     }
 
+    
+    /**
+     * Getter de la stocabilité
+     * @return (boolean) vrai si l'item est stockable
+     */
     public boolean isStockable(){
         return isStockable;
     }
@@ -42,9 +57,7 @@ public abstract class ICoopCollectable extends CollectableAreaEntity {
     @Override
     public void update(float deltaTime) {
 
-        // Ceci est important car sinon les collectables restent
-        // restent dans l'aire mais
-        // ne sont simplement plus visibles
+        // Désenregistre l'item si il est collecté
         if (isCollected() ) {
             getOwnerArea().unregisterActor(this);
         }
@@ -52,21 +65,24 @@ public abstract class ICoopCollectable extends CollectableAreaEntity {
 
     public abstract void  drawCollectable(Canvas canvas);
 
-    // Par défaut un Collectable est traversable.
+    
     @Override
     public boolean takeCellSpace() {
+        // Par défaut un Collectable est traversable.
         return false;
     }
 
-    // Que des intéractions de contact à ce niveau
+    
     @Override
     public boolean isCellInteractable() {
+        // Uniquement des intéractions de contact à ce niveau
         return true;
     }
 
-    // Que des intéractions de contact à ce niveau
+    
     @Override
     public boolean isViewInteractable() {
+        // Uniquement des intéractions de contact à ce niveau
         return false;
     }
 
