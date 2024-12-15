@@ -22,44 +22,51 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.math.random.RandomGenerator;
 import ch.epfl.cs107.play.window.Canvas;
 
+
+/**
+ * Représente les artificiers, c-à-d les ennemis lançants des explosifs
+ */
 public class BombFoe extends Foe {
 
-    // Différents états de l'artificier
+    // Etat de l'artificer
     private State state;
 
-    private final OrientedAnimation nonProtectedAnimation;
-    private final OrientedAnimation protectedAnimation;
+    // Animation actuelle
     private  OrientedAnimation currentAnimation;
 
-    // TODO cette constante est la meme partout faudra ptet centraliser
+    // Animations de protection et de non-protection
+    private final OrientedAnimation nonProtectedAnimation;
+    private final OrientedAnimation protectedAnimation;
 
-    // On met une valeur très élévée pour pouvoir mieux paramétrer par
-    // la suite avec les différents états
+    // TODO cette constante est la meme partout faudra ptet centraliser
+    // Durée de l'animation
     private final int ANIMATION_DURATION = 32;
 
+    // Distance de vue élargie
     private static final int EXTENDED_VIEW_DISTANCE = 8;
 
+    // Gestionnaire d'intéractions
     private final BombFoeInteractionHandler interactionHandler = new BombFoeInteractionHandler();
 
-
-    // Moments d'inactions ou il ne fait rien
+    // Compteur du temps où il ne fait rien
     private int inactionCounter = 0;
+
+    // Valeur limite de temps où il ne fait rien
     private static final int MAX_INACTION_STEPS = 24;
 
-    // Mode protégé
+    // Compteur de temps où il se cache derrière son bouclier
     private int hideCounter;
 
-    // variables pour le mode attack
+    // Joueur ciblé
     private ICoopPlayer targetedPlayer;
 
-
+    /**
+     * Constructeur des artificiers
+     */
     public BombFoe(Area area, DiscreteCoordinates position) {
-
-        // vulnérable aux dommages physiques et au feu
-        // Orienté par défaut vers le bas
         super(area, DOWN, position, new Damage[]{Damage.FIRE, Damage.PHYSICAL});
 
-        // par défaut il est en IDLE
+        // Etat d'inaction par défaut
         this.state = State.IDLE;
 
         // Animations
@@ -74,7 +81,6 @@ public class BombFoe extends Foe {
                 ANIMATION_DURATION/3,this , anchor, orders, 4, 2, 2, 32, 32,
                 false);
 
-        // Par défaut l'artificier n'est pas protégé
         this.currentAnimation = nonProtectedAnimation;
 
 
@@ -91,21 +97,29 @@ public class BombFoe extends Foe {
         currentAnimation.draw(canvas);
     }
 
-    // Valeur commune à toute les instances
+    
     @Override
     int getMaxLife() {
+        // Valeur commune à toute les instances
         return 5;
     }
 
-    // différents états
+    /**
+     * Type énuméré des différentes états que peuvent prendre les artificiers
+     */
     private enum State {
         IDLE(2),
         ATTACK(6),
         HIDE(1),
         ;
 
+        // Facteur de vitesse
         private final int speedFactor;
 
+        /**
+         * Constructeur des énums
+         * @param speedFactor
+         */
         State(int speedFactor) {
             this.speedFactor = speedFactor;
         }
@@ -113,19 +127,17 @@ public class BombFoe extends Foe {
         public int getSpeedFactor() {
             return speedFactor;
         }
-
-
     }
 
     @Override
     public boolean wantsCellInteraction() {
-        // ne veut pas d'intéraction de contact
+        // Ne veut pas d'intéraction de contact
         return false;
     }
 
     @Override
     public boolean wantsViewInteraction() {
-        // veut des intéractions à distance en IDLE ou en ATTACK
+        // Veut des intéractions à distance en IDLE ou en ATTACK
         return state.equals(State.IDLE) || state.equals(State.ATTACK);
     }
 
@@ -133,19 +145,21 @@ public class BombFoe extends Foe {
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         // Fonction par défaut pout le modèle visiteur
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
-
     }
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
 
+        // Création de la liste des cellules visible, qui sera remplie ensuite.
         List<DiscreteCoordinates> fieldOfViewCells = new ArrayList<>();
 
+        // Coordonnées et orientation
         DiscreteCoordinates currentPosition = getCurrentMainCellCoordinates();
         Vector orientationVector = getOrientation().toVector();
 
 
         if (state.name().equals(State.ATTACK.name())) {
+
             // En mode attaque, il ne voit que l'unique cellule en face de lui
             fieldOfViewCells.add(currentPosition.jump(orientationVector));
 
@@ -174,9 +188,7 @@ public class BombFoe extends Foe {
 
         currentAnimation.update(deltaTime);
 
-        // Si l'artificier est en période d'immunité
-        // on le remet en IDLE avec un temps
-        // d'inaction nul
+        // Si l'artificier est en période d'immunité, il est remis en IDL avec un temps d'inaction nul
         if (isImmunityTime()) {
             state = State.IDLE;
             inactionCounter = 0;
@@ -184,32 +196,31 @@ public class BombFoe extends Foe {
 
         // Ne fait absolument rien si en mode inactif
          if (inactionCounter < MAX_INACTION_STEPS) {
-             inactionCounter += 1;
+            inactionCounter += 1;
 
-             // on sort donc directement de update
-             // pour ne rien faire
-            return;
         } else {
 
-             // si il est pas inactif on test l'état
+             // Si il n'est pas inactif, intéressons nous à son état
              switch (state) {
+
                  // En état IDLE, il ne fait rien d'autre que de se déplacer// de façon aléatoire
                  case IDLE -> {
                      randomMove();
                  }
+                 // En état d'attaque, il se déplace de façon ciblée
                  case ATTACK -> {
                      targetedMove();
                  }
 
                  case HIDE -> {
-                     // En mode protégé l'artificier
-                     // oublie sa cible
+                     // En mode protégé, l'artificier oublie sa cible
                      if (targetedPlayer != null) {
                          targetedPlayer = null;
                      }
 
                      if (hideCounter >= 0) {
 
+                        // TODO AXEL JTE LAISSE GERER LE COMMENTAIRE ICI -------------------------------------------------------------------------------------------------------------
                          // petite incohérence entre les vidéos de demo et l'énoncé:
                          // mais l'assistant m'a dit de ne pas me préoccuper de ça et
                          // donc s'il ne bouge pas dans la vidéo je peux faire la même
@@ -222,64 +233,64 @@ public class BombFoe extends Foe {
                          hideCounter -= 1;
                      } else {
 
-                         // Si le counter touche à sa fin
-                         // l'artificier revient en mode IDLE
+                        // Si le counter touche à sa fin, l'artificier revient en état inactif
                         state = State.IDLE;
-
-                        // on reset aussi l'animation pour la
-                         // prochaine attaque
+                        
+                        // Reset de son animation pour la prochaine attaque
                         protectedAnimation.reset();
                      }
-
-                 }
-         }
+                }
+            }
         }
-
-
     }
 
 
+    /**
+     * Fonction gérant le mouvement aléatoire des artificiers
+     */
     private void randomMove() {
 
-        // en premier on teste si un déplacement est déjà en cours
+        // Assure qu'aucun déplacement n'est déjà en cours
         if (!isDisplacementOccurs()) {
 
-
+            // Probabilité arbitraire qu'il change d'orientation
             double changeOrientationProbability = 0.4;
 
-            // il n y a que 40% de chance de changer l'orientation
+            // Si la probabilité est passée, lui change l'orientation pour une orientation aléatoire
             if (RandomGenerator.getInstance().nextDouble() < changeOrientationProbability) {
                 int randomIndex = RandomGenerator.getInstance().nextInt(Orientation.values().length);
                 orientate(Orientation.values()[randomIndex]);
             }
 
-
+            // Appelle la fonction pour qu'il bouge
             move(ANIMATION_DURATION / state.speedFactor);
 
-            // on remet l'inactionCounter à 0
-            // à la fin du mouvement
+            // N'est plus en inaction, le compteur est donc remis à zéro
             inactionCounter = 0;
         }
-
     }
 
+    /**
+     * Fonction qui gère le mouvement ciblé d'un artificier envers un joueur
+     */
     private void targetedMove() {
 
-        int localSpeedFactor = 1;
+        // Facteur de vitesse 
+        int localSpeedFactor;
 
-        // on s'assure qu'il y a bien un player
-        // a cibler
+        // S'assure qu'une cible est bien sélectionnée
         if (targetedPlayer == null) {
             return;
         }
 
-        // vecteur séparant l’artificier de sa cible
+        // Distance (sous forme de vecteur) entre l'artificier et sa cible
         Vector v = targetedPlayer.getPosition().sub(this.getPosition());
-        // composantes
+
+        // Composantes du vecteur distance
         float deltaX = v.x;
         float deltaY = v.y;
 
-        // condition pour la nouvelle orientation vers le player
+        // Défini la nouvelle orientation en fonction des composantes du vecteur distance
         Orientation orientation;
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
             orientation = Orientation.fromVector(new Vector(deltaX, 0));
@@ -287,7 +298,8 @@ public class BombFoe extends Foe {
             orientation = Orientation.fromVector(new Vector(0, deltaY));
         }
 
-        // TODO pourquoi le changement d'orientation ne pourrait pas se faire ??
+        // TODO pourquoi le changement d'orientation ne pourrait pas se faire ?? --------------------------------------------------------------------
+        // AXEL JTE LAISSE COMMENTER ICI
         // si le changement d’orientation n’a pas pu se faire, un pas de déplacement à vitesse
         //rapide aura lieu.
         if (orientation != null) {
@@ -298,41 +310,45 @@ public class BombFoe extends Foe {
             localSpeedFactor = 2;
         }
 
-        // distance entre le player et l'artificier
+        // Distance scalaire entre le joueur et l'artificier (Sous forme de float cette fois)
         float distancePlayerFoe = DiscreteCoordinates.distanceBetween(getCurrentMainCellCoordinates(), targetedPlayer.getCurrentMainCellCoordinates());
 
-        // si la distance entre l'artificier est plus grande que 2 on le fait avancer
+        // Avance si la distance est plus grande que 2
         if (distancePlayerFoe > 2) {
-            move(localSpeedFactor * ANIMATION_DURATION / state.getSpeedFactor());
-        } else {
 
-            // si l'artificier est assez proche il largue une bombre
+            move(localSpeedFactor * ANIMATION_DURATION / state.getSpeedFactor());
+
+        } 
+        
+        // Lance une bombe sinon
+        else {
+
+            // Si l'artificier est assez proche, il largue une bombre
             DiscreteCoordinates frontCell = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
 
-            // on vérifie si la cell est libre pour poser la bobre
+            // On vérifie si la cell est libre pour poser la bombe
             if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCell))) {
                 Explosif explosif = new Explosif(getOwnerArea(), DOWN, frontCell, 2);
                 getOwnerArea().registerActor(explosif);
 
-                // la bombe est tout de suite activée
+                // La bombe est tout de suite activée
                 explosif.activate(1);
 
-                // l'artificier passe en mode protégé
-                // et on met hideCounter à jour
+                // On met le counter à jour
                 hideCounter = RandomGenerator.getInstance().nextInt(72, 120);
+
+                // L'artificier passe en mode protégé
                 state = State.HIDE;
             }
-
         }
-
-
-
     }
 
-
+    /**
+     * Gestionnaire d'intéraction de l'artificier
+     */
     private class BombFoeInteractionHandler implements ICoopInteractionVisitor {
 
-        // Il n interagit que avec les personnages principaux
+        // Il n'intéragit qu'avec les joueurs
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
             // Si il voit un player dans son champ de vision il se met en mode attaque

@@ -4,7 +4,8 @@ import java.util.Collections;
 import java.util.List;
 
 import ch.epfl.cs107.icoop.actor.Explosif;
-import ch.epfl.cs107.icoop.actor.Foes.Foe;
+import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
+import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
@@ -99,10 +100,18 @@ public class StaffBall extends Unstoppable {
             stopUnstoppable();
         }
         @Override
-        public void interactWith(Foe foe, boolean isCellInteraction) {
-            // Bizzare de choisir Fire mais bon
+        public void interactWith(BombFoe foe, boolean isCellInteraction) {
             foe.loseHealth(element.toDamage());
             stopUnstoppable();
+        }
+
+        @Override
+        public void interactWith(HellSkull skull, boolean isCellInteraction) {
+            if (element.equals(Element.WATER)){
+                skull.loseHealth(element.toDamage());
+                stopUnstoppable();
+            }
+
         }
 
     }

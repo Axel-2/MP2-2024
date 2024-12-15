@@ -4,19 +4,12 @@
 # Welcome à la création
 # Element dans mur
 
-
-
-
-
-
-# Remarque 3 :
-dans le mangeuseitem j'ai ctrl c ctrl v deux fois, y'a surement moyen de faire mieux ( en plus de "A voir" au dessus)
-
-# Question 1 : 
-Pour le 4.3.3, le perso va aussi devoir avoir un state, est-ce que je fais le même principe que ton private enum du bombfoe , ou est-ce quon fait 1 enum pour tous ? 
-
-# TODO YOANN :
-4.3.3 + debug ou clean des trucs, notamment le manageuseitem
+# To do yoann :
+# Re faire les commentaires
+# faire un fichier help et conception
+# Review stockable
+# Je crois que mes elementalitems ont plusieurs elements
+# Orbtype tjr doute
 
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf

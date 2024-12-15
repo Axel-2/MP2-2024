@@ -16,67 +16,77 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.window.Canvas;
 
+
+/**
+ * Représente les orbes élémentaires
+ */
 public class Orb extends ElementalItem {
 
+    // Durée de l'animation
     final static int  ANIMATION_DURATION = 24;
+
+    // Nombre d'images de l'animation
     final static int ANIMATION_FRAMES = 6;
 
-    final private Element element; // PTETRE PAS BESOIN CAR DEJA ELEMENTALTYPE DANS LA SUPERCLASSE
-    final private OrbType orbType;
+    // Animation
     final private Animation animation;
+
+    // Type énuméré (eau ou feu)
+    final private OrbType orbType;
+
+    // Images
     final Sprite[] sprites;
 
-
-
+    // Indique si un dialogue a été commencé
     private boolean dialogHasBeenStarted;
+
+    // Gestionnaire de dialogues
     private DialogHandler dialogHandler;
 
+    /**
+     * Constructeur d'orbes
+     * @param area
+     * @param position
+     * @param elem
+     * @param dialogHandler
+     */
     public Orb(Area area, DiscreteCoordinates position, Element elem, DialogHandler dialogHandler) {
-        // PAR DEFAUT l'orientation est DOWN, il n'y a pas de cas ou on veut une autre orientation ici
         super(area, Orientation.DOWN, position, elem, false);
 
-        this.sprites = new Sprite[ANIMATION_FRAMES];
-        
-        this.element = elem;
+        // Elements
+        elementalType = elem;
         this.orbType = (elem.equals(Element.FIRE)) ? OrbType.FIRE : OrbType.WATER;
 
-        this.dialogHandler = dialogHandler;
-
+        // Animation et sprites
+        this.sprites = new Sprite[ANIMATION_FRAMES];
         for (int i = 0; i < ANIMATION_FRAMES; i++) {
             sprites[i] = new RPGSprite("icoop/orb", 1, 1, this ,
                     new RegionOfInterest(i * 32, orbType.spriteYDelta , 32, 32));
         }
-
         this.animation = new Animation(ANIMATION_DURATION / ANIMATION_FRAMES , sprites);
 
+        // Dialogue
+        this.dialogHandler = dialogHandler;
     }
 
+    /**
+     * Getter de l'enum orbtype 
+     * @return (Damage) dégat correspondant à l'obtype
+     */
     public Damage getDamage() {
         return orbType.damage;
     }
 
     @Override
     public void collectBy(ElementalEntity entity) {
-        // ATTENTION
-        // Les variables dialogHasBeenStarted et isDialogActiv ne se comportent pas de la
-        // même façon. dialogHasBeenStarted est un attribut de cette classe elle-même qui nous
-        // sert à ne pas relancer le dialogue en boucle. isDialogActiv est une variable de ICoop qui est
-        // modifiée dans le fichier principal et qui nous permet d'attendre que le dialogue soit totalement
-        // terminé avant de ramasser l'objet. On ne peut donc pas intervertir et simplifier le code ci-dessous.
 
-        // La condition est importante
-        // sinon c'est impossible de quitter le dialogue
+        // Si le dialogue n'a pas été commencé, on peut l'ajouter
         if (!dialogHasBeenStarted) {
-            // Ajout du dialogue
            dialogHandler.publish(new Dialog(orbType.dialogName));
-           // On change cette valeur pour ne pas
-            // push le dialogue une seconde fois
            dialogHasBeenStarted = true;
         }
 
-        // On collecte l'objet que lorsque le dialogue est
-        // inactif donc lorsqu'il est terminé
-        // sinon l'objet disparait au début du dialogue
+        // La collecte se fait uniquement après le dialogue
         if (!dialogHandler.isDialogActiv()){
             super.collectBy(entity);
         }
@@ -89,20 +99,31 @@ public class Orb extends ElementalItem {
 
     @Override
     public void update(float deltaTime) {
-
-        // Il ne faut pas oublier d'update l'animation
         animation.update(deltaTime);
         super.update(deltaTime);
     }
 
+    /**
+     * Enum d'éléments possibles pour les orbes, avec Les informations importantes correspondantes
+     */
     public enum OrbType {
+
+        // Types feu ou eau
         WATER(0, "orb_water_msg", Damage.WATER),
         FIRE(64, "orb_fire_msg", Damage.FIRE),;
 
+        // Sprite correspondant
         private final int spriteYDelta;
+
+        // Dialogue correspondant
         private final String dialogName;
+
+        // Dégat correspondant
         private final Damage damage;
 
+        /**
+         * Constructeur de l'enum OrbType
+        */
         OrbType(int spriteYDelta, String dialogName, Damage damage) {
             this.spriteYDelta = spriteYDelta;
             this.dialogName = dialogName;

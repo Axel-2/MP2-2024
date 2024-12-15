@@ -12,7 +12,6 @@ import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
-import ch.epfl.cs107.icoop.actor.Foes.Foe;
 import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.actor.Projectiles.StaffBall;
 import ch.epfl.cs107.icoop.enums.Damage;
@@ -116,7 +115,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         this.inventory = new ICoopInventory();
 
         // au départ le player a une bombe et une épée
-        inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
+        inventory.addPocketItem(ICoopItem.WATERSTAFF, 1);
         inventory.addPocketItem(ICoopItem.SWORD,1);
         updateCurrentItem();
  
@@ -307,20 +306,26 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
                 case WATERSTAFF:
                     // Lance une boule d'eau
-                    playerState = PlayerState.STAFF;
-                    currentAnimation = staffAnimation;
-                    if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
-                        launchBall(frontCellPosition, Element.WATER);
+                    if (element.equals(Element.WATER)){
+                        playerState = PlayerState.STAFF;
+                        currentAnimation = staffAnimation;
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
+                            launchBall(frontCellPosition, Element.WATER);
+                        }
                     }
+
                     break;
 
                 case FIRESTAFF:
                     // Lance une boule de feu
-                    playerState = PlayerState.STAFF;
-                    currentAnimation = staffAnimation;
-                    if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
-                        launchBall(frontCellPosition, Element.FIRE);
+                    if (element.equals(Element.FIRE)){
+                        playerState = PlayerState.STAFF;
+                        currentAnimation = staffAnimation;
+                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
+                            launchBall(frontCellPosition, Element.FIRE);
+                        }
                     }
+
                     break;
 
             }
@@ -654,8 +659,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
             // on teste si c'est une intéraction à distance et qu'on est en mode
             // épée
+            
             if (!isCellInteraction) {
-
+                
                 if (playerState == PlayerState.SWORD) {
                     foe.loseHealth(Damage.PHYSICAL);
 

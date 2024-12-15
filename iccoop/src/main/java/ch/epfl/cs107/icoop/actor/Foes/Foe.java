@@ -17,16 +17,18 @@ import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Canvas;
 
- //Un ennemi est capable de se déplacer sur une grille
-// il hérite donc de MovableAreaEntity
+/*
+ * Représente de manière abstraite les ennemis, se déplaçant sur une grille et pouvant intéragir et recevoir des intéractions
+*/
 public abstract class Foe extends MovableAreaEntity implements Interactor {
 
+    // Indique si l'ennemi est en vie
     private boolean isAlive;
 
     // Barre de vie
     private final Health health = new Health(this , Transform.I.translated(0, 1.75f), getMaxLife() , false);
 
-    // duplication de Player faudra trouver une solution plus tard
+    // Immunités
      private final static float IMMUNITY_TIME = 24;
      private boolean isImmunityTime;
      private float immunityTimer;
@@ -37,11 +39,15 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
     // Animations
     private static final int ANIMATION_DURATION = 24;
     private final Animation deathAnimation;
-
-    // compteur utile pour unregister l'actor à la fin de la deathAnimation
     private double animationCounter = ANIMATION_DURATION;
 
-
+    /**
+     * Constructeur d'ennemi
+     * @param area
+     * @param orientation
+     * @param position
+     * @param vulnerabilityList
+     */
     public Foe(Area area, Orientation orientation, DiscreteCoordinates position, Damage[] vulnerabilityList) {
         super(area, orientation, position);
         this.vulnerabilityList = vulnerabilityList;
@@ -50,61 +56,58 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
         this.isAlive = true;
     }
 
+    /**
+     * Getter de la vie maximum, utiles aux sous-classes
+     * @return
+     */
     abstract int getMaxLife();
 
+    /**
+     * Getter de la variable indiquant si l'ennemi est en périiode d'immunité
+     * @return
+     */
     protected boolean isImmunityTime() {
         return isImmunityTime;
     }
 
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {
-        // On ne retoutne que la cell principale
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
     @Override
     public boolean takeCellSpace() {
-        // On peut marcher dessus que si le mob est mort
+        // Prend seulement de la place vivant
         return isAlive;
     }
-    public float getHealthIntensity() {
-        return health.getIntensity();
-    }
+
     @Override
     public boolean isCellInteractable() {
-        // Il est possible d'avoir par
-        // défaut des intéractions de contact
-
-
+        // Accepte les intéractions de contact par défaut
         return true;
     }
 
     @Override
     public boolean isViewInteractable() {
-        // il est possible par défaut d'avoir
-        // des intéractions à distance
+        // Accepte les intéractions à distance par défaut
         return true;
     }
 
     @Override
     public boolean wantsCellInteraction() {
-        // Par défaut une Foe demande des intéractions
-        // ils ne veulent pas que les subirs
+        // Demande des intéractions de contact par défaut
         return true;
     }
 
     @Override
     public boolean wantsViewInteraction() {
-        // Par défaut une Foe demande des intéractions
-        // ils ne veulent pas que les subirs
+        // Demande des intéractions à distance par défaut
         return true;
     }
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
-        // Fonction par défaut pout le modèle visiteur
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
-
     }
 
 
@@ -123,8 +126,6 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
         if (health.isOff() || health.getIntensity() < 0) {
             isAlive = false;
             animationCounter -= 1.5;
-
-            // Peut etre qu'on verra pas la première image faudra tester
             deathAnimation.update(deltaTime);
         }
 
@@ -138,29 +139,29 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
         super.update(deltaTime);
     }
 
+    /**
+     * Dessinera le sprite des ennemis
+     * @param canvas
+     */
     abstract void drawFoeSprite(Canvas canvas);
 
     @Override
     public void draw(Canvas canvas) {
 
-        // TODO legere duplication de code de player
+        // TODO legere duplication de code de player ------------------------------------------------------------------------------AXEL -----------------------
 
-        // Lorsqu'il y a état d'immunité
-        // l'ennemi "clignote"
-        // sinon l'affichage est normale
+        // Fait clignoter l'ennemi si il est en état d'immunité
         if (isImmunityTime && isAlive) {
             if (immunityTimer % 2 == 0) {
                 drawFoeSprite(canvas);
             }
         }
-
-        // TODO PAS SUR ENFT POUR LA BARRE DE VIE
-        // Il faut aussi dessiner la barre de vie
+        
+        // Dessine la barre de vie
         health.draw(canvas);
 
+        // Tant qu'il n'est pas mort, l'animation se dessine
         if (!isAlive) {
-            // Lorqu'il est mort on draw l'animation
-            // jusqu'à qu'il soit unregister
             deathAnimation.draw(canvas);
         } else if (!isImmunityTime) {
             drawFoeSprite(canvas);
@@ -169,12 +170,13 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
         super.draw(canvas);
     }
 
-
-     // Duplication de Player faudra trouver une solution ???
+    /**
+     * Fonction gérant la perte de vie suite à un dégat
+     * @param damage
+     */
      public void loseHealth(Damage damage) {
 
-        // TODO duplication de code player
-
+        // TODO duplication de code player ------------------------------------------------------------------------------- Axel ------------------
          for (Damage damageEl : vulnerabilityList) {
              if (damageEl.name().equals(damage.name()) || (!isImmunityTime)) {
                  health.decrease(damage.getDamagePoints());

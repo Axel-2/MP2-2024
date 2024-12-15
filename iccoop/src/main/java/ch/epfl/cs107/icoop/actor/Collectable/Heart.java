@@ -8,14 +8,25 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
+/**
+ * Hearth représente des coeurs collectables, rendant des points de vie au joueur
+ */
 public class Heart extends ICoopCollectable {
 
+    // Durée de leur animation
     final static int  ANIMATION_DURATION = 24;
 
+    // Animation
     final private Animation animation;
 
+
+    /**
+     * Constructeur de coeur
+     * @param area
+     * @param position
+     */
     public Heart(Area area, DiscreteCoordinates position) {
-        // On force Orientation.DOWN
+        
         super(area, Orientation.DOWN, position, false);
         this.animation =  new Animation("icoop/heart", 4, 1, 1, this , 16, 16,
                 ANIMATION_DURATION/4, true);
@@ -26,9 +37,6 @@ public class Heart extends ICoopCollectable {
         animation.draw(canvas);
     }
 
-    /** Call directly the interaction on this if accepted
-     * @param v (AreaInteractionVisitor) : the visitor
-     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
