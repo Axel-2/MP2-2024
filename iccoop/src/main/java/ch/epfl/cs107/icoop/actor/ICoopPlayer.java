@@ -255,7 +255,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     @Override 
     public boolean possess(InventoryItem item) {
-        return (item!= null && inventory.contains(item));
+        return (item != null && inventory.contains(item));
     }
 
     /**

@@ -2,6 +2,7 @@ package ch.epfl.cs107.icoop.area.maps;
 
 import java.util.Arrays;
 
+import ch.epfl.cs107.icoop.DialogDoor;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
@@ -10,6 +11,7 @@ import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Element;
+import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -25,6 +27,12 @@ public final class Spawn extends ICoopArea {
     // on veut le spawn sans initialiser l'objet donc
     // le getter ci-dessous ne suffit pas
     static final SpawnPosition spawnPosition = new SpawnPosition(new DiscreteCoordinates(14, 6), new DiscreteCoordinates(13, 6));
+
+    private final DialogHandler dialogHandler;
+
+    public Spawn(DialogHandler dialogHandler) {
+        this.dialogHandler = dialogHandler;
+    }
 
     @Override
     public  DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
@@ -58,11 +66,14 @@ public final class Spawn extends ICoopArea {
             this,                                                                                 // Map actuelle, donc Spawn
             new DiscreteCoordinates(4,0),                                                   // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(5,0)                                                    // Autre cellule de la porte (l'autre "case" rouge)
-            );            
-        
+            );
 
         registerActor(toOrbWayDoor);
         registerActor(toMazeDoor);
+
+
+        DialogDoor finalDoor = new DialogDoor(this, new DiscreteCoordinates(6, 11), dialogHandler);
+        registerActor(finalDoor);
 
         // DEBUG projectiles
         Fire fire = new Fire(this, Orientation.RIGHT, new DiscreteCoordinates(0, 10), 1, 200);

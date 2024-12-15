@@ -44,7 +44,7 @@ public class ICoop extends AreaGame implements DialogHandler {
      * Add all the ICoop areas
      */
     private void createAreas() {
-        spawnArea = new Spawn(); // Peut-être mettre en ICoop Area plutot ? jsp
+        spawnArea = new Spawn(this); // Peut-être mettre en ICoop Area plutot ? jsp
         orbWayArea = new OrbWay(this);
         mazeArea = new Maze();
 
@@ -76,7 +76,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Le jeu commence dans l'aire spwan
 
-        ICoopArea area = (ICoopArea) setCurrentArea("Arena", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         createPlayers(area);
 
         // Interface GUI

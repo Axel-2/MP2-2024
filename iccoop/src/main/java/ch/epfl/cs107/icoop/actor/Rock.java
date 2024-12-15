@@ -31,7 +31,6 @@ public class Rock extends Obstacle {
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
-
     }
 
     public void destroy(){
