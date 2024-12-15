@@ -27,6 +27,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     private ICoopPlayer player2;
     private ICoopPlayer[] players;
 
+    // Toutes les aires
     private Area spawnArea;
     private Area orbWayArea;
     private Area mazeArea;

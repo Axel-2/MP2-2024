@@ -239,12 +239,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction){
 
-            // TODO CE CODE EST APPELE QUAND ON POSE DES BOMBE trop vite
-            // TODO OU bien avec les artificier faut essaier de trouver une solution
-
             if (explo != Explosif.this) {
-
-                // TODO DEMANDER a yoann d'expliquer pourquoi on met counter = 0
 
                 activate(1);
 

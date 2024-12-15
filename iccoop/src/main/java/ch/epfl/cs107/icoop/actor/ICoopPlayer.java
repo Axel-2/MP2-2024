@@ -399,6 +399,10 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
+    public boolean isMoving() {
+        return isDisplacementOccurs();
+    }
+
     /**
      * Orientate and Move this player in the given orientation if the given button is down
      *

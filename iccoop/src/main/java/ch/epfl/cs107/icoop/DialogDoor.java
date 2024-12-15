@@ -31,6 +31,7 @@ public class DialogDoor extends AreaEntity implements Interactor {
 
     private boolean isOpen;
 
+    private boolean dialogHasBeenStarted;
 
     public DialogDoor(Area area, DiscreteCoordinates position, DialogHandler dialogHandler) {
         super(area, Orientation.DOWN, position);
@@ -42,24 +43,32 @@ public class DialogDoor extends AreaEntity implements Interactor {
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
+    // il faut pouvoir aller sur la porte
     @Override
     public boolean takeCellSpace() {
         return false;
     }
+
+
 
     @Override
     public boolean isCellInteractable() {
         return true;
     }
 
+    // Vrai car on a besoin des intéractions à distance aussi
+    // voir ci-dessous
     @Override
     public boolean isViewInteractable() {
-        return false;
+        return true;
     }
 
+
+    // La porte a besoin de la celle sous elle pour voir
+    // si un player arrive ou sort
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        return List.of();
+        return Collections.singletonList(getCurrentMainCellCoordinates().jump(Orientation.DOWN.toVector()));
     }
 
     @Override
@@ -67,9 +76,11 @@ public class DialogDoor extends AreaEntity implements Interactor {
         return true;
     }
 
+    // La porte veut des intéractions à distance pour
+    // permettre de savoir si un play arrive
     @Override
     public boolean wantsViewInteraction() {
-        return false;
+        return true;
     }
 
 
@@ -98,10 +109,22 @@ public class DialogDoor extends AreaEntity implements Interactor {
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
 
-            System.out.println("ouk");
 
-            if (player.possess(ICoopItem.EXPLOSIVE)) {
-                System.out.println("LE player Possess");
+            // Si la porte voit partir le player ou le voit arriver
+            // elle met le dialogue en mode pas commencé
+            if (!isCellInteraction) {
+                if (player.isMoving()) {
+                    dialogHasBeenStarted = false;
+                }
+            }
+
+            // Si le dialogue n'a pas encore commencé et que le player
+            // est sur la porte on peut lancer le dialogue
+            if (!dialogHasBeenStarted && isCellInteraction) {
+                dialogHasBeenStarted = true;
+                Dialog dialog = new Dialog("key_required");
+
+                dialogHandler.publish(new Dialog("key_required"));
             }
         }
     }
