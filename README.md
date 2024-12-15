@@ -4,11 +4,10 @@
 # Welcome à la création
 # Element dans mur
 
+# To do yoann :
+# Re faire les commentaires
+# faire un fichier help et conception
 
-
-# To do yoann : 
-Baton à travers les murs
-Le water peut shooter avec le staff de feu
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
 
