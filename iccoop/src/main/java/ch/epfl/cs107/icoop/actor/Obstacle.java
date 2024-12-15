@@ -17,8 +17,7 @@ import ch.epfl.cs107.play.window.Canvas;
  */
 public class Obstacle extends AreaEntity {
 
-    // Images
-    private static String spriteName = "rock.2";
+    private String spriteName = "rock.2";
     private Sprite sprite;
 
     /**

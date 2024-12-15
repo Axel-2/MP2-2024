@@ -20,6 +20,7 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
+
 /**
  * Classe principale de notre jeu
  */
@@ -67,6 +68,7 @@ public class ICoop extends AreaGame implements DialogHandler {
      */
     @Override
     public boolean begin(Window window, FileSystem fileSystem) {
+
         if (super.begin(window, fileSystem)) {
             createAreas();
             initGame();
@@ -82,6 +84,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     private void initGame() {
 
         // Le jeu commence dans l'aire spwan
+
         ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         createPlayers(area);
 
@@ -211,12 +214,15 @@ public class ICoop extends AreaGame implements DialogHandler {
     private void checkReset() {
         Keyboard keyboard = getCurrentArea().getKeyboard();
         if (keyboard.get(KeyBindings.RESET_AREA).isPressed()) {
+
             resetMap();
+
         } else if (keyboard.get(KeyBindings.RESET_GAME).isPressed()) {
 
             // Ici il suffit de réinitialiser le jeu en entier
             this.begin(getWindow(), getFileSystem());
 
+            // TODO vérifier si c'est nécessaire
             // On reset la vie aussi
             resetPlayersHealth();
         }

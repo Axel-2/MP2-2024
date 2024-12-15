@@ -50,14 +50,13 @@ public abstract class ICoopArea extends Area {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
 
+
             // On stock l'instance du areaBehavior dans une variable pour, pouvoir l'utiliser dans Arena
             ICoopBehavior areaBehaviorInstance = new ICoopBehavior(window, getTitle());
 
             // On crée les obstacles et les cailloux
             areaBehaviorInstance.createActors(this);
 
-            setBehavior(areaBehaviorInstance);
-            createArea();
 
             // Initialisation finie
             hasBeenInitialised = false;

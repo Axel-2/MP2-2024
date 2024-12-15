@@ -5,12 +5,14 @@ import java.util.Arrays;
 import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.icoop.actor.Teleporter;
 import ch.epfl.cs107.icoop.area.ICoopArea;
+import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
+
 
 /**
  * Représente la map finale : l'arène !
@@ -33,7 +35,7 @@ public class Arena extends ICoopArea {
 
         // Portail
         Teleporter teleporter = new Teleporter(
-                "Spawn", Logic.TRUE, Arrays.asList(Spawn.spawnPosition.getFireSpawn(), Spawn.spawnPosition.getWaterSpawn()), this,
+                "Spawn", Logic.TRUE, Arrays.asList(Spawn.SPAWN_POSITION.getFireSpawn(), Spawn.SPAWN_POSITION.getWaterSpawn()), this,
                 new DiscreteCoordinates(19, 6),
                 new DiscreteCoordinates(19, 7)
         );
@@ -41,15 +43,17 @@ public class Arena extends ICoopArea {
 
     }
 
+    public final static SpawnPosition SPAWN_POSITION = new SpawnPosition(
+            new DiscreteCoordinates(4, 5),
+            new DiscreteCoordinates(14, 15)
+    );
+
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element element) {
         if (element == Element.FIRE) {
-            return new DiscreteCoordinates(4, 5);
-
-        } else {
-            // sinon c'est l'eau
-            return new DiscreteCoordinates(14, 15);
+            return SPAWN_POSITION.getFireSpawn();
         }
+        return SPAWN_POSITION.getWaterSpawn();
     }
 
     @Override

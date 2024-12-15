@@ -1,6 +1,9 @@
 package ch.epfl.cs107.icoop.area.maps;
 
+import java.util.Arrays;
+
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
+import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
 import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
@@ -13,14 +16,17 @@ import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.signal.logic.Logic;
 
 /**
  * Représente la mab labyrinthe
  */
 public final class Maze extends ICoopArea {
 
+
+
     // Positions de départs
-    static final SpawnPosition spawnPosition = new SpawnPosition(
+    public static final SpawnPosition SPAWN_POSITION = new SpawnPosition(
             // FIRE
             new DiscreteCoordinates(2, 39),
             // WATER
@@ -30,8 +36,8 @@ public final class Maze extends ICoopArea {
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
-            case FIRE -> spawnPosition.getFireSpawn();
-            case WATER -> spawnPosition.getWaterSpawn();
+            case FIRE -> SPAWN_POSITION.getFireSpawn();
+            case WATER -> SPAWN_POSITION.getWaterSpawn();
         };
 
         return coordinates;
@@ -47,7 +53,18 @@ public final class Maze extends ICoopArea {
 
         // ----------------- DOORS ------------------
 
-        // ----------------- ORBS ------------------
+        Door arenaDoor = new Door(
+                "Arena", Logic.TRUE,
+                Arrays.asList(
+                        Arena.SPAWN_POSITION.getFireSpawn(),
+                        Arena.SPAWN_POSITION.getWaterSpawn()
+                ),
+                this,
+                new DiscreteCoordinates(19, 7),
+                new DiscreteCoordinates(19, 6)
+                );
+
+        registerActor(arenaDoor);
 
         // ----------------- PRESSURE PLATES ------------------
         PressurePlate firstPP = new PressurePlate(this, new DiscreteCoordinates(6, 33));
