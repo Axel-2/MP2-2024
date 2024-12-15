@@ -31,7 +31,7 @@ public final class OrbWay extends ICoopArea {
     // On a besoin d'une variable static car des fois,
     // on veut le spawn sans initialiser l'objet donc
     // le getter ci-dessous ne suffit pas
-    static final SpawnPosition spawnPosition = new SpawnPosition(
+    public static final SpawnPosition SPAWN_POSITION = new SpawnPosition(
             // FIRE
             new DiscreteCoordinates(1, 12),
             // WATER
@@ -41,8 +41,8 @@ public final class OrbWay extends ICoopArea {
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
-            case FIRE -> spawnPosition.getFireSpawn();
-            case WATER -> spawnPosition.getWaterSpawn();
+            case FIRE -> SPAWN_POSITION.getFireSpawn();
+            case WATER -> SPAWN_POSITION.getWaterSpawn();
         };
 
         return coordinates;

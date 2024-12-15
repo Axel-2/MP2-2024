@@ -26,7 +26,7 @@ public final class Spawn extends ICoopArea {
     // On a besoin d'une variable static car des fois,
     // on veut le spawn sans initialiser l'objet donc
     // le getter ci-dessous ne suffit pas
-    static final SpawnPosition spawnPosition = new SpawnPosition(new DiscreteCoordinates(14, 6), new DiscreteCoordinates(13, 6));
+    public static final SpawnPosition SPAWN_POSITION = new SpawnPosition(new DiscreteCoordinates(14, 6), new DiscreteCoordinates(13, 6));
 
     private final DialogHandler dialogHandler;
 
@@ -34,11 +34,10 @@ public final class Spawn extends ICoopArea {
         this.dialogHandler = dialogHandler;
     }
 
-    @Override
     public  DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
-            case FIRE -> spawnPosition.getFireSpawn();
-            case WATER -> spawnPosition.getWaterSpawn();
+            case FIRE -> SPAWN_POSITION.getFireSpawn();
+            case WATER -> SPAWN_POSITION.getWaterSpawn();
         
         };
 
@@ -53,7 +52,7 @@ public final class Spawn extends ICoopArea {
         Door toOrbWayDoor = new Door(
             "OrbWay",                                                                // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                           // Toujours open
-            Arrays.asList(OrbWay.spawnPosition.getFireSpawn(), OrbWay.spawnPosition.getWaterSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(OrbWay.SPAWN_POSITION.getFireSpawn(), OrbWay.SPAWN_POSITION.getWaterSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                 // Map actuelle, donc Spawn
             new DiscreteCoordinates(19,15),                                                   // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(19,16)                                                    // Autre cellule de la porte (l'autre "case" rouge)
@@ -62,7 +61,7 @@ public final class Spawn extends ICoopArea {
         Door toMazeDoor = new Door(
             "Maze",                                                                // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                           // Toujours open
-            Arrays.asList(Maze.spawnPosition.getFireSpawn(), Maze.spawnPosition.getWaterSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
+            Arrays.asList(Maze.SPAWN_POSITION.getFireSpawn(), Maze.SPAWN_POSITION.getWaterSpawn()), // les deux positions d'arrivées dans OrbWay après avoir pris la porte
             this,                                                                                 // Map actuelle, donc Spawn
             new DiscreteCoordinates(4,0),                                                   // Cellule principale de la porte (une des deux "cases" rouges)
             new DiscreteCoordinates(5,0)                                                    // Autre cellule de la porte (l'autre "case" rouge)

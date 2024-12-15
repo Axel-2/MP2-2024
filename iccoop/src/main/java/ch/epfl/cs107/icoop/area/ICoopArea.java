@@ -13,6 +13,8 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
+import javax.swing.*;
+
 
 /**
  * Base class for all the areas of ICoop
@@ -51,15 +53,20 @@ public abstract class ICoopArea extends Area {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
 
+
             // on stock l'instance du areaBehavior dans une variable pour
             // pouvoir l'utiliser dans Arena
             ICoopBehavior areaBehaviorInstance = new ICoopBehavior(window, getTitle());
 
+
+
+            setBehavior(areaBehaviorInstance);
+
+            createArea();
+
             // on crée les obstacles et les cailloux
             areaBehaviorInstance.createActors(this);
 
-            setBehavior(areaBehaviorInstance);
-            createArea();
 
             // Il faut de nouveau assurer
             // à l'aide de cette variable
