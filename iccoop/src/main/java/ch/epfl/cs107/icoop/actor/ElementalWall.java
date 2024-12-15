@@ -20,26 +20,17 @@ import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
+/**
+ * Représente les murs élémentaires
+ */
 public class ElementalWall extends AreaEntity implements ElementalEntity, Interactor, Logic {
 
-    private boolean isActive;
+    // Indique si c'est un mur activé en permanence
     private boolean isAlwaysActive;
 
-    @Override
-    public boolean isOn() {
-        if (isAlwaysActive) {
-            return true;
-        } else {
-            // Si la plaque est off le mur est activée
-            return pressurePlate.isOff() && !isDestroyed;
-        }
-    }
-
-    @Override
-    public boolean isOff() {
-        return !isOn();
-    }
-
+    // Si il n'est pas activé en permanence, cette variable indique si il est actuellement actif
+    private boolean isActive;
+    
     // Peut être détruit, (doit disparaître s'il l'est)
     private boolean isDestroyed;
 
@@ -57,35 +48,67 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     // Gestionnaire d'intéraction
     private final WallInteractionHandler interactionHandler = new WallInteractionHandler();
 
-    // TEST
+    // Images
     private final Sprite[] wallSprites;
 
+    // Plaque de pression associée
     private PressurePlate pressurePlate;
 
-    // Constructeur classique toujours actif
+    /**
+     * Constructeur d'un mur toujours actif, sans plaque de pression associée
+     * @param owner
+     * @param orientation
+     * @param coordinates
+     * @param elem
+     */
     public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element elem){
         super(owner, orientation, coordinates);
         this.isAlwaysActive = true;
         this.isActive = true;
         this.element = elem;
-        if (elem.equals(Element.FIRE)){
-            spriteName = "fire_wall";
-        }else{
-            spriteName = "water_wall";
-        }
+
+        // Met le sprite name correspondant à l'élément
+        spriteName = elem.equals(Element.FIRE) ? "fire_wall" : "water_wall";
         this.sprite = new Sprite(spriteName, 1.f, 1.f, this);
+        
+        // n'est pas détruit à la construction
         this.isDestroyed = false;
+
         this.wallSprites = RPGSprite.extractSprites(spriteName,
                 4, 1, 1, this , Vector.ZERO , 256, 256);
         this.pressurePlate = null;
     }
 
-    // Constructeur avec plaque de pression
+    /**
+     * Constructeur d'un mur pouvant être désactivée par une plaque de pression 
+     * @param owner
+     * @param orientation
+     * @param coordinates
+     * @param elem
+     * @param pressurePlate
+     */
     public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element elem, PressurePlate pressurePlate) {
         this(owner, orientation, coordinates, elem);
         this.pressurePlate = pressurePlate;
         this.isAlwaysActive = false;
     }
+
+    @Override
+    public boolean isOn() {
+        // Si il est toujours activ, renvoie forcément true
+        if (isAlwaysActive) {
+            return true;
+        } else {
+            // Sinon, pour que ça return true, il faut que la plaque de pression associée ne soit pas appuyée et que le mur ne soit pas détruit
+            return pressurePlate.isOff() && !isDestroyed;
+        }
+    }
+
+    @Override
+    public boolean isOff() {
+        return !isOn();
+    }
+
 
     /* Retourne l'élément de l'entité */
     @Override
@@ -100,12 +123,6 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         this.isDestroyed = true;
     }
 
-    /**
-     * Indicate if the current Interactable take the whole cell space or not
-     * i.e. only one Interactable which takeCellSpace can be in a cell
-     * (how many Interactable which don't takeCellSpace can also be in the same cell)
-     * @return (boolean)
-     */
     @Override
     public boolean takeCellSpace(){
         return false;
@@ -114,55 +131,35 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     @Override
     public void draw(Canvas canvas){
 
+        // Dessine seulement si actif
         if (isOn()){
             wallSprites[getOrientation().ordinal()].draw(canvas);
-            // super.draw(canvas); pas sûr de cette ligne je commente pour l'instant
         }
     }
 
-
-    /**@return (boolean): true if this is able to have cell interactions*/
-    @Override
     public boolean isCellInteractable(){
         return true;
     }
 
-    /**@return (boolean): true if this is able to have view interactions*/
-    @Override
     public boolean isViewInteractable(){
         return false;
     }
-
-    /**
-     * Do this Interactor interact with the given Interactable
-     * The interaction is implemented on the interactor side !
-     *
-     * @param other             (Interactable). Not null
-     * @param isCellInteraction True if this is a cell interaction
-     */
 
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
         other.acceptInteraction(interactionHandler, isCellInteraction);
     }
 
-    /**@return (boolean): true if this require cell interaction */
     @Override
     public boolean wantsCellInteraction(){
         return true;
     }
 
-    /**@return (boolean): true if this require view interaction */
     @Override
     public boolean wantsViewInteraction(){
         return false;
     }
 
-    /**
-     * Call directly the interaction on this if accepted
-     *
-     * @param v (AreaInteractionVisitor) : the visitor
-     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         // Fonction par défaut pout le modèle visiteur
@@ -170,19 +167,12 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     }
 
-    /**
-     * Pas besoin de lui donner un corps spécifique étant donné qu'aucune intéraciton à distance n'intéresse cet objet
-     * @return (List of DiscreteCoordinates). May be empty but not null
-     */
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
+        // Ne souhaitant pas d'intéractions à distance, nous pouvons retourner une liste vide
         return new ArrayList<>();
     }
 
-    /**
-     * Get this Interactor's current occupying cells coordinates
-     * @return (List of DiscreteCoordinates). May be empty but not null
-     */
     @Override
     public List<DiscreteCoordinates> getCurrentCells(){
         return Collections.singletonList(getCurrentMainCellCoordinates());
@@ -192,7 +182,9 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         this.isActive = isActive;
     }
 
-    // ----- Handler -----
+    /**
+     * Gestionnaire d'intéraction du mur
+     */
     private final class WallInteractionHandler implements ICoopInteractionVisitor {
 
         /*
@@ -206,6 +198,5 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
                 player.loseHealth(getElement().toDamage());
             }
         }
-
     }
 }

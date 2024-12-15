@@ -7,10 +7,20 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
+/**
+ * Représente les rochers, un type d'obstacle
+ */
 public class Rock extends Obstacle {
 
+    // Indique s'il est détruit
     public boolean isDestroyed;
 
+    /**
+     * Constructeur du rocher
+     * @param area
+     * @param orientation
+     * @param position
+     */
     public Rock(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position, "rock.1");
         this.isDestroyed = false;
@@ -23,6 +33,7 @@ public class Rock extends Obstacle {
 
     @Override
     public void draw(Canvas canvas) {
+        // Se dessine seulement s'il n'est pas déruit
         if (!isDestroyed) {
             super.draw(canvas);
         }
@@ -33,6 +44,9 @@ public class Rock extends Obstacle {
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
     }
 
+    /**
+     * Détruit le rocher ( change sa variable )
+     */
     public void destroy(){
         isDestroyed = true;
 

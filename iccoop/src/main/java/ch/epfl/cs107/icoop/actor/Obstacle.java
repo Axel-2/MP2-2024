@@ -12,22 +12,39 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
+/**
+ * Représente les obstacles
+ */
 public class Obstacle extends AreaEntity {
 
     private String spriteName = "rock.2";
     private Sprite sprite;
 
+    /**
+     * Constructeur par défaut
+     * @param area
+     * @param orientation
+     * @param position
+     */
     public Obstacle(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
         createSprite();
     }
 
+    /**
+     * Constructeur qui précise le spriteName
+     * @param area
+     * @param orientation
+     * @param position
+     * @param spriteName
+     */
     public Obstacle(Area area, Orientation orientation, DiscreteCoordinates position, String spriteName) {
         this(area, orientation, position);
-        this.spriteName = spriteName;
+        this.spriteName = spriteName; // ------------------------------------------------------------TODO------------------------AXEL -------- c'est souligné en jaune ici
         createSprite();
     }
 
+    /** Crée une sprite */
     private void createSprite() {
         sprite = new Sprite(spriteName, 1f, 1f, this);
     }
@@ -61,16 +78,10 @@ public class Obstacle extends AreaEntity {
         sprite.draw(canvas);
         super.draw(canvas);
     }
-
-
+    
     // Accepte tout type d'intéraction
-    /** Call directly the interaction on this if accepted
-     * @param v (AreaInteractionVisitor) : the visitor
-     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
-        // JE CROIS QUE CETTE FONCTION SERT A RIEN CAR ELLE EST JAMAIS APPELEE
-        // MAIS FAUDRA VERIFIER UN JOUR
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
     }
 }

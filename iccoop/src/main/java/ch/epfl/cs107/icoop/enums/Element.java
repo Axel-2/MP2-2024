@@ -1,15 +1,20 @@
 package ch.epfl.cs107.icoop.enums;
 
-// Ceci n'est pas un actor mais c'est une enum qui représente le type du joueur
-// soit FIRE soit WATER
-// Cette enum est utilisée un peu partout dans le reste du code
+/**
+ * Différents éléments disponibles
+ */
 public enum Element {
     FIRE("icoop/player"),
     WATER("icoop/player2"),
     ;
 
+    // Sprite du player correspondant à l'élément
     private final String spriteName;
 
+    /**
+     * Constructeur
+     * @param spriteName
+     */
     Element(String spriteName) {
         this.spriteName = spriteName;
     }

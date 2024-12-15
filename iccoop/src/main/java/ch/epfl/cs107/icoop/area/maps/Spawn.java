@@ -23,16 +23,20 @@ import ch.epfl.cs107.play.signal.logic.Logic;
  */
 public final class Spawn extends ICoopArea {
 
-    // On a besoin d'une variable static car des fois,
-    // on veut le spawn sans initialiser l'objet donc
-    // le getter ci-dessous ne suffit pas
+    // Position de départs
     public static final SpawnPosition SPAWN_POSITION = new SpawnPosition(new DiscreteCoordinates(14, 6), new DiscreteCoordinates(13, 6));
 
+    // Gestionnaire de Dialogue
     private final DialogHandler dialogHandler;
 
+    /**
+     *  Constructeur de Spawn
+     */
     public Spawn(DialogHandler dialogHandler) {
         this.dialogHandler = dialogHandler;
     }
+
+
 
     public  DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
@@ -40,15 +44,18 @@ public final class Spawn extends ICoopArea {
             case WATER -> SPAWN_POSITION.getWaterSpawn();
         
         };
-
         return coordinates;
     }
 
     @Override
     protected void createArea() {
+
+        // Back et Foregrounds
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
+
+        // PORTES
         Door toOrbWayDoor = new Door(
             "OrbWay",                                                                // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                           // Toujours open
@@ -67,11 +74,12 @@ public final class Spawn extends ICoopArea {
             new DiscreteCoordinates(5,0)                                                    // Autre cellule de la porte (l'autre "case" rouge)
             );
 
+            DialogDoor finalDoor = new DialogDoor(this, new DiscreteCoordinates(6, 11), dialogHandler);
+
+
+        // Register des portes
         registerActor(toOrbWayDoor);
         registerActor(toMazeDoor);
-
-
-        DialogDoor finalDoor = new DialogDoor(this, new DiscreteCoordinates(6, 11), dialogHandler);
         registerActor(finalDoor);
 
 

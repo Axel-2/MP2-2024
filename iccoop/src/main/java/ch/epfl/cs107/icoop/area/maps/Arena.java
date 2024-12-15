@@ -1,5 +1,7 @@
 package ch.epfl.cs107.icoop.area.maps;
 
+import java.util.Arrays;
+
 import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.icoop.actor.Teleporter;
 import ch.epfl.cs107.icoop.area.ICoopArea;
@@ -13,8 +15,9 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 
 
 import java.util.Arrays;
-
-
+/**
+ * Représente la map finale : l'arène !
+ */
 public class Arena extends ICoopArea implements Logic {
 
     private Key fireKey;
@@ -26,7 +29,7 @@ public class Arena extends ICoopArea implements Logic {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
-        // TODO  mieux gérer les paramètres ici
+        // TODO  mieux gérer les paramètres ici ----------------------------------------------------------------------------------------------------------------------
 
         // Clés
         fireKey = new Key(this, Orientation.DOWN, new DiscreteCoordinates(9, 16), Element.FIRE, true);

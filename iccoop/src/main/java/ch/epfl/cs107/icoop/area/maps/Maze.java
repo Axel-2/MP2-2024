@@ -1,11 +1,16 @@
 package ch.epfl.cs107.icoop.area.maps;
 
-import ch.epfl.cs107.icoop.actor.*;
+import java.util.Arrays;
+
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
+import ch.epfl.cs107.icoop.actor.Door;
+import ch.epfl.cs107.icoop.actor.ElementalWall;
+import ch.epfl.cs107.icoop.actor.Explosif;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
 import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
+import ch.epfl.cs107.icoop.actor.PressurePlate;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Element;
@@ -16,32 +21,22 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.And;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
-import java.util.Arrays;
-
 /**
- * A class that represent the inital spawn area
+ * Représente la mab labyrinthe
  */
 public final class Maze extends ICoopArea implements Logic {
 
     private Staff fireStaff;
     private Staff waterStaff;
 
-    // Spawn positions
+
+    // Positions de départs
     public static final SpawnPosition SPAWN_POSITION = new SpawnPosition(
-//            // FIRE
-//            new DiscreteCoordinates(2, 39),
-//            // WATER
-//            new DiscreteCoordinates(3, 39)
-
-
-            // TODO seulement pour debug enlever après
-            new DiscreteCoordinates(18, 7),
-            new DiscreteCoordinates(18, 6)
-
-
+            // FIRE
+            new DiscreteCoordinates(2, 39),
+            // WATER
+            new DiscreteCoordinates(3, 39)
     );
-
-
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
@@ -119,8 +114,6 @@ public final class Maze extends ICoopArea implements Logic {
 
         // ----------------- Skulls ---------------
 
-        //(12,33), (12,31), (12,29), (12,27), (12,25),
-        //(10,33), (10,32), (10,30), (10,28) et (10,26).
         DiscreteCoordinates[] skullCoordinates =  {
                 new DiscreteCoordinates(12, 33),
                 new DiscreteCoordinates(12, 31),

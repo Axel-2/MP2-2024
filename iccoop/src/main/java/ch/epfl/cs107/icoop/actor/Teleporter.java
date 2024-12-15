@@ -10,10 +10,15 @@ import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.signal.logic.And;
 
 
+
 import java.util.List;
 
+/**
+ * Représente les téléporteurs, une spécification des portes
+ */
 public class Teleporter extends Door implements Logic {
 
+    // Image
     private final RPGSprite sprite;
 
     private Key fireKey;
@@ -23,6 +28,14 @@ public class Teleporter extends Door implements Logic {
 
     // TODO comment faire pour ne pas déclarer deux fois le sprite ????
 
+    /**
+     * Constructeur d'un téléporteur présent sur une seule cellule principale
+     * @param goToAreaName
+     * @param signal
+     * @param futurePositions
+     * @param ownerArea
+     * @param mainCellPosition
+     */
     public Teleporter(String goToAreaName, Logic signal, List<DiscreteCoordinates> futurePositions, Area ownerArea, DiscreteCoordinates mainCellPosition, Key fireKey, Key waterKey) {
         super(goToAreaName, signal, futurePositions, ownerArea, mainCellPosition);
         this.sprite = new RPGSprite("shadow", 1, 1, this , new RegionOfInterest(0, 0, 32,

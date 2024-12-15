@@ -4,8 +4,12 @@ import ch.epfl.cs107.play.engine.actor.Actor;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 
+/**
+ * Représente le centre de masse de plusieurs joueurs
+ */
 public class CenterOfMass implements Actor {
 
+    // Liste de joueurs dont on veut tenir compte pour le centre de masse
     private final Actor[] actors;
 
     public CenterOfMass(Actor actor, Actor... restOfActors) {

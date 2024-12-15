@@ -17,32 +17,46 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
-// TODO : "ELLES SERONT STOPPEES DANS LEUR COURSE EN LES TOUCHANT"
-// MAIS JSP COMMENT FAIRE
 
+// Représente les boules de magie lancées par les bâtons, très similaires aux flammes
 public class StaffBall extends Unstoppable {
 
+    // Gestionnaire d'intéraction
     private final StaffBallInteractionHandler interactionHandler = new StaffBallInteractionHandler();
 
+    // Animation
     private final Animation animation;
+
+    // Durée d'animation
     final static int ANIMATION_DURATION = 12;
 
+    // Element de la boule de magie 
     private final Element element;
 
+    /**
+     * Constructeur de la boule de magie
+     * @param area
+     * @param orientation
+     * @param position
+     * @param speed
+     * @param maxDistance
+     * @param elem
+     */
     public StaffBall(Area area, Orientation orientation, DiscreteCoordinates position, int speed, int maxDistance, Element elem) {
         super(area, orientation, position, speed, maxDistance);
 
         this.element = elem;
 
+        // Selon l'élément, assigne le spriteName correspondant
         String name = elem == Element.FIRE ? "icoop/magicFireProjectile" : "icoop/magicWaterProjectile";
+
         this.animation = new Animation(name , 4, 1, 1, this , 32, 32,
         ANIMATION_DURATION/4, true);
     }
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        // y a pas d'intéraction à distance donc on
-        // peut laisser une liste vide
+        // Aucune intéraction à distance voulue dans tous les cas, nous pouvons retourner une liste vide
         return List.of();
     }
 
@@ -55,14 +69,11 @@ public class StaffBall extends Unstoppable {
     @Override
     public void update(float deltaTime) {
 
-        // on update en permanence l'animation
+        // Update en permanence de l'animation
         animation.update(deltaTime);
 
-        // Cette condition teste si la flamme peut continuer sa course
-        // en regardant si la prochaine cellule droit devant elle peut
-        // etre traversée
+        // Si elle ne peut pas continuer sa course à cause de la case de devant qui ne la laisserait pas rentrer, on stop l'objet
         if (!getOwnerArea().canEnterAreaCells(this, Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector())))) {
-            // si elle ne peut plus avancer on la stop
             stopUnstoppable();
         }
 
@@ -71,10 +82,7 @@ public class StaffBall extends Unstoppable {
 
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
-
-        // Il faut faire de cette manière pour utiliser le handler
         other.acceptInteraction(interactionHandler, isCellInteraction);
-
     }
 
     @Override
@@ -82,37 +90,38 @@ public class StaffBall extends Unstoppable {
         // Il n'accepte pas d'intéraction donc on laisse ca vide
     }
 
+    /**
+     * Gestionnaire d'intéraction
+     */
     private final class StaffBallInteractionHandler implements ICoopInteractionVisitor {
 
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction) {
-            // testé et validé
+            // Activ l'explosif
             explo.activate(1);
             stopUnstoppable();
         }
 
-        // TODO mettre des autres Damages ???
-
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
-            // testé et validé
+            // Détruit le rocher
             rock.destroy();
             stopUnstoppable();
         }
         @Override
         public void interactWith(BombFoe foe, boolean isCellInteraction) {
+            // Fait perdre des points de vie avec des dégats de l'éléments de la boule de magie
             foe.loseHealth(element.toDamage());
             stopUnstoppable();
         }
 
         @Override
         public void interactWith(HellSkull skull, boolean isCellInteraction) {
+            // Si c'est une boule d'eau seulement, fait perdre des points de vie à l'aide de dégat aquatique
             if (element.equals(Element.WATER)){
                 skull.loseHealth(element.toDamage());
                 stopUnstoppable();
             }
-
         }
-
     }
 }

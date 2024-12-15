@@ -3,8 +3,10 @@
 # Conception 1 ---- Note des trucs à mettre dans le fichier conception
 # Welcome à la création
 # Element dans mur
+# pas comment les overides
 
 # To do yoann :
+# Pas commenter les paramètre sencore
 # Re faire les commentaires
 # faire un fichier help et conception
 # Review stockable

@@ -14,9 +14,18 @@ import ch.epfl.cs107.play.window.Canvas;
 public class ICoopPlayerStatusGUI implements Graphics {
 
     private final static int DEPTH = 2000;
+
+    // Joueur lié à l'affichage
     private final ICoopPlayer player;
+
+    // Pour gérer l'affichage à gauche ou à droite
     private final boolean flipped;
 
+    /**
+     * Constructeur du GUI
+     * @param player
+     * @param flipped
+     */
     public ICoopPlayerStatusGUI(ICoopPlayer player, boolean flipped) {
         this.player = player;
         this.flipped = flipped;

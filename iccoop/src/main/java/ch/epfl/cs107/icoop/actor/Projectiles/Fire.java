@@ -16,23 +16,32 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
-// TODO SUPPRIMER LE PROJECTILE LORSQU'IL ARRIVE DANS UN MUR
-// MAIS JSP COMMENT FAIRE
+// TODO SUPPRIMER LE PROJECTILE LORSQU'IL ARRIVE DANS UN MUR ----------------------------------------------------------- AXEL------------------
 
+// Représente les flammes lancées par les crânes
 public class Fire extends Unstoppable {
 
+    // Gestionnaire d'intéraction
     private final FireInteractionHandler interactionHandler = new FireInteractionHandler();
 
+    // Animation
     private Animation animation = new Animation("icoop/fire", 7, 1, 1, this , 16, 16, 4, true);
 
+    /**
+     * Constructeur des flammes
+     * @param area
+     * @param orientation
+     * @param position
+     * @param speed
+     * @param maxDistance
+     */
     public Fire(Area area, Orientation orientation, DiscreteCoordinates position, int speed, int maxDistance) {
         super(area, orientation, position, speed, maxDistance);
     }
 
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-        // y a pas d'intéraction à distance donc on
-        // peut laisser une liste vide
+        // Aucune intéraction à distance voulue dans tous les cas, nous pouvons retourner une liste vide
         return List.of();
     }
 
@@ -45,14 +54,11 @@ public class Fire extends Unstoppable {
     @Override
     public void update(float deltaTime) {
 
-        // on update en permanence l'animation
+        // Update en permanence de l'animation
         animation.update(deltaTime);
 
-        // Cette condition teste si la flamme peut continuer sa course
-        // en regardant si la prochaine cellule droit devant elle peut
-        // etre traversée
+        // Si elle ne peut pas continuer sa course à cause de la case de devant qui ne la laisserait pas rentrer, on stop l'objet
         if (!getOwnerArea().canEnterAreaCells(this, Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector())))) {
-            // si elle ne peut plus avancer on la stop
             stopUnstoppable();
         }
 
@@ -61,10 +67,7 @@ public class Fire extends Unstoppable {
 
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
-
-        // Il faut faire de cette manière pour utiliser le handler
         other.acceptInteraction(interactionHandler, isCellInteraction);
-
     }
 
     @Override
@@ -72,27 +75,30 @@ public class Fire extends Unstoppable {
         // Il n'accepte pas d'intéraction donc on laisse ca vide
     }
 
+    /**
+     * Gestionnaire d'intéraction de la flamme
+     */
     private final class FireInteractionHandler implements ICoopInteractionVisitor {
 
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction) {
-            // testé et validé
+            // Active l'explosif
             explo.activate(1);
             stopUnstoppable();
         }
 
-        // TODO mettre des autres Damages ???
+        // TODO mettre des autres Damages ??? --------------------------------------------------------------------------- AXEL
 
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction) {
-            // Bizzare de choisir Fire mais bon
+            // Fait des dégats de feu aux ennemis
             foe.loseHealth(Damage.FIRE);
             stopUnstoppable();
         }
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-            // testé et validé
+            // Fait des dégats de feu aux joueurs
             player.loseHealth(Damage.FIRE);
             stopUnstoppable();
         }

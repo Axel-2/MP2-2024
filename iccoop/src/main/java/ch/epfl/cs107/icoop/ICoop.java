@@ -21,9 +21,12 @@ import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
 
-
+/**
+ * Classe principale de notre jeu
+ */
 public class ICoop extends AreaGame implements DialogHandler {
 
+    // Trois joueurs
     private ICoopPlayer player1;
     private ICoopPlayer player2;
     private ICoopPlayer[] players;
@@ -34,9 +37,9 @@ public class ICoop extends AreaGame implements DialogHandler {
     private Area mazeArea;
     private Area arenaArea;
 
+    // Dialogue courant
     private Dialog activeDialog = null;
 
-    // TO BE COMPLETED
     @Override
     public String getTitle() {
         return "ICoop";
@@ -75,15 +78,15 @@ public class ICoop extends AreaGame implements DialogHandler {
     }
 
 
+    /**
+     * Initialise le jeu
+     */
     private void initGame() {
 
         // Le jeu commence dans l'aire spwan
 
-        ICoopArea area = (ICoopArea) setCurrentArea("Maze", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         createPlayers(area);
-
-        // Interface GUI
-
 
         // On centre la caméra sur le centre de masse
         setCamera();
@@ -92,6 +95,10 @@ public class ICoop extends AreaGame implements DialogHandler {
         publish(new Dialog("welcome"));
     }
 
+    /**
+     * Crée les joueurs 
+     * @param area
+     */
     private void createPlayers(ICoopArea area) {
         // ----- JOUEURS -----
 
@@ -114,6 +121,9 @@ public class ICoop extends AreaGame implements DialogHandler {
 
     }
 
+    /**
+     * Ajuste la caméra sur le centre de masse
+     */
     private void setCamera() {
 
         CenterOfMass centerOfMass = new CenterOfMass(player1, player2);
@@ -124,17 +134,13 @@ public class ICoop extends AreaGame implements DialogHandler {
     @Override
     public void update(float deltaTime) {
 
-
-        // A chaque tour de boucle on doit check
-        // si un des joueurs traverse une porte
+        // S'occupe des joueurs changeant de map à l'aide d'une porte
         checkLeavingPlayer();
 
-        // A chaque tout on check si
-        // une touche pour reset est pressée
+        // Vérifie que la touche reset ait été pressée
         checkReset();
 
-        // On test si les joueurs ont encore de la
-        // vie
+        // Vérifie que les joueurs aient de la vie
         checkHealth();
 
         // S'occupe des dialogues : affichage et skip si "next dialog" est appuyée
@@ -149,15 +155,15 @@ public class ICoop extends AreaGame implements DialogHandler {
 
     @Override
     public void draw() {
-
         if (activeDialog != null) {
             activeDialog.draw(getWindow());
         }
         super.draw();
     }
 
-    // On test si les players ont encore de la
-    // vie sinon on reset la map
+    /**
+     * Reste la map si l'un des joueur est mort
+     */
     private void checkHealth() {
         for (ICoopPlayer player : players) {
             if (!player.isAlive()) {
@@ -166,22 +172,18 @@ public class ICoop extends AreaGame implements DialogHandler {
         }
     }
 
-    // Partie qui gère les dialogues
 
+    /**
+     * Méthode s'occupant de la partie dialogue
+     * @param deltaTime
+     */
     private void checkDialog(float deltaTime){
         Keyboard kbd = getCurrentArea().getKeyboard();
 
         // Affiche le dialogue s'il y en a un en cours, et pause le jeu
         if (activeDialog != null){
-            //activeDialog.draw(getWindow());
-
-            // Pause pendant les dialogues
-            //if (!getCurrentArea().isPaused()){
-            //    getCurrentArea().requestPause();
-            //}
             getCurrentArea().requestPause();
             
-
             // Check si le joueur veut skip le dialogue
             if (kbd.get(KeyBindings.NEXT_DIALOG).isPressed()){
                 activeDialog.update(deltaTime);
@@ -206,6 +208,9 @@ public class ICoop extends AreaGame implements DialogHandler {
         this.activeDialog = dialog;
     }
 
+    /**
+     * Méthode qui reset le jeu si la touche correspondante est pressée
+     */
     private void checkReset() {
         Keyboard keyboard = getCurrentArea().getKeyboard();
         if (keyboard.get(KeyBindings.RESET_AREA).isPressed()) {
@@ -223,6 +228,9 @@ public class ICoop extends AreaGame implements DialogHandler {
         }
     }
 
+    /**
+     * Réinitialise la map 
+     */
     private void resetMap() {
         // On reéinitialise la map
         getCurrentArea().begin(getWindow(), getFileSystem());
@@ -237,6 +245,9 @@ public class ICoop extends AreaGame implements DialogHandler {
         resetPlayersHealth();
     }
 
+    /**
+     * Réinitialise la vie des joeuurs
+     */
     private void resetPlayersHealth() {
         player1.resetHealth();
         player2.resetHealth();
@@ -250,23 +261,30 @@ public class ICoop extends AreaGame implements DialogHandler {
      */
     private void checkLeavingPlayer() {
 
-        DiscreteCoordinates coordinates;
-
+        // Pour chacun des joueurs
         for (ICoopPlayer playerEl : players) {
+
+            // Lorsqu'il quitte
             if (playerEl.isLeaving()) {
+                
+                // Met à jour son attribut
                 playerEl.setLeaving(false);
+
+                // Obtient la porte correspondante
                 Door door = playerEl.getLeavingDoor();
 
-                // Important, il faut leave l'area avant de set la nouvelle
-                // sinon les players bloquent les portes
+                // Fait quitter les deux joueurs
                 player1.leaveArea();
                 player2.leaveArea();
 
+                // Met à jour la map actuelle
                 Area areaToGo = setCurrentArea(door.getDestinationArea(), false);
 
+                // Y fait rentrer les joueurs
                 player1.enterArea(areaToGo, door.getFuturePositions().get(0));
                 player2.enterArea(areaToGo, door.getFuturePositions().get(1));
 
+                // Ajuste la camera
                 setCamera();
 
             }
