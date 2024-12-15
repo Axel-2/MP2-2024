@@ -1,26 +1,40 @@
 package ch.epfl.cs107.icoop.actor.Projectiles;
 
-import ch.epfl.cs107.play.areagame.actor.Interactable;
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 
-import java.util.Collections;
-import java.util.List;
 
-
+/**
+ * Représente de manière abstraite les objets en mouvement inarrêtables
+ */
 public abstract class Unstoppable extends MovableAreaEntity implements Interactor {
 
+    // Vitesse de déplacement
     private final int speed;
+
+    // Distance restante avant de disparaître
     private int distanceLeft;
+
+    // Variable indiquant si le déplacement est entrain de se faire
     private boolean isTravelling;
 
-
-    // TODO je suis pas sur du 8
+    // Durée de movement
     private final int MOVE_DURATION = 8;
 
+    /**
+     * Constructeur des "Unstoppable"
+     * @param area
+     * @param orientation
+     * @param position
+     * @param speed
+     * @param maxDistance
+     */
     public Unstoppable(Area area, Orientation orientation, DiscreteCoordinates position, int speed, int maxDistance) {
         super(area, orientation, position);
         this.speed = speed;
@@ -35,26 +49,25 @@ public abstract class Unstoppable extends MovableAreaEntity implements Interacto
 
     @Override
     public boolean takeCellSpace() {
-        // On peut marcher dessus
         return true;
     }
 
     @Override
     public boolean isCellInteractable() {
-        // par défaut n'accepte rien
+        // Par défaut n'accepte pas les intéractions de contact
         return false;
     }
 
     @Override
     public boolean isViewInteractable() {
-        // par défaut n'accepte rien
+        // Par défaut n'accepte pas les intéractions de contact
         return false;
     }
 
 
     @Override
     public boolean wantsCellInteraction() {
-        // interaction seulement si il est en vol
+        // Veut des intéractions seulement si l'objet est en vol
         return isTravelling;
     }
 
@@ -63,7 +76,9 @@ public abstract class Unstoppable extends MovableAreaEntity implements Interacto
         return false;
     }
 
-
+    /**
+     * Arrête le mouvement
+     */
     public void stopUnstoppable() {
         isTravelling = false;
     }
@@ -72,13 +87,17 @@ public abstract class Unstoppable extends MovableAreaEntity implements Interacto
     @Override
     public void update(float deltaTime) {
 
+        // Disparait lorsqu'il a fini sa course
         if (distanceLeft <= 0 || !isTravelling) {
-            // Disparait lorsqu'il a fini sa course
+    
             getOwnerArea().unregisterActor(this);
+
         } else  {
+
+            // Continue de bouger
             move(MOVE_DURATION / speed);
 
-            // a chaque cycle on diminue d'une unité la distance parcourue
+            // A chaque cycle on diminue d'une unité la distance parcourue
             distanceLeft -= 1;
         }
 

@@ -23,33 +23,38 @@ import ch.epfl.cs107.play.signal.logic.Logic;
  */
 public final class Spawn extends ICoopArea {
 
-    // On a besoin d'une variable static car des fois,
-    // on veut le spawn sans initialiser l'objet donc
-    // le getter ci-dessous ne suffit pas
+    // Position de départs
     static final SpawnPosition spawnPosition = new SpawnPosition(new DiscreteCoordinates(14, 6), new DiscreteCoordinates(13, 6));
 
+    // Gestionnaire de Dialogue
     private final DialogHandler dialogHandler;
 
+    /**
+     *  Constructeur de Spawn
+     */
     public Spawn(DialogHandler dialogHandler) {
         this.dialogHandler = dialogHandler;
     }
+
 
     @Override
     public  DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
             case FIRE -> spawnPosition.getFireSpawn();
             case WATER -> spawnPosition.getWaterSpawn();
-        
         };
-
         return coordinates;
     }
 
     @Override
     protected void createArea() {
+
+        // Back et Foregrounds
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
+
+        // PORTES
         Door toOrbWayDoor = new Door(
             "OrbWay",                                                                // Aire vers laquelle la porte emmène
             Logic.TRUE,                                                                           // Toujours open
@@ -68,32 +73,13 @@ public final class Spawn extends ICoopArea {
             new DiscreteCoordinates(5,0)                                                    // Autre cellule de la porte (l'autre "case" rouge)
             );
 
+            DialogDoor finalDoor = new DialogDoor(this, new DiscreteCoordinates(6, 11), dialogHandler);
+
+
+        // Register des portes
         registerActor(toOrbWayDoor);
         registerActor(toMazeDoor);
-
-
-        DialogDoor finalDoor = new DialogDoor(this, new DiscreteCoordinates(6, 11), dialogHandler);
         registerActor(finalDoor);
-
-        // DEBUG projectiles
-        Fire fire = new Fire(this, Orientation.RIGHT, new DiscreteCoordinates(0, 10), 1, 200);
-        registerActor(fire);
-        Fire fire1 = new Fire(this, Orientation.UP, new DiscreteCoordinates(7, 5), 3, 200);
-        registerActor(fire1);
-
-        registerActor(new Staff(this, new DiscreteCoordinates(15, 4), Element.FIRE));
-        registerActor(new Staff(this, new DiscreteCoordinates(12, 4), Element.WATER));
-
-
-        // Création du rock et de l'explo
-        Rock rock = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(11, 9 ) );
-        Rock rock2 = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(3, 7 ) );
-        Explosif explo = new Explosif(this, Orientation.DOWN, new DiscreteCoordinates(11, 10), 3);
-
-        registerActor(rock);
-        registerActor(rock2);
-        registerActor(explo);
-
     }
 
     @Override

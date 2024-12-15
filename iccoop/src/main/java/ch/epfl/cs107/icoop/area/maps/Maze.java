@@ -15,26 +15,17 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 
 /**
- * A class that represent the inital spawn area
+ * Représente la mab labyrinthe
  */
 public final class Maze extends ICoopArea {
 
-    // Spawn positions
+    // Positions de départs
     static final SpawnPosition spawnPosition = new SpawnPosition(
             // FIRE
             new DiscreteCoordinates(2, 39),
             // WATER
             new DiscreteCoordinates(3, 39)
-
-
-//            // TODO seulement pour debug enlever après
-//            new DiscreteCoordinates(3, 10),
-//            new DiscreteCoordinates(4, 10)
-
-
     );
-
-
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
@@ -101,8 +92,6 @@ public final class Maze extends ICoopArea {
 
         // ----------------- Skulls ---------------
 
-        //(12,33), (12,31), (12,29), (12,27), (12,25),
-        //(10,33), (10,32), (10,30), (10,28) et (10,26).
         DiscreteCoordinates[] skullCoordinates =  {
                 new DiscreteCoordinates(12, 33),
                 new DiscreteCoordinates(12, 31),
@@ -131,14 +120,10 @@ public final class Maze extends ICoopArea {
         for (DiscreteCoordinates bombFoeCoord : bombFoesCoordinates) {
             registerActor(new BombFoe(this, bombFoeCoord));
         }
-
-
-
     }
 
     @Override
     public String getTitle() {
         return "Maze";
     }
-
 }

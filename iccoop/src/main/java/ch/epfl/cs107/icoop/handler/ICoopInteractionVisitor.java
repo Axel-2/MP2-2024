@@ -20,64 +20,67 @@ import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 /**
  * InteractionVisitor for the ICoop entities
  */
-
 public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
-    /// Add Interaction method with all non Abstract Interactable
-    /// Les corps de méthodes non nuls seront Overridés dans les interactors eux-mêmes, par exemple dans ICoopPlayer
-    
+    // Définition par défaut de toutes les intéractions qui seront implémentées
 
-    // Intéraction avec une cellule, par défaut ne fait rien
+    // Interaction avec une cellule, par défaut ne fait rien
     default void interactWith(ICoopCell cell, boolean isCellInteraction) {
     }
 
-    // Intéraction avec un joueur, par défaut ne fait rien
+    // Interaction avec un joueur, par défaut ne fait rien
     default void interactWith(ICoopPlayer player, boolean isCellInteraction) {
     }
 
-    // Intéraction avec une porte, par défaut ne fait rien
+    // Interaction avec une porte, par défaut ne fait rien
     default void interactWith(Door other, boolean isCellInteraction) {
     }
 
-    // Intéraction avec un Obstacle, par défaut ne fait rien
+    // Interaction avec un Obstacle, par défaut ne fait rien
     default void interactWith(Obstacle obstacle, boolean isCellInteraction) {
     }
 
-    // Intéraction avec un Rock, par défaut ne fait rien
+    // Interaction avec un Rock, par défaut ne fait rien
     default void interactWith(Rock rock, boolean isCellInteraction) {
     }
 
-    // Intéraction avec un Explosif par défaut ne fait rien
+    // Interaction avec un Explosif par défaut ne fait rien
     default void interactWith(Explosif explosif, boolean isCellInteraction) {
     }
 
+    // Interaction avec un collectable par défaut ne fait rien
     default void interactWith(ICoopCollectable collectable, boolean isCellInteraction) {
     }
 
+    // Interaction avec un item élémentaire, par défaut ne fait rien
     default void interactWith(ElementalItem elemItem, boolean isCellInteraction) {
     }
 
+    // Interaction avec une Orbe par défaut ne fait rien
     default void interactWith(Orb orb, boolean isCellInteraction) {
     }
 
+    // Interaction avec un Coeur par défaut ne fait rien
     default void interactWith(Heart heart, boolean isCellInteraction) {
     }
 
+    // Interaction avec un ennemi par défaut ne fait rien
     default void interactWith(Foe foe, boolean isCellInteraction) {
     }
 
+    // Interaction avec un Mur élémentaire par défaut ne fait rien
     default void interactWith(ElementalWall wall, boolean isCellInteraction) {  
     }
 
-    default void interactWith(Staff staff, boolean isCellInteraction){
-        
+    // Interaction avec un bâton par défaut ne fait rien
+    default void interactWith(Staff staff, boolean isCellInteraction){  
     }
 
+    // Interaction avec un Artificier par défaut ne fait rien
     default void interactWith(BombFoe foe, boolean isCellInteraction){
-
     }
 
+    // Interaction avec un crâne par défaut ne fait rien
     default void interactWith(HellSkull foe, boolean isCellInteraction){
-
     }
 
 

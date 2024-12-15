@@ -2,15 +2,11 @@ package ch.epfl.cs107.icoop.area;
 
 import static java.lang.Math.max;
 
-import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.actor.ICoopPlayer;
-import ch.epfl.cs107.icoop.handler.DialogHandler;
+import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.play.areagame.area.Area;
-import ch.epfl.cs107.play.areagame.area.AreaBehavior;
-import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
-import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Window;
 
 
@@ -19,7 +15,6 @@ import ch.epfl.cs107.play.window.Window;
  */
 public abstract class ICoopArea extends Area {
 
-    // TODO remettre à 18.f après debug
     public final static float DEFAULT_SCALE_FACTOR = 18.f;
     private float cameraScaleFactor = DEFAULT_SCALE_FACTOR;
 
@@ -27,6 +22,10 @@ public abstract class ICoopArea extends Area {
     // pour garantir un premier affichage
     private boolean hasBeenInitialised;
 
+    /**
+     * Setter du cameraScaleFactor
+     * @param cameraScaleFactor
+     */
     public void setCameraScaleFactor(float cameraScaleFactor) {
         this.cameraScaleFactor = cameraScaleFactor;
     }
@@ -51,20 +50,16 @@ public abstract class ICoopArea extends Area {
     public boolean begin(Window window, FileSystem fileSystem) {
         if (super.begin(window, fileSystem)) {
 
-            // on stock l'instance du areaBehavior dans une variable pour
-            // pouvoir l'utiliser dans Arena
+            // On stock l'instance du areaBehavior dans une variable pour, pouvoir l'utiliser dans Arena
             ICoopBehavior areaBehaviorInstance = new ICoopBehavior(window, getTitle());
 
-            // on crée les obstacles et les cailloux
+            // On crée les obstacles et les cailloux
             areaBehaviorInstance.createActors(this);
 
             setBehavior(areaBehaviorInstance);
             createArea();
 
-            // Il faut de nouveau assurer
-            // à l'aide de cette variable
-            // qu'il y a au minimum un
-            // appel à update()
+            // Initialisation finie
             hasBeenInitialised = false;
 
             return true;
@@ -76,11 +71,7 @@ public abstract class ICoopArea extends Area {
     @Override
     public void update(float deltaTime){
 
-        // IMPORTANT:
-        // Il faut etre sûr que l'aire a bien
-        // reçu au moins une seule update
-        // avant le dialogue de démarrage sinon rien
-        // ne s'affiche
+        // Première update pour que quelquechose s'affiche au départ
         if (!hasBeenInitialised) {
             super.update(deltaTime);
             hasBeenInitialised = true;
@@ -90,9 +81,7 @@ public abstract class ICoopArea extends Area {
         if (!this.isPaused()) {
             super.update(deltaTime);
         }
-
     }
-
 
     /**
      * Getter for Icoop's scale factor
@@ -103,6 +92,11 @@ public abstract class ICoopArea extends Area {
         return cameraScaleFactor;
     }
 
+    /**
+     * Met à jour le scale Factor
+     * @param fire
+     * @param water
+     */
     public void updateScaleFactor(ICoopPlayer fire, ICoopPlayer water){
         float distance = fire.getPosition().sub(water.getPosition()).getLength();
         cameraScaleFactor = (float) max(DEFAULT_SCALE_FACTOR, DEFAULT_SCALE_FACTOR * 0.75 + distance / 2);

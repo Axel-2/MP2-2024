@@ -16,21 +16,35 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
+/**
+ * Représente les explosifs
+ */
 public class Explosif extends ICoopCollectable implements Interactor{
 
+    // Durée d'animation
     private final static int ANIMATION_DURATION = 24;
 
+    // Deux animations différentes
     private final Animation tickingAnimation;
     private final Animation explosionAnimation;
 
-    private boolean isActivated;
+    // Compteur avant d'exploser
     private float counter;
+
+    // Indications sur l'état de l'explosifs
+    private boolean isActivated;
     private boolean isExploding;
 
+    // Gestionnaire d'intéraction
     private final ExplosifInteractionHandler interactionHandler = new ExplosifInteractionHandler();
 
-
-    // Constructeur ici
+    /**
+     * Constructeur d'explosif
+     * @param area
+     * @param orientation
+     * @param position
+     * @param counter
+     */
     public Explosif(Area area, Orientation orientation, DiscreteCoordinates position, int counter){
         super(area, orientation, position, true);
 
@@ -58,7 +72,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
     }
 
     /*
-     * Fait exploser l'explosifg
+     * Fait exploser l'explosif
      */
     public void explode() {
         isExploding = true;
@@ -69,6 +83,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
         super.update(deltaTime);
 
+        // Tant qu'il est activé, le compteur diminue
         if (isActivated) {
             counter -= deltaTime;
             tickingAnimation.update(deltaTime);
@@ -107,74 +122,39 @@ public class Explosif extends ICoopCollectable implements Interactor{
     
     }
 
-    
-
-    /**
-     * Get this Interactor's current occupying cells coordinates
-     * @return (List of DiscreteCoordinates). May be empty but not null
-     */
     @Override
     public List<DiscreteCoordinates> getCurrentCells(){
         return Collections.singletonList(getCurrentMainCellCoordinates());
     }
 
-
-    /**
-     * Get this Interactor's current field of view cells coordinates
-     *
-     * @return (List of DiscreteCoordinates). May be empty but not null
-     */
     @Override
     public List<DiscreteCoordinates> getFieldOfViewCells() {
-
         List<DiscreteCoordinates> neighbourCells = new ArrayList<>();
 
+        // Remplis la liste des cellules voisines avec les 4 cellules directement adjaçantes
         for (Orientation orientation : Orientation.values()) {
             neighbourCells.add(getCurrentMainCellCoordinates().jump(orientation.toVector()));
         }
 
         return neighbourCells;
-
     }
 
-
-    /**
-     * @return (boolean): true if this require cell interaction
-     */
     @Override
     public boolean wantsCellInteraction() {
-        // La bombe n'interagit avec les obstacles
-        // que si elle explose
         return true;
     }
 
     @Override
-    /**@return (boolean): true if this require view interaction */
     public boolean wantsViewInteraction() {
-        // La bombe n'a des intéractions à distance
-        // que si elle explose
+        // La bombew veut intéragir à distance seulement si elle explose
         return isExploding;
     }
 
-    /**
-     * Do this Interactor interact with the given Interactable
-     * The interaction is implemented on the interactor side !
-     *
-     * @param other             (Interactable). Not null
-     * @param isCellInteraction True if this is a cell interaction
-     */
     @Override
     public void interactWith(Interactable other, boolean isCellInteraction) {
         other.acceptInteraction(interactionHandler, isCellInteraction);
     }
 
-    /**
-     * Indicate if the current Interactable take the whole cell space or not
-     * i.e. only one Interactable which takeCellSpace can be in a cell
-     * (how many Interactable which don't takeCellSpace can also be in the same cell)
-     *
-     * @return (boolean)
-     */
     @Override
     public boolean takeCellSpace() {
         // Un personnage peut traverser la bombe
@@ -187,26 +167,16 @@ public class Explosif extends ICoopCollectable implements Interactor{
      */
     @Override
     public boolean isCellInteractable() {
-        // On peut intéragit avec la bombe si elle n'a pas explosé
-        // ou si elle n'est pas activée
+        // On peut intéragiravec la bombe si elle n'a pas explosé, ou si elle n'est pas activée
         return (!isExploding && !isActivated);
     }
 
-    /**
-     * @return (boolean): true if this is able to have view interactions
-     */
     @Override
     public boolean isViewInteractable() {
-        // Lorsque la bombe n'a pas encore explosée,
-        // on peut intéragir avec pour l'activer à distance
+        // Lorsque la bombe n'a pas encore explosé, on peut intéragir avec pour l'activer à distance
         return !isExploding;
     }
 
-    /**
-     * Call directly the interaction on this if accepted
-     *
-     * @param v (AreaInteractionVisitor) : the visitor
-     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         // Fonction par défaut pout le modèle visiteur
@@ -214,12 +184,15 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
     }
 
-
+    /**
+     *  Gestionnaire d'intéraction
+     */
     private final class ExplosifInteractionHandler implements ICoopInteractionVisitor {
 
-        // Intéraction avec un rocher : le fait disparaitre 
+        
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
+            // Intéraction avec un rocher : le fait disparaitre si l'explosif explose
             if (isExploding){
                 rock.destroy();
             }
@@ -227,29 +200,26 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-
             if (isExploding) {
                 // Si la bombe explose à côté d'un player, il perd
                 // des points de vie
                 player.loseHealth(Damage.EXPLOSION);
             }
-
         }
 
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction){
-
+            // Deux explosifs se font exploser entre eux
             if (explo != Explosif.this) {
 
                 activate(1);
-
                 explo.activate(1);
-
             } 
         }
 
         @Override
         public void interactWith(ElementalWall wall, boolean isCellIntweraction) {
+            // Détruit les murs
             if (isExploding) {
                 wall.destroy();
             }

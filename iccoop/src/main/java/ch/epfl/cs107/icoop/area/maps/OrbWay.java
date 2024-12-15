@@ -21,22 +21,25 @@ import ch.epfl.cs107.play.signal.logic.Logic;
  * A class that represent the inital spawn area
  */
 public final class OrbWay extends ICoopArea {
+    
+    // Coordonnées de spawn
+    static final SpawnPosition spawnPosition = new SpawnPosition(
+        // FIRE
+        new DiscreteCoordinates(1, 12),
+        // WATER
+        new DiscreteCoordinates(1, 5)
+        );
 
+    // Gestionnaire des dialogues
     private final  DialogHandler dialogHandler;
 
+    /**
+     * Constructeur de OrbWay
+     * @param dialogHandler
+     */
     public OrbWay(DialogHandler dialogHandler) {
         this.dialogHandler = dialogHandler;
     }
-
-    // On a besoin d'une variable static car des fois,
-    // on veut le spawn sans initialiser l'objet donc
-    // le getter ci-dessous ne suffit pas
-    static final SpawnPosition spawnPosition = new SpawnPosition(
-            // FIRE
-            new DiscreteCoordinates(1, 12),
-            // WATER
-            new DiscreteCoordinates(1, 5)
-    );
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {

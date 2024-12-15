@@ -1,5 +1,8 @@
 package ch.epfl.cs107.icoop.actor;
 
+import java.util.Collections;
+import java.util.List;
+
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
@@ -12,45 +15,46 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
-import java.util.Collections;
-import java.util.List;
-
+/**
+ * Représente les plaques de pressions
+ */
 public class PressurePlate extends AreaEntity implements Logic, Interactor {
 
+    // Images
     private final static String spriteName = "GroundPlateOff";
     private Sprite sprite;
 
+    // Indique si un joueur marche sur la plaque
     private boolean isPressed;
-    private ICoopPlayer currentPlayer;
-    private ElementalWall currentWall;
 
+    // Joueur marchant sur la plaque
+    private ICoopPlayer currentPlayer;
+
+    // Gestionnaire d'intéraction
     private final PressurePlateInteractionHandler interactionHandler = new PressurePlateInteractionHandler();
 
-
+    /**
+     * Constructeur
+     * @param area
+     * @param position
+     */
     public PressurePlate(Area area, DiscreteCoordinates position) {
         super(area, Orientation.DOWN, position);
         this.isPressed = false;
-
-        // On est pas guidé sur les paramètres donc j'ai mis 1f comme d'hab mais jsp
         this.sprite = new Sprite(spriteName, 1f, 1f, this);
 
         // Par défaut il n y a pas de player sur la plaque de pression.
         this.currentPlayer = null;
-
-        this.currentWall = null;
     }
 
     @Override
     public boolean isOn() {
-        // La plaque est activée
-        // si elle est pressée
+        // La plaque est activée si elle est pressée
         return isPressed;
     }
 
     @Override
     public boolean isOff() {
-        // La plaque n'est pas activée si elle n'est pas
-        // pressée
         return !isPressed;
     }
 
@@ -74,8 +78,7 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
 
     @Override
     public boolean isViewInteractable() {
-        // Pas d'intéraction à distance à priori
-        // comme il faut un contact direct
+        // Pas d'intéraction à distance, il faut marcher sur la plaque uniquement
         return false;
     }
 
@@ -84,21 +87,16 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
         return List.of();
     }
 
-    /**@return (boolean): true if this require cell interaction */
     @Override
     public boolean wantsCellInteraction(){
         return true;
     }
 
-    /**@return (boolean): true if this require view interaction */
     @Override
     public boolean wantsViewInteraction(){
         return false;
     }
 
-    /** Call directly the interaction on this if accepted
-     * @param v (AreaInteractionVisitor) : the visitor
-     */
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction){
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
@@ -126,12 +124,14 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
     }
 
 
-    // ----- Handler -----
+    /**
+     * Gestionnaire d'intéraction
+     */
     private final class PressurePlateInteractionHandler implements ICoopInteractionVisitor {
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
-            // Seulement si le mur est actif
+            // Associee le jour à l'attribut, et indique qu'elle est pressée
             PressurePlate.this.currentPlayer = player;
             isPressed = true;
         }

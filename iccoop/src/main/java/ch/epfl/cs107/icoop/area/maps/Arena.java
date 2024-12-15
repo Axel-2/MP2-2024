@@ -1,28 +1,20 @@
 package ch.epfl.cs107.icoop.area.maps;
 
-import ch.epfl.cs107.icoop.ICoop;
+import java.util.Arrays;
+
 import ch.epfl.cs107.icoop.actor.Collectable.Key;
-import ch.epfl.cs107.icoop.actor.Obstacle;
-import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.actor.Teleporter;
 import ch.epfl.cs107.icoop.area.ICoopArea;
-import ch.epfl.cs107.icoop.area.ICoopBehavior;
-import ch.epfl.cs107.icoop.area.SpawnPosition;
 import ch.epfl.cs107.icoop.enums.Element;
-import ch.epfl.cs107.play.areagame.area.AreaBehavior;
 import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
-import javax.swing.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-
+/**
+ * Représente la map finale : l'arène !
+ */
 public class Arena extends ICoopArea {
 
     @Override
@@ -30,7 +22,7 @@ public class Arena extends ICoopArea {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
-        // TODO  mieux gérer les paramètres ici
+        // TODO  mieux gérer les paramètres ici ----------------------------------------------------------------------------------------------------------------------
 
         // Clés
         Key fireKey = new Key(this, Orientation.DOWN, new DiscreteCoordinates(9, 16), Element.FIRE, true);

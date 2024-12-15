@@ -2,6 +2,9 @@ package ch.epfl.cs107.icoop.handler;
 
 import ch.epfl.cs107.play.areagame.handler.InventoryItem;
 
+/**
+ * Enum des différents modèles d'articles d'inventaires
+ */
 public enum ICoopItem implements InventoryItem {
 
     SWORD("Sword", 0, "icoop/sword.icon"),
@@ -11,10 +14,21 @@ public enum ICoopItem implements InventoryItem {
     WATERSTAFF("WaterStaff", 0, "icoop/staff_water.icon"),
     EXPLOSIVE("Explosive", 0, "icoop/explosive");
 
+    // Nom de l'item
     private final String name;
+
+    // Poche dans laquelle il sera contenu (0 ici car qu'une seule poche est disponible)
     private final int pocketId;
+
+    // Path du sprite
     private final String path;
 
+    /**
+     * Constructeur de l'enum
+     * @param name
+     * @param pocketId
+     * @param path
+     */
     ICoopItem(String name, int pocketId, String path){
         this.name = name;
         this.pocketId = pocketId;
