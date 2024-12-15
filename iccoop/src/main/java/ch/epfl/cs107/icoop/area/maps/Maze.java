@@ -3,6 +3,7 @@ package ch.epfl.cs107.icoop.area.maps;
 import ch.epfl.cs107.icoop.actor.*;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
+import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
 import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.area.ICoopArea;
@@ -12,6 +13,7 @@ import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.signal.logic.And;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 import java.util.Arrays;
@@ -19,9 +21,10 @@ import java.util.Arrays;
 /**
  * A class that represent the inital spawn area
  */
-public final class Maze extends ICoopArea {
+public final class Maze extends ICoopArea implements Logic {
 
-
+    private Staff fireStaff;
+    private Staff waterStaff;
 
     // Spawn positions
     public static final SpawnPosition SPAWN_POSITION = new SpawnPosition(
@@ -96,7 +99,7 @@ public final class Maze extends ICoopArea {
         registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,21), Element.FIRE, secondPP)); //composant7
         
         registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,4), Element.WATER));
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13,4), Element.WATER));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13,4), Element.FIRE));
 
 
         // ----------------- COEURS ------------------
@@ -147,6 +150,12 @@ public final class Maze extends ICoopArea {
             registerActor(new BombFoe(this, bombFoeCoord));
         }
 
+        // ----------------- Staffs ---------------
+
+        fireStaff = new Staff(this, new DiscreteCoordinates(13, 2), Element.FIRE);
+        waterStaff = new Staff(this, new DiscreteCoordinates(8, 2), Element.WATER);
+        registerActor(fireStaff);
+        registerActor(waterStaff);
 
 
     }
@@ -156,4 +165,13 @@ public final class Maze extends ICoopArea {
         return "Maze";
     }
 
+    @Override
+    public boolean isOn() {
+        return new And(fireStaff, waterStaff).isOn();
+    }
+
+    @Override
+    public boolean isOff() {
+        return !isOn();
+    }
 }

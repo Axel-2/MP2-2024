@@ -1,7 +1,9 @@
 package ch.epfl.cs107.icoop.actor.Collectable;
 
 import ch.epfl.cs107.icoop.enums.Element;
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.areagame.handler.InventoryItem;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
@@ -16,6 +18,21 @@ public class Key extends ElementalItem implements Logic, InventoryItem {
 
     // Image de la clé
     private Sprite sprite;
+
+    @Override
+    public boolean isOn() {
+        return isCollected();
+    }
+
+    @Override
+    public boolean isOff() {
+        return !isCollected();
+    }
+
+    @Override
+    public boolean isCellInteractable() {
+        return true;
+    }
 
     /**
      * Constructeur des clés
@@ -36,6 +53,12 @@ public class Key extends ElementalItem implements Logic, InventoryItem {
         }
 
     }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+    }
+
 
     @Override
     public Element getElement() {

@@ -74,23 +74,13 @@ public final class Spawn extends ICoopArea {
         DialogDoor finalDoor = new DialogDoor(this, new DiscreteCoordinates(6, 11), dialogHandler);
         registerActor(finalDoor);
 
-        // DEBUG projectiles
-        Fire fire = new Fire(this, Orientation.RIGHT, new DiscreteCoordinates(0, 10), 1, 200);
-        registerActor(fire);
-        Fire fire1 = new Fire(this, Orientation.UP, new DiscreteCoordinates(7, 5), 3, 200);
-        registerActor(fire1);
-
-        registerActor(new Staff(this, new DiscreteCoordinates(15, 4), Element.FIRE));
-        registerActor(new Staff(this, new DiscreteCoordinates(12, 4), Element.WATER));
 
 
         // Création du rock et de l'explo
         Rock rock = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(11, 9 ) );
-        Rock rock2 = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(3, 7 ) );
         Explosif explo = new Explosif(this, Orientation.DOWN, new DiscreteCoordinates(11, 10), 3);
 
         registerActor(rock);
-        registerActor(rock2);
         registerActor(explo);
 
     }

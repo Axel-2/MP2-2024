@@ -67,8 +67,11 @@ public class Door extends AreaEntity {
         DiscreteCoordinates mainCellCoords = super.getCurrentMainCellCoordinates();
         List<DiscreteCoordinates> occupiedCellsCoords = new ArrayList<>();
         occupiedCellsCoords.add(mainCellCoords);
-        for (DiscreteCoordinates coords : otherCellsCoordinates){
-            occupiedCellsCoords.add(coords);
+
+        if (otherCellsCoordinates != null) {
+            for (DiscreteCoordinates coords : otherCellsCoordinates){
+                occupiedCellsCoords.add(coords);
+            }
         }
         return occupiedCellsCoords;
     }

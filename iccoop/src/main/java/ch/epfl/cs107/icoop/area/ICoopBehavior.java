@@ -54,21 +54,21 @@ public final class ICoopBehavior extends AreaBehavior {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (((ICoopCell) getCell(x, y)).getType() == ICoopCellType.OBSTACLE) {
-                    rockList.add(new DiscreteCoordinates(x, y));
-                } else if (((ICoopCell) getCell(x, y)).getType() == ICoopCellType.ROCK) {
                     obstacleList.add(new DiscreteCoordinates(x, y));
+                } else if (((ICoopCell) getCell(x, y)).getType() == ICoopCellType.ROCK) {
+                    rockList.add(new DiscreteCoordinates(x, y));
                 }
 
             }
         }
 
-        for (DiscreteCoordinates obstacle : obstacleList) {
-            area.registerActor(new Obstacle(area, Orientation.DOWN, obstacle));
-        }
-
-        for (DiscreteCoordinates rock : rockList) {
-            area.registerActor(new Rock(area, Orientation.DOWN, rock));
-        }
+//        for (DiscreteCoordinates obstacle : obstacleList) {
+//            area.registerActor(new Obstacle(area, Orientation.DOWN, obstacle));
+//        }
+//
+//        for (DiscreteCoordinates rock : rockList) {
+//            area.registerActor(new Rock(area, Orientation.DOWN, rock));
+//        }
 
     }
 

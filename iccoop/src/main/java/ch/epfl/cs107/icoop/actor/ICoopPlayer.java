@@ -9,9 +9,11 @@ import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
+import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
+import ch.epfl.cs107.icoop.actor.Foes.Foe;
 import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.actor.Projectiles.StaffBall;
 import ch.epfl.cs107.icoop.enums.Damage;
@@ -672,6 +674,14 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 }
             }
 
+        }
+
+
+
+        @Override
+        public void interactWith(Key key, boolean isCellInteraction) {
+            System.out.println("ss");
+            key.collect();
         }
     }
 }
