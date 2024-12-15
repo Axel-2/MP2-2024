@@ -94,7 +94,7 @@ public class BombFoe extends Foe {
     // Valeur commune à toute les instances
     @Override
     int getMaxLife() {
-        return 2;
+        return 5;
     }
 
     // différents états
@@ -169,6 +169,9 @@ public class BombFoe extends Foe {
 
     @Override
     public void update(float deltaTime) {
+
+        super.update(deltaTime);
+
         currentAnimation.update(deltaTime);
 
         // Si l'artificier est en période d'immunité
@@ -233,8 +236,6 @@ public class BombFoe extends Foe {
         }
 
 
-
-        super.update(deltaTime);
     }
 
 

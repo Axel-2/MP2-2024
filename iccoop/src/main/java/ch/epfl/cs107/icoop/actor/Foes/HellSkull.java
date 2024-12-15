@@ -45,7 +45,7 @@ public class HellSkull extends Foe {
 
     @Override
     int getMaxLife() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -82,6 +82,8 @@ public class HellSkull extends Foe {
 
     @Override
     public void update(float deltaTime) {
+
+        super.update(deltaTime);
 
         // Dans tous les cas on update l'animation
         animation.update(deltaTime);

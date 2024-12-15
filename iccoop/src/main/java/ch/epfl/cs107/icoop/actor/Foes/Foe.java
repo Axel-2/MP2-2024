@@ -24,7 +24,7 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
     private boolean isAlive;
 
     // Barre de vie
-    private final Health health = new Health(this , Transform.I.translated(0, 1.75f), getMaxLife() , true);
+    private final Health health = new Health(this , Transform.I.translated(0, 1.75f), getMaxLife() , false);
 
     // duplication de Player faudra trouver une solution plus tard
      private final static float IMMUNITY_TIME = 24;
@@ -32,7 +32,7 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
      private float immunityTimer;
 
     // Vulnérabilité
-    private Damage[] vulnerabilityList;
+    private final Damage[] vulnerabilityList;
 
     // Animations
     private static final int ANIMATION_DURATION = 24;
@@ -110,12 +110,19 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
 
     @Override
     public void update(float deltaTime) {
-        super.update(deltaTime);
+
+        if (isImmunityTime) {
+            immunityTimer -= 1;
+            
+            if (immunityTimer < 0) {
+                isImmunityTime = false;
+            }
+        }
 
         // Si les pv sont = 0 ou < 0
         if (health.isOff() || health.getIntensity() < 0) {
             isAlive = false;
-            animationCounter -= deltaTime;
+            animationCounter -= 1.5;
 
             // Peut etre qu'on verra pas la première image faudra tester
             deathAnimation.update(deltaTime);
@@ -141,7 +148,7 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
         // Lorsqu'il y a état d'immunité
         // l'ennemi "clignote"
         // sinon l'affichage est normale
-        if (isImmunityTime) {
+        if (isImmunityTime && isAlive) {
             if (immunityTimer % 2 == 0) {
                 drawFoeSprite(canvas);
             }
@@ -149,13 +156,13 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
 
         // TODO PAS SUR ENFT POUR LA BARRE DE VIE
         // Il faut aussi dessiner la barre de vie
-        // health.draw(canvas);
+        health.draw(canvas);
 
         if (!isAlive) {
             // Lorqu'il est mort on draw l'animation
             // jusqu'à qu'il soit unregister
             deathAnimation.draw(canvas);
-        } else {
+        } else if (!isImmunityTime) {
             drawFoeSprite(canvas);
         }
 

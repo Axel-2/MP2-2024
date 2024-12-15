@@ -11,7 +11,9 @@ import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
+import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
 import ch.epfl.cs107.icoop.actor.Foes.Foe;
+import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.actor.Projectiles.StaffBall;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
@@ -113,7 +115,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         // Création de l'inventaire
         this.inventory = new ICoopInventory();
 
-
+        // au départ le player a une bombe et une épée
         inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
         inventory.addPocketItem(ICoopItem.SWORD,1);
         updateCurrentItem();
@@ -141,6 +143,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             case WATER -> playerKeyBindings = BLUE_PLAYER_KEY_BINDINGS;
         }
 
+        // par défaut l'animation est en défault
         currentAnimation = defaultAnimation;
     }
 
@@ -207,7 +210,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
         // Gestion des items
         if (keyboard.get(playerKeyBindings.switchItem()).isPressed()) {
-            SwitchItem();
+            switchItem();
         }
  
         manageUseItem(keyboard);
@@ -220,7 +223,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     /*
      *  S'occupe de gérer le currentitem en fonction de ce qui est disponible dans l'inventaire
      */
-    public void SwitchItem(){
+    public void switchItem(){
 
         // Pour implémenter le concept de circularité, nous crééons un tableau des items (sûrement plus simple mais ça me paraissait naturel)
         List<ICoopItem> itemList = new ArrayList<>();
@@ -287,7 +290,11 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     break;
 
                 case SWORD :
+
+                    // on met le player en state SWORD
                     playerState = PlayerState.SWORD;
+
+                    // et on change l'animation
                     currentAnimation = swordAnimation;
                     break;
 
@@ -361,7 +368,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         } else {
             currentAnimation.draw(canvas);
         }
-
 
 
         // Il faut aussi dessiner la barre de vie
@@ -620,11 +626,42 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                 }
             }
         }
+
         @Override
-        public void interactWith(Foe foe, boolean isCellInteraction) {
-            foe.loseHealth(Damage.PHYSICAL);
-            System.out.println("Damage dealt to Foe. Remaining health: " + foe.getHealthIntensity());
-            
+        public void interactWith(HellSkull foe, boolean isCellInteraction) {
+
+            // on teste si c'est une intéraction à distance et qu'on est en mode
+            // épée
+            if (!isCellInteraction) {
+
+                if (playerState == PlayerState.SWORD) {
+                    foe.loseHealth(Damage.PHYSICAL);
+
+                }
+
+                if (playerState == PlayerState.STAFF) {
+                    foe.loseHealth(element.toDamage());
+                }
+            }
+        }
+
+        @Override
+        public void interactWith(BombFoe foe, boolean isCellInteraction) {
+
+            // on teste si c'est une intéraction à distance et qu'on est en mode
+            // épée
+            if (!isCellInteraction) {
+
+                if (playerState == PlayerState.SWORD) {
+                    foe.loseHealth(Damage.PHYSICAL);
+
+                }
+
+                if (playerState == PlayerState.STAFF) {
+                    foe.loseHealth(element.toDamage());
+                }
+            }
+
         }
     }
 }
