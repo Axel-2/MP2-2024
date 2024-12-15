@@ -13,7 +13,6 @@ import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
-import ch.epfl.cs107.play.math.Vector;
 
 /**
  * A class that represent the inital spawn area
@@ -23,9 +22,9 @@ public final class Maze extends ICoopArea {
     // Spawn positions
     static final SpawnPosition spawnPosition = new SpawnPosition(
             // FIRE
-            new DiscreteCoordinates(2, 39),
+            new DiscreteCoordinates(4, 15),
             // WATER
-            new DiscreteCoordinates(3, 39)
+            new DiscreteCoordinates(5, 15)
 
 
 //            // TODO seulement pour debug enlever après
