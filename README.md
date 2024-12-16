@@ -13,6 +13,11 @@
 # Je crois que mes elementalitems ont plusieurs elements
 # Orbtype tjr doute
 
+# A faire important 
+- lancer des boules si y a un rocher devant très important pour l'aire Arena
+- quand une boule est lancée parfois le player change de direction
+- relire tous les checks du dossier et rien oublier
+- clés collectés par le mauvais perso: Modif faite mais à vérifier
 
 # Vérifier qu'il ne manque pas une plaque de pression, avec la version update du pdf
 

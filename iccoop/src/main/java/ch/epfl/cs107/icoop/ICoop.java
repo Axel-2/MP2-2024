@@ -96,7 +96,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Le jeu commence dans l'aire spwan
 
-        ICoopArea area = (ICoopArea) setCurrentArea("OrbWay", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Maze", true);
         createPlayers(area);
 
         // On centre la caméra sur le centre de masse

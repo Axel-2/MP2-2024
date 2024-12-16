@@ -152,8 +152,6 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     @Override
     public boolean wantsViewInteraction(){
-        // doit retourner true pour que les bombes
-        // puissent faire exploser le mur à distance
         return false;
     }
 
