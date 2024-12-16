@@ -21,7 +21,7 @@ import ch.epfl.cs107.play.window.Canvas;
 public class PressurePlate extends AreaEntity implements Logic, Interactor {
 
     // Images
-    private final static String spriteName = "GroundPlateOff";
+    private final static String SPRITE_NAME = "GroundPlateOff";
     private final Sprite sprite;
 
     // Indique si un joueur marche sur la plaque
