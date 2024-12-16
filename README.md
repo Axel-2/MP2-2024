@@ -10,6 +10,9 @@
 # Review stockable
 # Je crois que mes elementalitems ont plusieurs elements
 
+
+décomposer la fonction update de Icooplayer en sous-méthode
+
 # A faire important 
 - lancer des boules si y a un rocher devant très important pour l'aire Arena
 - quand une boule est lancée parfois le player change de direction

@@ -21,12 +21,9 @@ public class Teleporter extends Door implements Logic {
     // Image
     private final RPGSprite sprite;
 
-    private Key fireKey;
-    private Key waterKey;
+    private final Key fireKey;
+    private final Key waterKey;
 
-    private Key[] keys;
-
-    // TODO comment faire pour ne pas déclarer deux fois le sprite ????
 
     /**
      * Constructeur d'un téléporteur présent sur une seule cellule principale

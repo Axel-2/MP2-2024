@@ -38,7 +38,6 @@ public class BombFoe extends Foe {
     private final OrientedAnimation nonProtectedAnimation;
     private final OrientedAnimation protectedAnimation;
 
-    // TODO cette constante est la meme partout faudra ptet centraliser
     // Durée de l'animation
     private final int ANIMATION_DURATION = 32;
 
@@ -220,7 +219,6 @@ public class BombFoe extends Foe {
 
                      if (hideCounter >= 0) {
 
-                        // TODO AXEL JTE LAISSE GERER LE COMMENTAIRE ICI -------------------------------------------------------------------------------------------------------------
                          // petite incohérence entre les vidéos de demo et l'énoncé:
                          // mais l'assistant m'a dit de ne pas me préoccuper de ça et
                          // donc s'il ne bouge pas dans la vidéo je peux faire la même
@@ -298,8 +296,8 @@ public class BombFoe extends Foe {
             orientation = Orientation.fromVector(new Vector(0, deltaY));
         }
 
-        // TODO pourquoi le changement d'orientation ne pourrait pas se faire ?? --------------------------------------------------------------------
-        // AXEL JTE LAISSE COMMENTER ICI
+        // TODO
+
         // si le changement d’orientation n’a pas pu se faire, un pas de déplacement à vitesse
         //rapide aura lieu.
         if (orientation != null) {
