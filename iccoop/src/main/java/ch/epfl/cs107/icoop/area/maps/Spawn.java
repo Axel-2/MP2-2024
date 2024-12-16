@@ -29,11 +29,16 @@ public final class Spawn extends ICoopArea {
     // Gestionnaire de Dialogue
     private final DialogHandler dialogHandler;
 
+    // Attribut logic de Maze pour pouvoir
+    // déverrouiller la porte du manoir
+    private Logic mazeLogic;
+
     /**
      *  Constructeur de Spawn
      */
-    public Spawn(DialogHandler dialogHandler) {
+    public Spawn(DialogHandler dialogHandler, Logic mazeLogic) {
         this.dialogHandler = dialogHandler;
+        this.mazeLogic = mazeLogic;
     }
 
 
@@ -74,7 +79,9 @@ public final class Spawn extends ICoopArea {
             new DiscreteCoordinates(5,0)                                                    // Autre cellule de la porte (l'autre "case" rouge)
             );
 
-            DialogDoor finalDoor = new DialogDoor(this, new DiscreteCoordinates(6, 11), dialogHandler);
+
+        // Porte du manoir
+        DialogDoor finalDoor = new DialogDoor(this, new DiscreteCoordinates(6, 11), dialogHandler, mazeLogic);
 
 
         // Register des portes

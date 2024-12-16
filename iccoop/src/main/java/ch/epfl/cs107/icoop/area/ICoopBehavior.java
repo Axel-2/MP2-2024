@@ -65,13 +65,13 @@ public final class ICoopBehavior extends AreaBehavior {
             }
         }
 
-//        for (DiscreteCoordinates obstacle : obstacleList) {
-//            area.registerActor(new Obstacle(area, Orientation.DOWN, obstacle));
-//        }
-//
-//        for (DiscreteCoordinates rock : rockList) {
-//            area.registerActor(new Rock(area, Orientation.DOWN, rock));
-//        }
+        for (DiscreteCoordinates obstacle : obstacleList) {
+            area.registerActor(new Obstacle(area, Orientation.DOWN, obstacle));
+        }
+
+        for (DiscreteCoordinates rock : rockList) {
+            area.registerActor(new Rock(area, Orientation.DOWN, rock));
+        }
 
     }
 

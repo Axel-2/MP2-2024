@@ -29,14 +29,21 @@ public final class Maze extends ICoopArea implements Logic {
     private Staff fireStaff;
     private Staff waterStaff;
 
-
     // Positions de départs
     public static final SpawnPosition SPAWN_POSITION = new SpawnPosition(
             // FIRE
             new DiscreteCoordinates(2, 39),
             // WATER
             new DiscreteCoordinates(3, 39)
+
+//
+//            // TODO seulement pour debug enlever après
+//            new DiscreteCoordinates(18, 7),
+//            new DiscreteCoordinates(18, 6)
+
+
     );
+
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {

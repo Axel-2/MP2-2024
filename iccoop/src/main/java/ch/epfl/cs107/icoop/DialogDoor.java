@@ -14,6 +14,7 @@ import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.signal.logic.Logic;
 
 /**
  * Classe qui aide la gestion des dialogues de portes
@@ -29,11 +30,12 @@ public class DialogDoor extends AreaEntity implements Interactor {
     // Gestionnaire d'intéraction
     private DialogDoorHandler interactionHandler = new DialogDoorHandler();
 
-    // Indique si la porte est ouverte
-    private boolean isOpen;
+    // Attribut qui représente la clé de la porte
+    private Logic key;
 
     // Inddique si un dialogue a commencé
     private boolean dialogHasBeenStarted;
+
 
     /**
      * Constructeur de DialogDoor
@@ -41,9 +43,10 @@ public class DialogDoor extends AreaEntity implements Interactor {
      * @param position
      * @param dialogHandler
      */
-    public DialogDoor(Area area, DiscreteCoordinates position, DialogHandler dialogHandler) {
+    public DialogDoor(Area area, DiscreteCoordinates position, DialogHandler dialogHandler, Logic key) {
         super(area, Orientation.DOWN, position);
         this.dialogHandler = dialogHandler;
+        this.key = key;
     }
 
     @Override
@@ -112,9 +115,10 @@ public class DialogDoor extends AreaEntity implements Interactor {
             // est sur la porte on peut lancer le dialogue
             if (!dialogHasBeenStarted && isCellInteraction) {
                 dialogHasBeenStarted = true;
-                Dialog dialog = new Dialog("key_required");
 
-                dialogHandler.publish(new Dialog("key_required"));
+                Dialog dialog = key.isOn() ? new Dialog("victory") : new Dialog("key_required");
+
+                dialogHandler.publish(dialog);
             }
         }
     }

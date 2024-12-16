@@ -142,7 +142,9 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     }
 
     public boolean isViewInteractable(){
-        return false;
+        // doit retourner vrai sinon la bombe ne peut pas
+        // faire exploser le mur à distance
+        return true;
     }
 
     @Override
@@ -157,14 +159,15 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     @Override
     public boolean wantsViewInteraction(){
-        return false;
+        // doit retourner true pour que les bombes
+        // puissent faire exploser le mur à distance
+        return true;
     }
 
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         // Fonction par défaut pout le modèle visiteur
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
-
     }
 
     @Override
@@ -194,7 +197,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
 
             // Seulement si le mur est actif
-            if (ElementalWall.this.isOn()) {
+            if (ElementalWall.this.isOn() && isCellInteraction) {
                 player.loseHealth(getElement().toDamage());
             }
         }
