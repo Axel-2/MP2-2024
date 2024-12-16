@@ -1,17 +1,15 @@
 package ch.epfl.cs107.icoop.actor;
 
+import java.util.List;
+
 import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.RPGSprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
+import ch.epfl.cs107.play.signal.logic.And;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
-import ch.epfl.cs107.play.signal.logic.And;
-
-
-
-import java.util.List;
 
 /**
  * Représente les téléporteurs, une spécification des portes
@@ -21,10 +19,8 @@ public class Teleporter extends Door implements Logic {
     // Image
     private final RPGSprite sprite;
 
-    private Key fireKey;
-    private Key waterKey;
-
-    private Key[] keys;
+    final private Key fireKey;
+    final private Key waterKey;
 
     // TODO comment faire pour ne pas déclarer deux fois le sprite ????
 

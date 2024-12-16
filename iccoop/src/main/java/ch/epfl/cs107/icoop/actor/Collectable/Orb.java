@@ -41,7 +41,7 @@ public class Orb extends ElementalItem {
     private boolean dialogHasBeenStarted;
 
     // Gestionnaire de dialogues
-    private DialogHandler dialogHandler;
+    final private DialogHandler dialogHandler;
 
     /**
      * Constructeur d'orbes

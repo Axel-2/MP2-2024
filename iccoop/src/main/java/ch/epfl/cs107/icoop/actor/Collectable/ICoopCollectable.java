@@ -14,9 +14,6 @@ import ch.epfl.cs107.play.window.Canvas;
 */
 public abstract class ICoopCollectable extends CollectableAreaEntity {
 
-    // Visibilité de l'objet
-    private boolean isVisible;
-
     // Indique si l'objet est stockable dans l'inventaire
     private final boolean isStockable;
 

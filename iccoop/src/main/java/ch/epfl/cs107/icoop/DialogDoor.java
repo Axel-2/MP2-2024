@@ -22,16 +22,13 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 public class DialogDoor extends AreaEntity implements Interactor {
 
     // Gestionnaire de dialogue basique
-    private DialogHandler dialogHandler;
-
-    // Gestionnaire de dialogue de porte
-    private DialogDoorHandler dialogDoorHandler;
+    final private DialogHandler dialogHandler;
 
     // Gestionnaire d'intéraction
-    private DialogDoorHandler interactionHandler = new DialogDoorHandler();
+    final private DialogDoorHandler interactionHandler = new DialogDoorHandler();
 
     // Attribut qui représente la clé de la porte
-    private Logic key;
+    final private Logic key;
 
     // Inddique si un dialogue a commencé
     private boolean dialogHasBeenStarted;

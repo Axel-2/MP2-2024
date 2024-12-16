@@ -8,16 +8,15 @@ import ch.epfl.cs107.play.areagame.handler.InventoryItem;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
-import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
 /**
 Représente les clés élémentaires
 */
-public class Key extends ElementalItem implements Logic, InventoryItem {
+public class Key extends ElementalItem implements InventoryItem {
 
     // Image de la clé
-    private Sprite sprite;
+    final private Sprite sprite;
 
     @Override
     public boolean isOn() {

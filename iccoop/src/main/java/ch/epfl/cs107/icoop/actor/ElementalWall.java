@@ -24,8 +24,6 @@ import ch.epfl.cs107.play.window.Canvas;
  * Représente les murs élémentaires
  */
 public class ElementalWall extends AreaEntity implements ElementalEntity, Interactor, Logic {
-    // Si il n'est pas activé en permanence, cette variable indique si il est actuellement actif
-    private boolean isActive;
 
     // Peut être détruit, (doit disparaître s'il l'est)
     private boolean isDestroyed;
@@ -34,9 +32,6 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     // Element du mur
     private Element element;
-
-    // Image du mur
-    private Sprite sprite;
 
     // Nom du sprite
     private String spriteName;
@@ -60,12 +55,10 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
      */
     public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element elem){
         super(owner, orientation, coordinates);
-        this.isActive = true;
         this.element = elem;
 
         // Met le sprite name correspondant à l'élément
         spriteName = elem.equals(Element.FIRE) ? "fire_wall" : "water_wall";
-        this.sprite = new Sprite(spriteName, 1.f, 1.f, this);
         
         // n'est pas détruit à la construction
         this.isDestroyed = false;
@@ -130,10 +123,12 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
         }
     }
 
+    @Override
     public boolean isCellInteractable(){
         return true;
     }
 
+    @Override
     public boolean isViewInteractable(){
         // doit retourner vrai sinon la bombe ne peut pas
         // faire exploser le mur à distance

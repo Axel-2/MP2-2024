@@ -13,8 +13,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
-
-import java.util.Arrays;
 /**
  * Représente la map finale : l'arène !
  */
@@ -29,7 +27,7 @@ public class Arena extends ICoopArea implements Logic {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
-        // TODO  mieux gérer les paramètres ici ----------------------------------------------------------------------------------------------------------------------
+        // TODO  mieux gérer les paramètres ici --------------------------------------------------------------------------------------------------------------------
 
         // Clés
         fireKey = new Key(this, Orientation.DOWN, new DiscreteCoordinates(9, 16), Element.FIRE, true);

@@ -67,6 +67,7 @@ public class Door extends AreaEntity {
      * Donne une liste composée des coordonnées de la cell principale et des autres cells
      * @return (List of DiscreteCoordinates). Peut être vide mais pas null
      */
+    @Override
     public List<DiscreteCoordinates> getCurrentCells(){
         // Coordonnée principale
         DiscreteCoordinates mainCellCoords = super.getCurrentMainCellCoordinates();

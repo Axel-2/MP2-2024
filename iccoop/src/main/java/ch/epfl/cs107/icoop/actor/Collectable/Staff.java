@@ -13,13 +13,12 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
-import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
 /**
  * Représente les bâtons élémentaires
  */
-public class Staff extends ElementalItem implements Logic {
+public class Staff extends ElementalItem {
 
     // Nombre d'images d'animation
     final static int ANIMATION_FRAMES = 8;
