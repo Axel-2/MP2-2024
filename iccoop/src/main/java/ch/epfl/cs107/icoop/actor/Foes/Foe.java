@@ -135,7 +135,6 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
             getOwnerArea().unregisterActor(this);
         }
 
-
         super.update(deltaTime);
     }
 
