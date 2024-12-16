@@ -49,13 +49,16 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
 
     @Override
     public boolean isOn() {
-        // La plaque est activée si elle est pressée
-        return isPressed;
+        // La plaque est activée si elle n'est
+        // pas pressée
+        return !isPressed;
     }
 
     @Override
     public boolean isOff() {
-        return !isPressed;
+        // elle est désactivée lorsqu'elle
+        // est pressée
+        return isPressed;
     }
 
     @Override

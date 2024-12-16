@@ -24,13 +24,9 @@ import ch.epfl.cs107.play.window.Canvas;
  * Représente les murs élémentaires
  */
 public class ElementalWall extends AreaEntity implements ElementalEntity, Interactor, Logic {
-
-    // Indique si c'est un mur activé en permanence
-    private boolean isAlwaysActive;
-
     // Si il n'est pas activé en permanence, cette variable indique si il est actuellement actif
     private boolean isActive;
-    
+
     // Peut être détruit, (doit disparaître s'il l'est)
     private boolean isDestroyed;
 
@@ -52,7 +48,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     private final Sprite[] wallSprites;
 
     // Plaque de pression associée
-    private PressurePlate pressurePlate;
+    private Logic logicSignal;
 
     /**
      * Constructeur d'un mur toujours actif, sans plaque de pression associée
@@ -60,10 +56,10 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
      * @param orientation
      * @param coordinates
      * @param elem
+     * @param logicSignal
      */
     public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element elem){
         super(owner, orientation, coordinates);
-        this.isAlwaysActive = true;
         this.isActive = true;
         this.element = elem;
 
@@ -76,7 +72,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
         this.wallSprites = RPGSprite.extractSprites(spriteName,
                 4, 1, 1, this , Vector.ZERO , 256, 256);
-        this.pressurePlate = null;
+        this.logicSignal = Logic.TRUE;
     }
 
     /**
@@ -85,23 +81,20 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
      * @param orientation
      * @param coordinates
      * @param elem
-     * @param pressurePlate
      */
-    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element elem, PressurePlate pressurePlate) {
+    public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element elem, Logic logicSignal) {
         this(owner, orientation, coordinates, elem);
-        this.pressurePlate = pressurePlate;
-        this.isAlwaysActive = false;
+        this.logicSignal = logicSignal;
     }
 
     @Override
     public boolean isOn() {
-        // Si il est toujours activ, renvoie forcément true
-        if (isAlwaysActive) {
-            return true;
-        } else {
-            // Sinon, pour que ça return true, il faut que la plaque de pression associée ne soit pas appuyée et que le mur ne soit pas détruit
-            return pressurePlate.isOff() && !isDestroyed;
-        }
+
+        // Sinon, pour que ça return true,
+        // il faut que la plaque de pression associée ne soit pas Off
+        // et que le mur ne soit pas détruit
+        return logicSignal.isOn() && !isDestroyed;
+
     }
 
     @Override
@@ -161,7 +154,7 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     public boolean wantsViewInteraction(){
         // doit retourner true pour que les bombes
         // puissent faire exploser le mur à distance
-        return true;
+        return false;
     }
 
     @Override
@@ -179,10 +172,6 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
     @Override
     public List<DiscreteCoordinates> getCurrentCells(){
         return Collections.singletonList(getCurrentMainCellCoordinates());
-    }
-
-    public void setIsActive(boolean isActive) {
-        this.isActive = isActive;
     }
 
     /**

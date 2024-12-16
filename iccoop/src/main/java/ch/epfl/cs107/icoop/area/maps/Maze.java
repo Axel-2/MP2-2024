@@ -86,6 +86,8 @@ public final class Maze extends ICoopArea implements Logic {
 
         // ----------------- WALLS ------------------
         // Attention aux paramètres
+        // si le mur ne prend pas de paramètre de type LOGIC, il est considéré comme
+        // toujours actif
         registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,35), Element.WATER));
         registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,36), Element.WATER));
 
