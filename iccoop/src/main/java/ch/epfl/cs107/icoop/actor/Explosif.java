@@ -35,7 +35,6 @@ public class Explosif extends ICoopCollectable implements Interactor{
     private boolean isActivated;
     private boolean isExploding;
 
-    private List<DiscreteCoordinates> fieldOfViewDebug;
 
     // Gestionnaire d'intéraction
     private final ExplosifInteractionHandler interactionHandler = new ExplosifInteractionHandler();
@@ -122,10 +121,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
             explosionAnimation.draw(canvas);
         }
 
-        fieldOfViewDebug = getFieldOfViewCells();
-        for (DiscreteCoordinates fiel : fieldOfViewDebug) {
-            new Obstacle(getOwnerArea(), Orientation.DOWN, fiel).draw(canvas);
-        }
+
     
     }
 
@@ -142,7 +138,6 @@ public class Explosif extends ICoopCollectable implements Interactor{
         for (Orientation orientation : Orientation.values()) {
             neighbourCells.add(getCurrentMainCellCoordinates().jump(orientation.toVector()));
         }
-        this.fieldOfViewDebug = neighbourCells;
         return neighbourCells;
     }
 
