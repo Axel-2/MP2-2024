@@ -14,7 +14,7 @@ import ch.epfl.cs107.play.window.Canvas;
 /**
 Représente les clés élémentaires
 */
-public class Key extends ElementalItem implements Logic, InventoryItem {
+public class Key extends ElementalItem implements Logic {
 
     // Image de la clé
     private Sprite sprite;
@@ -51,7 +51,6 @@ public class Key extends ElementalItem implements Logic, InventoryItem {
         } else {
             this.sprite = new Sprite("icoop/key_blue", 0.6f, 0.6f, this);
         }
-
     }
 
     @Override
@@ -62,22 +61,12 @@ public class Key extends ElementalItem implements Logic, InventoryItem {
 
     @Override
     public Element getElement() {
-        return null;
+        return elementalType;
     }
 
     @Override
     public void drawCollectable(Canvas canvas) {
         sprite.draw(canvas);
     }
-    
-    // TODO --------------------------------------------------------------------------------------------------------------------------------------------------
-    @Override
-    public int getPocketId() {
-        return 0;
-    }
 
-    @Override
-    public String getName() {
-        return "key";
-    }
 }
