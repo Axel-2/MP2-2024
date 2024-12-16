@@ -41,7 +41,7 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
     public PressurePlate(Area area, DiscreteCoordinates position) {
         super(area, Orientation.DOWN, position);
         this.isPressed = false;
-        this.sprite = new Sprite(spriteName, 1f, 1f, this);
+        this.sprite = new Sprite(SPRITE_NAME, 1f, 1f, this);
 
         // Par défaut il n y a pas de player sur la plaque de pression.
         this.currentPlayer = null;

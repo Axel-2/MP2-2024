@@ -50,8 +50,8 @@ public final class ICoopBehavior extends AreaBehavior {
         int height = getHeight();
         int width = getWidth();
 
-        List<DiscreteCoordinates>  rockList = new ArrayList<DiscreteCoordinates>();
-        List<DiscreteCoordinates>  obstacleList = new ArrayList<DiscreteCoordinates>();
+        List<DiscreteCoordinates>  rockList = new ArrayList<>();
+        List<DiscreteCoordinates>  obstacleList = new ArrayList<>();
 
 
         for (int y = 0; y < height; y++) {

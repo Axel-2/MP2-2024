@@ -13,8 +13,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
-
-import java.util.Arrays;
 /**
  * Représente la map finale : l'arène !
  */

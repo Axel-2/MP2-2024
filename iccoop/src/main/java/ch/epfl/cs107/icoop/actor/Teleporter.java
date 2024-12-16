@@ -1,17 +1,15 @@
 package ch.epfl.cs107.icoop.actor;
 
+import java.util.List;
+
 import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.RPGSprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
+import ch.epfl.cs107.play.signal.logic.And;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
-import ch.epfl.cs107.play.signal.logic.And;
-
-
-
-import java.util.List;
 
 /**
  * Représente les téléporteurs, une spécification des portes

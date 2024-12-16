@@ -4,7 +4,6 @@ import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
-import ch.epfl.cs107.play.areagame.handler.InventoryItem;
 import ch.epfl.cs107.play.engine.actor.Sprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -17,7 +16,7 @@ Représente les clés élémentaires
 public class Key extends ElementalItem implements Logic {
 
     // Image de la clé
-    private Sprite sprite;
+    final private Sprite sprite;
 
     @Override
     public boolean isOn() {

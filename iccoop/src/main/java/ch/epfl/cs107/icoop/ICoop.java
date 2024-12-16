@@ -21,9 +21,6 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
 
-import java.util.ArrayList;
-
-
 /**
  * Classe principale de notre jeu
  */
