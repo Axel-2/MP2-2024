@@ -13,7 +13,6 @@ import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
-import ch.epfl.cs107.icoop.actor.Foes.Foe;
 import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.actor.Projectiles.StaffBall;
 import ch.epfl.cs107.icoop.enums.Damage;
@@ -282,8 +281,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
             // En fonction de l'item actuel 
             switch (currentItem){
-                case null:
-                    break;
 
                 case EXPLOSIVE :
                     // Pose la bombe devant le joueur
@@ -328,6 +325,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                         }
                     }
 
+                    break;
+
+                default :
                     break;
 
             }
