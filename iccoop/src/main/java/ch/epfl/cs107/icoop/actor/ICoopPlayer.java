@@ -305,12 +305,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     break;
 
 
-                case WATERKEY:
-                    // ne fait rien pour l'instant
-
-                case FIREKEY:
-                    // ne fait rien pour l'instant
-
+                    // TODO  IMPORTANT POUVOIR LANCER DES BOULES SI Y A UN ROCHER DEVANT
                 case WATERSTAFF:
                     // Lance une boule d'eau
                     if (element.equals(Element.WATER)){
