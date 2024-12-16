@@ -14,10 +14,15 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 
+import java.util.Arrays;
 /**
  * Représente la map finale : l'arène !
  */
-public class Arena extends ICoopArea {
+public class Arena extends ICoopArea implements Logic {
+
+    private Key fireKey;
+    private Key waterKey;
+    private Teleporter teleporter;
 
     @Override
     protected void createArea() {
@@ -27,21 +32,23 @@ public class Arena extends ICoopArea {
         // TODO  mieux gérer les paramètres ici ----------------------------------------------------------------------------------------------------------------------
 
         // Clés
-        Key fireKey = new Key(this, Orientation.DOWN, new DiscreteCoordinates(9, 16), Element.FIRE, true);
-        Key waterKey = new Key(this, Orientation.DOWN, new DiscreteCoordinates(9, 4), Element.WATER, true);
+        fireKey = new Key(this, Orientation.DOWN, new DiscreteCoordinates(9, 16), Element.FIRE, true);
+        waterKey = new Key(this, Orientation.DOWN, new DiscreteCoordinates(9, 4), Element.WATER, true);
 
         registerActor(fireKey);
         registerActor(waterKey);
 
         // Portail
-        Teleporter teleporter = new Teleporter(
+        teleporter = new Teleporter(
                 "Spawn", Logic.TRUE, Arrays.asList(Spawn.SPAWN_POSITION.getFireSpawn(), Spawn.SPAWN_POSITION.getWaterSpawn()), this,
-                new DiscreteCoordinates(19, 6),
-                new DiscreteCoordinates(19, 7)
+                new DiscreteCoordinates(10, 10),
+                fireKey,
+                waterKey
         );
         registerActor(teleporter);
 
     }
+
 
     public final static SpawnPosition SPAWN_POSITION = new SpawnPosition(
             new DiscreteCoordinates(4, 5),
@@ -59,5 +66,24 @@ public class Arena extends ICoopArea {
     @Override
     public String getTitle() {
         return "Arena";
+    }
+
+    @Override
+    public boolean isOn() {
+        return teleporter.isOn();
+    }
+
+    @Override
+    public boolean isOff() {
+        return false;
+    }
+
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+
+
+
+
     }
 }

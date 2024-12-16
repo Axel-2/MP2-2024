@@ -9,9 +9,11 @@ import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
+import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
+import ch.epfl.cs107.icoop.actor.Foes.Foe;
 import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.actor.Projectiles.StaffBall;
 import ch.epfl.cs107.icoop.enums.Damage;
@@ -303,12 +305,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     break;
 
 
-                case WATERKEY:
-                    // ne fait rien pour l'instant
-
-                case FIREKEY:
-                    // ne fait rien pour l'instant
-
+                    // TODO  IMPORTANT POUVOIR LANCER DES BOULES SI Y A UN ROCHER DEVANT
                 case WATERSTAFF:
                     // Lance une boule d'eau
                     if (element.equals(Element.WATER)){
@@ -701,6 +698,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     foe.loseHealth(Damage.PHYSICAL);
                 }
             }
+        }
+
+
+
+        @Override
+        public void interactWith(Key key, boolean isCellInteraction) {
+            key.collectBy(ICoopPlayer.this);
         }
     }
 }

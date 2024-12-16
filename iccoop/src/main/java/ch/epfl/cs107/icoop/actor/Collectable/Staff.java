@@ -13,12 +13,13 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.math.Vector;
+import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
 
 /**
  * Représente les bâtons élémentaires
  */
-public class Staff extends ElementalItem {
+public class Staff extends ElementalItem implements Logic {
 
     // Nombre d'images d'animation
     final static int ANIMATION_FRAMES = 8;
@@ -72,5 +73,15 @@ public class Staff extends ElementalItem {
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+    }
+
+    @Override
+    public boolean isOn() {
+        return isCollected();
+    }
+
+    @Override
+    public boolean isOff() {
+        return !isOn();
     }
 }

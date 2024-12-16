@@ -54,6 +54,9 @@ public abstract class ICoopArea extends Area {
             // On stock l'instance du areaBehavior dans une variable pour, pouvoir l'utiliser dans Arena
             ICoopBehavior areaBehaviorInstance = new ICoopBehavior(window, getTitle());
 
+            setBehavior(areaBehaviorInstance);
+            createArea();
+
             // On crée les obstacles et les cailloux
             areaBehaviorInstance.createActors(this);
 

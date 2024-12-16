@@ -6,6 +6,8 @@ import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
 import ch.epfl.cs107.icoop.actor.Explosif;
+import ch.epfl.cs107.icoop.actor.Collectable.Orb;
+import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
 import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.actor.PressurePlate;
@@ -16,22 +18,32 @@ import ch.epfl.cs107.play.engine.actor.Background;
 import ch.epfl.cs107.play.engine.actor.Foreground;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.signal.logic.And;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 /**
  * Représente la mab labyrinthe
  */
-public final class Maze extends ICoopArea {
+public final class Maze extends ICoopArea implements Logic {
 
-
+    private Staff fireStaff;
+    private Staff waterStaff;
 
     // Positions de départs
     public static final SpawnPosition SPAWN_POSITION = new SpawnPosition(
-            // FIRE
-            new DiscreteCoordinates(2, 39),
-            // WATER
-            new DiscreteCoordinates(3, 39)
+//            // FIRE
+//            new DiscreteCoordinates(2, 39),
+//            // WATER
+//            new DiscreteCoordinates(3, 39)
+
+
+            // TODO seulement pour debug enlever après
+            new DiscreteCoordinates(18, 7),
+            new DiscreteCoordinates(18, 6)
+
+
     );
+
 
     @Override
     public DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
@@ -74,6 +86,8 @@ public final class Maze extends ICoopArea {
 
         // ----------------- WALLS ------------------
         // Attention aux paramètres
+        // si le mur ne prend pas de paramètre de type LOGIC, il est considéré comme
+        // toujours actif
         registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,35), Element.WATER));
         registerActor(new ElementalWall(this, Orientation.LEFT, new DiscreteCoordinates(4,36), Element.WATER));
 
@@ -89,7 +103,7 @@ public final class Maze extends ICoopArea {
         registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,21), Element.FIRE, secondPP)); //composant7
         
         registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(8,4), Element.WATER));
-        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13,4), Element.WATER));
+        registerActor(new ElementalWall(this, Orientation.DOWN, new DiscreteCoordinates(13,4), Element.FIRE));
 
 
         // ----------------- COEURS ------------------
@@ -137,10 +151,29 @@ public final class Maze extends ICoopArea {
         for (DiscreteCoordinates bombFoeCoord : bombFoesCoordinates) {
             registerActor(new BombFoe(this, bombFoeCoord));
         }
+
+        // ----------------- Staffs ---------------
+
+        fireStaff = new Staff(this, new DiscreteCoordinates(13, 2), Element.FIRE);
+        waterStaff = new Staff(this, new DiscreteCoordinates(8, 2), Element.WATER);
+        registerActor(fireStaff);
+        registerActor(waterStaff);
+
+
     }
 
     @Override
     public String getTitle() {
         return "Maze";
+    }
+
+    @Override
+    public boolean isOn() {
+        return new And(fireStaff, waterStaff).isOn();
+    }
+
+    @Override
+    public boolean isOff() {
+        return !isOn();
     }
 }

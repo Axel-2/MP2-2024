@@ -1,13 +1,17 @@
 package ch.epfl.cs107.icoop.actor;
 
-import java.util.List;
-
+import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.engine.actor.RPGSprite;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.RegionOfInterest;
 import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Canvas;
+import ch.epfl.cs107.play.signal.logic.And;
+
+
+
+import java.util.List;
 
 /**
  * Représente les téléporteurs, une spécification des portes
@@ -16,6 +20,11 @@ public class Teleporter extends Door implements Logic {
 
     // Image
     private final RPGSprite sprite;
+
+    private Key fireKey;
+    private Key waterKey;
+
+    private Key[] keys;
 
     // TODO comment faire pour ne pas déclarer deux fois le sprite ????
 
@@ -27,25 +36,12 @@ public class Teleporter extends Door implements Logic {
      * @param ownerArea
      * @param mainCellPosition
      */
-    public Teleporter(String goToAreaName, Logic signal, List<DiscreteCoordinates> futurePositions, Area ownerArea, DiscreteCoordinates mainCellPosition) {
+    public Teleporter(String goToAreaName, Logic signal, List<DiscreteCoordinates> futurePositions, Area ownerArea, DiscreteCoordinates mainCellPosition, Key fireKey, Key waterKey) {
         super(goToAreaName, signal, futurePositions, ownerArea, mainCellPosition);
         this.sprite = new RPGSprite("shadow", 1, 1, this , new RegionOfInterest(0, 0, 32,
                 32));
-    }
-
-    /**
-     * Constructeur d'un téléporteur présent sur plusieurs cases
-     * @param goToAreaName
-     * @param signal
-     * @param futurePositions
-     * @param ownerArea
-     * @param mainCellPosition
-     * @param otherCellsPosition
-     */
-    public Teleporter(String goToAreaName, Logic signal, List<DiscreteCoordinates> futurePositions, Area ownerArea, DiscreteCoordinates mainCellPosition, DiscreteCoordinates... otherCellsPosition) {
-        super(goToAreaName, signal, futurePositions, ownerArea, mainCellPosition, otherCellsPosition);
-        this.sprite = new RPGSprite("shadow", 1, 1, this , new RegionOfInterest(0, 0, 32,
-                32));
+        this.fireKey = fireKey;
+        this.waterKey = waterKey;
     }
 
     @Override
@@ -57,12 +53,17 @@ public class Teleporter extends Door implements Logic {
     }
 
     @Override
+    public boolean isCellInteractable() {
+        return new And(fireKey, waterKey).isOn();
+    }
+
+    @Override
     public boolean isOn() {
-        return true;
+        return new And(fireKey, waterKey).isOn();
     }
 
     @Override
     public boolean isOff() {
-        return false;
+        return !isOn();
     }
 }

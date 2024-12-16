@@ -17,8 +17,11 @@ import ch.epfl.cs107.play.engine.actor.Dialog;
 import ch.epfl.cs107.play.io.FileSystem;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
+import ch.epfl.cs107.play.signal.logic.Logic;
 import ch.epfl.cs107.play.window.Keyboard;
 import ch.epfl.cs107.play.window.Window;
+
+import java.util.ArrayList;
 
 
 /**
@@ -49,16 +52,24 @@ public class ICoop extends AreaGame implements DialogHandler {
      * Add all the ICoop areas
      */
     private void createAreas() {
-        spawnArea = new Spawn(this); // Peut-être mettre en ICoop Area plutot ? jsp
-        orbWayArea = new OrbWay(this);
+
         mazeArea = new Maze();
-
+        orbWayArea = new OrbWay(this);
         arenaArea = new Arena();
+        spawnArea = new Spawn(this, (Logic) mazeArea); // Peut-être mettre en ICoop Area plutot ? jsp
 
-        addArea(spawnArea);
-        addArea(orbWayArea);
-        addArea(mazeArea);
-        addArea(arenaArea);
+        Area[] areas = new Area[]{mazeArea, orbWayArea, arenaArea, spawnArea};
+
+        for (Area area: areas) {
+            addArea(area);
+
+            // Il est important d'appeler le begin sur chaque aire
+            // sinon on peut avoir des NullPointerException si on
+            // utilise l'instance d'une aire dans le code sans que le
+            // player y soit allé une fois
+            area.begin(getWindow(), getFileSystem());
+        }
+
     }
 
     /**
@@ -85,7 +96,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Le jeu commence dans l'aire spwan
 
-        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Maze", true);
         createPlayers(area);
 
         // On centre la caméra sur le centre de masse
@@ -149,6 +160,8 @@ public class ICoop extends AreaGame implements DialogHandler {
         // Ajustement du scale factor
         ICoopArea currentICoopArea = (ICoopArea) getCurrentArea();
         currentICoopArea.updateScaleFactor(player1, player2);
+
+
 
         super.update(deltaTime);
     }

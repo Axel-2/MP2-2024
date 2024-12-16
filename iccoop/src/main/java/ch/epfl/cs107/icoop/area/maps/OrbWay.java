@@ -20,7 +20,7 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 /**
  * A class that represent the inital spawn area
  */
-public final class OrbWay extends ICoopArea {
+public final class OrbWay extends ICoopArea implements Logic {
 
     // On a besoin d'une variable static car des fois,
     // on veut le spawn sans initialiser l'objet donc
@@ -138,8 +138,15 @@ public final class OrbWay extends ICoopArea {
         return "OrbWay";
     }
 
+    @Override
+    public boolean isOn() {
+        // Le défi est toujours gagné
+        // dans la map orbway
+        return true;
+    }
 
-
-    
-
+    @Override
+    public boolean isOff() {
+        return !isOn();
+    }
 }

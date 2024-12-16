@@ -49,5 +49,9 @@ public class Rock extends Obstacle {
      */
     public void destroy(){
         isDestroyed = true;
+
+        // on l'enlève pour que les projectiles
+        // puissent passer à travers
+        getOwnerArea().unregisterActor(this);
     }
 }
