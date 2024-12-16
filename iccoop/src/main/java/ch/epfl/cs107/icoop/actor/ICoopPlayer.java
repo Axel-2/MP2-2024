@@ -301,33 +301,36 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
                     currentAnimation = swordAnimation;
                     break;
 
-
-                    // TODO  IMPORTANT POUVOIR LANCER DES BOULES SI Y A UN ROCHER DEVANT
                 case WATERSTAFF:
-                    // Lance une boule d'eau
+                    // Si l'élément correspond
                     if (element.equals(Element.WATER)){
+
+                        // Modifie l'animation et l'état du joueur
                         playerState = PlayerState.STAFF;
                         currentAnimation = staffAnimation;
-                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
-                            launchBall(frontCellPosition, Element.WATER);
-                        }
+
+                        // Crée la boule d'eau
+                        launchBall(frontCellPosition, Element.WATER);
                     }
 
                     break;
 
                 case FIRESTAFF:
-                    // Lance une boule de feu
+                    // Si l'élément correspond
                     if (element.equals(Element.FIRE)){
+
+                        // Modifie l'animation et l'état du joueur
                         playerState = PlayerState.STAFF;
                         currentAnimation = staffAnimation;
-                        if (getOwnerArea().canEnterAreaCells(this, Collections.singletonList(frontCellPosition))) {
-                            launchBall(frontCellPosition, Element.FIRE);
-                        }
+
+                        // Crée la boule d'eau
+                        launchBall(frontCellPosition, Element.FIRE);
                     }
 
                     break;
 
                 default :
+                
                     break;
 
             }
