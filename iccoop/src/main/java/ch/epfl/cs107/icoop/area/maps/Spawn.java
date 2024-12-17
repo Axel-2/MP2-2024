@@ -90,24 +90,11 @@ public final class Spawn extends ICoopArea {
 
 
         // Création du rock et de l'explo
-        Rock rock = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(11, 9 ) );
+        Rock rock = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(10, 10 ) );
         Explosif explo = new Explosif(this, Orientation.DOWN, new DiscreteCoordinates(11, 10), 3);
 
         registerActor(rock);
         registerActor(explo);
-
-        // TODO ENLEVER CE DEBUG
-        // Key fireKey = new Key(this, new DiscreteCoordinates(5, 6), Element.FIRE);
-        // Key waterKey = new Key(this, new DiscreteCoordinates(6, 6), Element.WATER);
-
-        // registerActor(fireKey);
-        // registerActor(waterKey);
-        // registerActor(new Heart(this, new DiscreteCoordinates(4,6)));
-        // Orb fireOrb = new Orb(this, new DiscreteCoordinates(2, 6), Element.FIRE, dialogHandler);
-        // Orb waterOrb = new Orb(this, new DiscreteCoordinates(7, 6), Element.WATER, dialogHandler);
-
-        // registerActor(fireOrb);
-        // registerActor(waterOrb);
     }
 
     @Override

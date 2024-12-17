@@ -710,11 +710,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         @Override
         // Interaction avec une clé
         public void interactWith(Key key, boolean isCellInteraction) {
-            // TODO               a supp ---------------------------------------------
-            // if (element.equals(key.getElement())){
-            //     interactWith((ICoopCollectable) key, isCellInteraction);
-            // }  
-            key.collectBy(ICoopPlayer.this);
+            if (element.equals(key.getElement())){
+                interactWith((ICoopCollectable) key, isCellInteraction);
+            }  
         }
 
     }
