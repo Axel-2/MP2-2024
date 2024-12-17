@@ -38,3 +38,11 @@ et il peut mieux reconnaitre les ennemis en général, car la barre est rouge.
 # Aire Arena
 Dans la vidéo finale du dossier, les boules des StaffBall permettent de casser plusieurs
 rochers à la fois, nous avons jugé préférable de n'en casser qu'um seul à la fois.
+
+# HellSkull
+Dans l'énoncé, il est indiqué que les HellSkull doivent faire des dommages de feu par intéraction
+de contact et ces dommages doivent être identiques pour tous les personnages. 
+Nous avons donc décidé de mettre le même type de dommage que les mûrs pour avoir un code plus propre. 
+Les murs infligent donc exactement le même nombre de dommages que les HellSkulls. 
+Cela signifie également que le joueur feu, s'il
+a pris l'Orb, est résistant aux dommages de feu du HellSkull.

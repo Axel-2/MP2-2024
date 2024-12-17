@@ -18,8 +18,6 @@ import ch.epfl.cs107.play.signal.logic.Logic;
  */
 public class Arena extends ICoopArea implements Logic {
 
-    private Key fireKey;
-    private Key waterKey;
     private Teleporter teleporter;
 
     @Override
@@ -27,11 +25,9 @@ public class Arena extends ICoopArea implements Logic {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
 
-        // TODO  mieux gérer les paramètres ici --------------------------------------------------------------------------------------------------------------------
-
         // Clés
-        fireKey = new Key(this, Orientation.DOWN, new DiscreteCoordinates(9, 16), Element.FIRE, true);
-        waterKey = new Key(this, Orientation.DOWN, new DiscreteCoordinates(9, 4), Element.WATER, true);
+        Key fireKey = new Key(this, new DiscreteCoordinates(9, 16), Element.FIRE);
+        Key waterKey = new Key(this, new DiscreteCoordinates(9, 4), Element.WATER);
 
         registerActor(fireKey);
         registerActor(waterKey);

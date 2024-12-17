@@ -40,7 +40,7 @@ public class Obstacle extends AreaEntity {
      */
     public Obstacle(Area area, Orientation orientation, DiscreteCoordinates position, String spriteName) {
         this(area, orientation, position);
-        this.spriteName = spriteName; // ------------------------------------------------------------TODO------------------------AXEL -------- c'est souligné en jaune ici
+        this.spriteName = spriteName;
         createSprite();
     }
 

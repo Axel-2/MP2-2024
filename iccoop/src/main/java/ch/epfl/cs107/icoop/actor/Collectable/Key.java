@@ -28,21 +28,15 @@ public class Key extends ElementalItem implements Logic {
         return !isCollected();
     }
 
-    @Override
-    public boolean isCellInteractable() {
-        return true;
-    }
-
     /**
      * Constructeur des clés
      * @param area
-     * @param orientation
      * @param position
      * @param elementalType
      * @param isStockable
      */
-    public Key(Area area, Orientation orientation, DiscreteCoordinates position, Element elementalType, boolean isStockable) {
-        super(area, orientation, position, elementalType, isStockable);
+    public Key(Area area, DiscreteCoordinates position, Element elementalType) {
+        super(area, Orientation.DOWN, position, elementalType, false);
 
         // Le sprite s'adapte à l'élément
         if (elementalType == Element.FIRE) {

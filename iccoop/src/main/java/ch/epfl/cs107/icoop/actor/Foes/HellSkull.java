@@ -37,6 +37,7 @@ public class HellSkull extends Foe {
 
 
 
+
     public HellSkull(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position, new Damage[]{Damage.FIRE, Damage.WATER});
         this.deltaFireTime = RandomGenerator.getInstance().nextFloat(MIN_FIRE_TIME , MAX_FIRE_TIME);
@@ -54,10 +55,9 @@ public class HellSkull extends Foe {
 
     @Override
     public boolean wantsCellInteraction() {
-        // SI IL N'est pas mort return true
-        // TODO
+        // S'il n'est pas mort return true
 
-        return true;
+        return getIsAlive();
     }
 
     @Override

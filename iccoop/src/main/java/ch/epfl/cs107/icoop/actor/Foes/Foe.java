@@ -56,6 +56,7 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
         this.isAlive = true;
     }
 
+
     /**
      * Getter de la vie maximum, utiles aux sous-classes
      * @return
@@ -138,6 +139,11 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
         super.update(deltaTime);
     }
 
+    // Méthode utile pour HellSkull
+    protected boolean getIsAlive() {
+        return isAlive;
+    }
+
     /**
      * Dessinera le sprite des ennemis
      * @param canvas
@@ -146,8 +152,6 @@ public abstract class Foe extends MovableAreaEntity implements Interactor {
 
     @Override
     public void draw(Canvas canvas) {
-
-        // TODO legere duplication de code de player ------------------------------------------------------------------------------AXEL -----------------------
 
         // Fait clignoter l'ennemi si il est en état d'immunité
         if (isImmunityTime && isAlive) {

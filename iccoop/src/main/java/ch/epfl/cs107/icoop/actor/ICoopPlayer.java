@@ -636,12 +636,13 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         // Interaction avec une orbe
         @Override
         public void interactWith(Orb orb, boolean isCellInteraction) {
+
             if (isCellInteraction){
 
                 // On collecte
-                if (isCellInteraction) {
-                    orb.collectBy(ICoopPlayer.this);
-                }
+
+                orb.collectBy(ICoopPlayer.this);
+
 
                 // on le rend résistant aux murs
                 invulnerableDamageType = orb.getDamage();

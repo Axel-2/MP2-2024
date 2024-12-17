@@ -22,7 +22,7 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
 
     // Images
     private final static String SPRITE_NAME = "GroundPlateOff";
-    final private Sprite sprite;
+    private final Sprite sprite;
 
     // Indique si un joueur marche sur la plaque
     private boolean isPressed;

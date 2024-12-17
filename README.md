@@ -14,6 +14,9 @@ genre avec une intéraction entre icoop player et un collectable. de plus, si is
 voila
 
 
+
+décomposer la fonction update de Icooplayer en sous-méthode
+
 # A faire important 
 - quand une boule est lancée parfois le player change de direction
 - relire tous les checks du dossier et rien oublier
