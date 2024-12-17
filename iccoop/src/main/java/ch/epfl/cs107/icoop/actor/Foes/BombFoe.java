@@ -220,7 +220,6 @@ public class BombFoe extends Foe {
 
                      if (hideCounter >= 0) {
 
-                        // TODO AXEL JTE LAISSE GERER LE COMMENTAIRE ICI -------------------------------------------------------------------------------------------------------------
                          // petite incohérence entre les vidéos de demo et l'énoncé:
                          // mais l'assistant m'a dit de ne pas me préoccuper de ça et
                          // donc s'il ne bouge pas dans la vidéo je peux faire la même
