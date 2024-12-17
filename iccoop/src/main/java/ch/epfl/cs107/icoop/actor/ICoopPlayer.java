@@ -274,7 +274,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     public void manageUseItem(Keyboard kbd){
         
         // Si la touche est pressée 
-        if (kbd.get(playerKeyBindings.useItem()).isPressed()){
+        if (kbd.get(playerKeyBindings.useItem()).isPressed() && !isDisplacementOccurs()){
 
             // On récupère la case de devant qui sera utile pour chacun des cas
             DiscreteCoordinates frontCellPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
