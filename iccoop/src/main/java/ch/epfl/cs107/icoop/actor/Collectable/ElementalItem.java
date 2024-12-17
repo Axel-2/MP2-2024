@@ -57,6 +57,7 @@ public abstract class ElementalItem extends ICoopCollectable implements Logic, E
      */
     public void collectBy(ElementalEntity entity){
         if (entity.getElement().equals(this.getElement())){
+            System.out.println("on collecte");
             collect();
         }
     }

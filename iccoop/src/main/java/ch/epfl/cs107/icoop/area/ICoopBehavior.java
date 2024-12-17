@@ -152,16 +152,19 @@ public final class ICoopBehavior extends AreaBehavior {
         @Override
         protected boolean canEnter(Interactable movableEntity) {
 
-            boolean authorisation = true;
-
+            
+            // Pour les unstoppables
+            
             // Dans tous les cas, un objet de type Unstoppable
             // doit pouvoir entrer dans n'importe que cellule
             // car il "survole les cellules"
-            if (movableEntity instanceof Unstoppable) {
 
+            if(movableEntity instanceof Unstoppable){
                 return true;
             }
 
+            // Pour les players
+            boolean authorisation = true;
 
             // Trois checks pour savoir si on peut entrer dans la cellules :
             // 1 : elle doit être Walkable

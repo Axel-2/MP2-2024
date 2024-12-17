@@ -3,10 +3,8 @@ package ch.epfl.cs107.icoop.area.maps;
 import java.util.Arrays;
 
 import ch.epfl.cs107.icoop.DialogDoor;
-import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
-import ch.epfl.cs107.icoop.actor.Projectiles.Fire;
 import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
@@ -98,6 +96,18 @@ public final class Spawn extends ICoopArea {
         registerActor(rock);
         registerActor(explo);
 
+        // TODO ENLEVER CE DEBUG
+        // Key fireKey = new Key(this, new DiscreteCoordinates(5, 6), Element.FIRE);
+        // Key waterKey = new Key(this, new DiscreteCoordinates(6, 6), Element.WATER);
+
+        // registerActor(fireKey);
+        // registerActor(waterKey);
+        // registerActor(new Heart(this, new DiscreteCoordinates(4,6)));
+        // Orb fireOrb = new Orb(this, new DiscreteCoordinates(2, 6), Element.FIRE, dialogHandler);
+        // Orb waterOrb = new Orb(this, new DiscreteCoordinates(7, 6), Element.WATER, dialogHandler);
+
+        // registerActor(fireOrb);
+        // registerActor(waterOrb);
     }
 
     @Override

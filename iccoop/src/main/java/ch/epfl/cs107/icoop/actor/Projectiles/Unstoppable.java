@@ -103,4 +103,5 @@ public abstract class Unstoppable extends MovableAreaEntity implements Interacto
 
         super.update(deltaTime);
     }
+
 }

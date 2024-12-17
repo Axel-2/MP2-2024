@@ -1,6 +1,7 @@
 package ch.epfl.cs107.icoop.actor.Collectable;
 
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Animation;
@@ -45,5 +46,10 @@ public class Heart extends ICoopCollectable {
     @Override
     public void update(float deltaTime) {
         animation.update(deltaTime);
+    }
+
+    @Override
+    public ICoopItem getInventoryItem() {
+        return null;
     }
 }

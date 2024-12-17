@@ -4,6 +4,7 @@ package ch.epfl.cs107.icoop.actor.Collectable;
 
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Animation;
@@ -82,5 +83,10 @@ public class Staff extends ElementalItem {
     @Override
     public boolean isOff() {
         return !isOn();
+    }
+
+    @Override
+    public ICoopItem getInventoryItem() {
+        return elementalType.equals(Element.FIRE) ? ICoopItem.FIRESTAFF : ICoopItem.WATERSTAFF;
     }
 }

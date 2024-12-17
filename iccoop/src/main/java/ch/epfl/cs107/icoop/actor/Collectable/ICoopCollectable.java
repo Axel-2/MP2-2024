@@ -3,8 +3,11 @@ package ch.epfl.cs107.icoop.actor.Collectable;
 import java.util.Collections;
 import java.util.List;
 
+import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.play.areagame.actor.CollectableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
+import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
@@ -37,6 +40,19 @@ public abstract class ICoopCollectable extends CollectableAreaEntity {
     public boolean isStockable(){
         return isStockable;
     }
+
+    @Override
+    public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
+        // Fonction par défaut pout le modèle visiteur
+        ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
+
+    }
+
+    /**
+     * Donne l'article d'inventaire associé aux objets collectables
+     * @return
+     */
+    public abstract ICoopItem getInventoryItem();
 
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {

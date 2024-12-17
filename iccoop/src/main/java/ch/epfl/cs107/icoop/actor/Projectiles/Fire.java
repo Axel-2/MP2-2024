@@ -25,7 +25,7 @@ public class Fire extends Unstoppable {
     private final FireInteractionHandler interactionHandler = new FireInteractionHandler();
 
     // Animation
-    private Animation animation = new Animation("icoop/fire", 7, 1, 1, this , 16, 16, 4, true);
+    private final Animation animation = new Animation("icoop/fire", 7, 1, 1, this , 16, 16, 4, true);
 
     /**
      * Constructeur des flammes

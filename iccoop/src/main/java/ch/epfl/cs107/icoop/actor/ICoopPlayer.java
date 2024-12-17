@@ -9,6 +9,7 @@ import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
+import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
@@ -606,6 +607,19 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             
         }
 
+        @Override
+        // Interaction avec un collectable
+        public void interactWith(ICoopCollectable item, boolean isCellInteraction){
+            if (isCellInteraction && !item.isCollected()){
+                item.collect();
+
+                if (item.isStockable()){ 
+                    inventory.addPocketItem(item.getInventoryItem(), 1);
+                    updateCurrentItem();
+                }
+            }
+        }
+
         // Interaction avec un explosif
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction){
@@ -615,14 +629,8 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             // Si c'est une intéraction de contact, on prend l'objet
             if (isCellInteraction) {
                 
-                // On ne veut pas qu'il se collecte plusieurs fois
-                if (!explo.isCollected()){
-                    explo.collect();
-                    // ajoute à l'inventaire ( il y a peut être mieux que de le faire là )
-                    inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
-                    updateCurrentItem();
-
-                }
+                // Collect l'explo
+                interactWith((ICoopCollectable)explo, isCellInteraction);
 
 
             } else {
@@ -657,7 +665,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             if (!heart.isCollected()) {
                 // Augmente les points de vie du joueur
                 health.increase(10);
-                heart.collect();
+                interactWith((ICoopCollectable) heart, isCellInteraction);
             }
 
 
@@ -669,12 +677,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
             // Si l'élément correspond et qu'il n'est pas collecté, l'ajoute à l'inventaire et le collecte
             if (isCellInteraction && element == staff.getElement()){
-                if (!staff.isCollected()) {
-                    staff.collect();
-                    ICoopItem itemToAdd = staff.getElement() == Element.FIRE ? ICoopItem.FIRESTAFF : ICoopItem.WATERSTAFF;
-                    inventory.addPocketItem(itemToAdd, 1);
-                    updateCurrentItem();
-                }
+                interactWith((ICoopCollectable) staff, isCellInteraction);
             }
         }
 
@@ -704,13 +707,15 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             }
         }
 
-
-
         @Override
         // Interaction avec une clé
         public void interactWith(Key key, boolean isCellInteraction) {
-            // La collecte
+            // TODO               a supp ---------------------------------------------
+            // if (element.equals(key.getElement())){
+            //     interactWith((ICoopCollectable) key, isCellInteraction);
+            // }  
             key.collectBy(ICoopPlayer.this);
         }
+
     }
 }

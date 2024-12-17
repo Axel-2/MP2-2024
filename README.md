@@ -5,20 +5,29 @@
 # Element dans mur
 # pas comment les overides
 
-# To do yoann :
-# Bug d'orientation 
-ça switch si on lance des boules
-# Voir si on peut tout collectes d'un coup, et review stockable : 
-genre avec une intéraction entre icoop player et un collectable. de plus, si isStockable, alors add à l'inventaire
-# Utiliser can fly pour baton
-voila
+## A FAIRE MERCREDI SOIR :
+Enlever les todos
+
+clean ce fichier
+
+dl le game engine pour voir si pas modifier
+
+enlever les items placés pour debug
+
+re tester le jeu du début à la fin
+
+submit
+
+
+# Yoann A faire :
+Vérif pourquoi le dialogue se lance pas, et faire la modification interactwith en conséquences
+
 
 
 
 décomposer la fonction update de Icooplayer en sous-méthode
 
 # A faire important 
-- quand une boule est lancée parfois le player change de direction
 - relire tous les checks du dossier et rien oublier
 - clés collectés par le mauvais perso: Modif faite mais à vérifier
 

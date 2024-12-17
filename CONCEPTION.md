@@ -46,3 +46,5 @@ Nous avons donc décidé de mettre le même type de dommage que les mûrs pour a
 Les murs infligent donc exactement le même nombre de dommages que les HellSkulls. 
 Cela signifie également que le joueur feu, s'il
 a pris l'Orb, est résistant aux dommages de feu du HellSkull.
+
+# Unstoppable classe
