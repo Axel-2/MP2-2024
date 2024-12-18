@@ -40,7 +40,7 @@ public final class Spawn extends ICoopArea {
     }
 
 
-
+    @Override
     public  DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
             case FIRE -> SPAWN_POSITION.getFireSpawn();

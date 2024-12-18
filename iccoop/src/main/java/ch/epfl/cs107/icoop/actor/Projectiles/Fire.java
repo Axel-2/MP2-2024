@@ -57,7 +57,7 @@ public class Fire extends Unstoppable {
 
         // Si elle ne peut pas continuer sa course à cause de la case de devant qui ne la laisserait pas rentrer, on stop l'objet
         if (!getOwnerArea().canEnterAreaCells(this, Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector())))) {
-            stopUnstoppable();
+            endMovement();
         }
 
         super.update(deltaTime);
@@ -82,21 +82,21 @@ public class Fire extends Unstoppable {
         public void interactWith(Explosif explo, boolean isCellInteraction) {
             // Active l'explosif
             explo.activate(1);
-            stopUnstoppable();
+            endMovement();
         }
 
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction) {
             // Fait des dégats de feu aux ennemis
             foe.loseHealth(Damage.FIRE);
-            stopUnstoppable();
+            endMovement();
         }
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
             // Fait des dégats de feu aux joueurs
             player.loseHealth(Damage.FIRE);
-            stopUnstoppable();
+            endMovement();
         }
     }
 }
