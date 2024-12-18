@@ -16,8 +16,7 @@ import ch.epfl.cs107.play.signal.logic.Logic;
 public abstract class ElementalItem extends ICoopCollectable implements Logic, ElementalEntity {
 
     // Element de l'item
-    Element elementalType;      
-
+    Element elementalType;
     
     /**
      * Constructeur d'un ElementalItem
@@ -60,8 +59,6 @@ public abstract class ElementalItem extends ICoopCollectable implements Logic, E
             collect();
         }
     }
-    
-    
 
 }
 

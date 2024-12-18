@@ -22,13 +22,6 @@ public abstract class ICoopArea extends Area {
     // pour garantir un premier affichage
     private boolean hasBeenInitialised;
 
-    /**
-     * Setter du cameraScaleFactor
-     * @param cameraScaleFactor
-     */
-    public void setCameraScaleFactor(float cameraScaleFactor) {
-        this.cameraScaleFactor = cameraScaleFactor;
-    }
 
     /**
      * Area specific callback to initialise the instance

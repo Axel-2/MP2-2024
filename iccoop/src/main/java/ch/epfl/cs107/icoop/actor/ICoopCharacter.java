@@ -74,11 +74,11 @@ public abstract class ICoopCharacter extends MovableAreaEntity {
     }
 
     /**
-     * Makes the character invulnerable to a specific type of damage for a duration.
+     * Rend le personnage invulnérable à un type de dégâts spécifique pour une durée déterminée.
      *
-     * @param damage      (Damage): the type of damage to become invulnerable to
-     * @param isTemporary (boolean): whether the invulnerability is temporary
-     * @param duration    (int): the duration of temporary invulnerability, in frames
+     * @param damage
+     * @param isTemporary
+     * @param duration
      */
     public void becomeInvulnerable(Damage damage, boolean isTemporary, int duration) {
         this.isInvulnerableTemporary = isTemporary;
@@ -87,7 +87,7 @@ public abstract class ICoopCharacter extends MovableAreaEntity {
     }
 
     /**
-     * Starts the immunity timer to temporarily prevent taking damage.
+     * Démarre le timer d'immunité
      */
     private void startImmunityTimer() {
         isImmunityTime = true;
@@ -97,7 +97,7 @@ public abstract class ICoopCharacter extends MovableAreaEntity {
     /**
      * Met à jour le timer d'immunité
      *
-     * @param deltaTime (float): elapsed time since the last update
+     * @param deltaTime (float):
      */
     protected void updateImmunityTimer(float deltaTime) {
         // ---------Gestion de l'immunité---------
@@ -120,9 +120,9 @@ public abstract class ICoopCharacter extends MovableAreaEntity {
     }
 
     /**
-     * Abstract method to handle drawing specific to the character.
+     * Méthode abstraite à implémenter par la sous-classe
      *
-     * @param canvas (Canvas): the canvas on which to draw
+     * @param canvas (Canvas)
      */
     protected abstract void drawCharacter(Canvas canvas);
 
@@ -134,8 +134,6 @@ public abstract class ICoopCharacter extends MovableAreaEntity {
         // Draw the character if not immune or flashing during immunity
         if (isImmunityTime) {
             if (immunityTimer % 2 == 0) {
-                System.out.println(immunityTimer);
-
                 drawCharacter(canvas);
             }
         } else {

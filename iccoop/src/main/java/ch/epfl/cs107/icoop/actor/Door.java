@@ -106,7 +106,6 @@ public class Door extends AreaEntity {
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
     }
 
-
     /**
      * Getter pour ICoop
      * @return

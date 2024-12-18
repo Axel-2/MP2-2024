@@ -62,7 +62,10 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
     private final static int MOVE_DURATION = 8;
     private final Orientation[] orders = {DOWN , RIGHT, UP, LEFT};
-    private final Orientation[] itemOrders = {DOWN , UP, RIGHT, LEFT}; // Pour les animations du staff et de l'épée, l'ordre d'en haut n'est pas correct
+
+    // Pour les animations du staff et de l'épée, l'ordre d'en haut n'est pas correct
+    // ce n'est pas le même ordre que la variable du dessus
+    private final Orientation[] itemOrders = {DOWN , UP, RIGHT, LEFT};
 
     private final static int ANIMATION_DURATION = 4;
     private final OrientedAnimation defaultAnimation;
@@ -78,7 +81,6 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
     private final Vector anchor = new Vector(0, 0);
     private final ICoopPlayerStatusGUI statusGui;
 
-    
 
     // Touches
     private KeyBindings.PlayerKeyBindings playerKeyBindings;

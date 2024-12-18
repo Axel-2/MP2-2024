@@ -34,7 +34,7 @@ public class Arena extends ICoopArea implements Logic {
         // Portail
         teleporter = new Teleporter(
                 "Spawn", Logic.TRUE, Arrays.asList(Spawn.SPAWN_POSITION.getFireSpawn(), Spawn.SPAWN_POSITION.getWaterSpawn()), this,
-                new DiscreteCoordinates(10, 10),
+                new DiscreteCoordinates(10, 11),
                 fireKey,
                 waterKey
         );

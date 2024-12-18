@@ -50,6 +50,9 @@ public class Heart extends ICoopCollectable {
 
     @Override
     public ICoopItem getInventoryItem() {
+
+        // Retourne null car il n'y a pas
+        // d'article d'inventaire correspondant
         return null;
     }
 }

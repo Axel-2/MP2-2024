@@ -290,8 +290,6 @@ public class BombFoe extends Foe {
             orientation = Orientation.fromVector(new Vector(0, deltaY));
         }
 
-        // TODO
-
         // si le changement d’orientation n’a pas pu se faire, un pas de déplacement à vitesse
         //rapide aura lieu.
         if (orientation != null) {

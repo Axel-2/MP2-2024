@@ -13,7 +13,7 @@ import ch.epfl.cs107.play.window.Canvas;
 public class Rock extends Obstacle {
 
     // Indique s'il est détruit
-    public boolean isDestroyed;
+    private boolean isDestroyed;
 
     /**
      * Constructeur du rocher

@@ -22,16 +22,16 @@ import ch.epfl.cs107.play.window.Canvas;
 public class Staff extends ElementalItem {
 
     // Nombre d'images d'animation
-    final static int ANIMATION_FRAMES = 8;
+    private final static int ANIMATION_FRAMES = 8;
 
     // Durée de l'animation
-    final static int  ANIMATION_DURATION = 32;
+    private final static int  ANIMATION_DURATION = 32;
 
     // Images
-    final private Sprite[] sprites;
+    private final Sprite[] sprites;
 
     // Animation
-    final private Animation animation;
+    private final Animation animation;
 
     /**
      * Constructeur des bâtons
@@ -39,17 +39,20 @@ public class Staff extends ElementalItem {
      * @param position
      * @param elem
      */
-    public Staff(Area area, DiscreteCoordinates position, Element elem){
+    public Staff(Area area, DiscreteCoordinates position, Element elem) {
         super(area, Orientation.DOWN, position, elem, true);
         String spriteName = (elem == Element.FIRE) ? "icoop/staff_fire" : "icoop/staff_water";
 
         // Sprites et Animation
         this.sprites = new Sprite[ANIMATION_FRAMES];
         for (int i = 0; i < ANIMATION_FRAMES; i++) {
-            sprites[i] =  new RPGSprite(spriteName , 2, 2, this , new RegionOfInterest(i *
-32, 0, 32, 32), new Vector(-0.5f, 0));
+            sprites[i] = new RPGSprite(spriteName, 2, 2, this,
+                    new RegionOfInterest(
+                            i * 32, 0, 32, 32), new Vector(-0.5f, 0)
+            );
         }
-        this.animation = new Animation(ANIMATION_DURATION / ANIMATION_FRAMES , sprites);
+
+        this.animation = new Animation(ANIMATION_DURATION / ANIMATION_FRAMES, sprites);
 
     }
 
@@ -73,16 +76,6 @@ public class Staff extends ElementalItem {
     @Override
     public void acceptInteraction(AreaInteractionVisitor v, boolean isCellInteraction) {
         ((ICoopInteractionVisitor) v).interactWith(this, isCellInteraction);
-    }
-
-    @Override
-    public boolean isOn() {
-        return isCollected();
-    }
-
-    @Override
-    public boolean isOff() {
-        return !isOn();
     }
 
     @Override
