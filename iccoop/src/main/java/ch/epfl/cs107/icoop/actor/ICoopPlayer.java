@@ -38,12 +38,13 @@ import static ch.epfl.cs107.play.math.Orientation.UP;
 import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
+import ch.epfl.cs107.play.window.Canvas;
 import ch.epfl.cs107.play.window.Keyboard;
 
 /**
  * A ICoopPlayer is a player for the ICoop game.
  */
-public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, Interactor, Inventory.Holder {
+public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Interactor, Inventory.Holder {
 
     // Element
     private final Element element;
@@ -85,18 +86,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private boolean isLeaving = false;
     private Door leavingDoor = null;
 
-    // Barre de vie
-    private static final int MAX_LIFE = 100;
-    private final Health health = new Health(this , Transform.I.translated(0, 1.75f), MAX_LIFE , true);
-
-    // Dégats
-    private boolean isInvulnerableTemporary;
-    private Damage invulnerableDamageType;
-    private int invulnerableDuration;
-    private final static float IMMUNITY_TIME = 24;
-    private float immunityTimer;
-    private boolean isImmunityTime;
-
     // Etat
     private  PlayerState playerState = PlayerState.IDLE;
 
@@ -110,7 +99,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      * @param flipped
      */
     public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, Element element, boolean flipped) {
-        super(owner, orientation, coordinates);
+        super(owner, orientation, coordinates, 100, true);
 
         // Element
         this.element = element;
@@ -143,7 +132,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         // Par défaut, l'animation actuelle est celle par défaut 
         currentAnimation = defaultAnimation;
 
-
         // Touches selon l'élément
         switch (element) {
             case FIRE -> playerKeyBindings = RED_PLAYER_KEY_BINDINGS;
@@ -165,6 +153,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
      */
     @Override
     public void update(float deltaTime) {
+
+        // Update de la classe ICoopCharacter
+        super.update(deltaTime);
 
         // ---------Gestion du mouvement---------
         Keyboard keyboard = getOwnerArea().getKeyboard();
@@ -203,29 +194,16 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         
         }
 
-        
-        // ---------Gestion de l'immunité---------
-        if (isImmunityTime && immunityTimer > 0) {
-            // Décrémente le timer
-            immunityTimer -= 1;
-        } else {
-            // Si la périoide d'immunité est finie, modifie la variable
-            isImmunityTime = false;
-        }
-
         // ---------Gestion des items---------
         if (keyboard.get(playerKeyBindings.switchItem()).isPressed()) {
             switchItem();
         }
         manageUseItem(keyboard);
-
-        // Update de la classe parente
-        super.update(deltaTime);
     }
 
 
 
-    /*
+    /**
      *  S'occupe de gérer le currentitem en fonction de ce qui est disponible dans l'inventaire
      */
     public void switchItem(){
@@ -363,7 +341,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
     /**
      * Lance une boule magique ; de feu ou d'eau
-     * @param position
+     * @param position Position initiale
      * @param elem
      */
     public void launchBall(DiscreteCoordinates position, Element elem){
@@ -372,25 +350,16 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         this.getOwnerArea().registerActor(Ball);
     }
 
-    /**
-     * @param canvas target, not null
-     */
     @Override
-    public void draw(ch.epfl.cs107.play.window.Canvas canvas) {
+    protected void drawCharacter(Canvas canvas) {
+        currentAnimation.draw(canvas);
+    }
 
-        // Fait clignoter le player si en état d'immunité
-        if (isImmunityTime) {
-            if (immunityTimer % 2 == 0) {
-                currentAnimation.draw(canvas);
-            }
-        } else {
-            // Dessine normalement sinon
-            currentAnimation.draw(canvas);
-        }
+    @Override
+    public void draw(Canvas canvas) {
 
-
-        // Dessin de la barre de vie
-        health.draw(canvas);
+        // Fonction draw de IcoopCharacter
+        super.draw(canvas);
 
         // Dessin des items
         statusGui.draw(canvas);
@@ -520,7 +489,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     }
 
     /**
-     * Ajuset la variable isLeaving, lorsqu'une porte est prise
+     * Ajuste la variable isLeaving, lorsqu'une porte est prise
      * @param leaving
      */
     public void setLeaving(Boolean leaving) {
@@ -535,49 +504,6 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         return isLeaving;
     }
 
-    /**
-     * Fonction qui permet de devenir inbulnerable à  une certaine attaque pendant un certain temps
-     * @param damage
-     * @param isTemporary
-     * @param duration
-     */
-    public void becomeInvulnerable(Damage damage, boolean isTemporary, int duration) {
-        this.isInvulnerableTemporary = isTemporary;
-        this.invulnerableDamageType = damage;
-        this.invulnerableDuration = duration;
-    }
-
-    /**
-     * Fait perdre de la vie en fonction des dégats reçus
-     * @param damage
-     */
-    public void loseHealth(Damage damage) {
-
-        // Si le personnage est invulnérable ou immune rien ne se passe
-        if (damage.equals(invulnerableDamageType) || isImmunityTime) {
-            // Rien ne se passe
-        } else {
-            health.decrease(damage.getDamagePoints());
-            isImmunityTime = true;
-            immunityTimer = IMMUNITY_TIME;
-        }
-
-    }
-
-    /**
-     * Getter pour ICoop
-     */
-    public void resetHealth() {
-        health.resetHealth();
-    }
-
-    /**
-     * Getter pour isAlive
-     * @return
-     */
-    public boolean isAlive() {
-        return health.isOn();
-    }
 
     /**
      * Getter de l'item actuel
@@ -645,7 +571,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
 
 
                 // on le rend résistant aux murs
-                invulnerableDamageType = orb.getDamage();
+                setInvulnerableDamageType(orb.getDamage());
             }
         }
 
@@ -656,7 +582,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
             // On augmente la vie seulement si c'est pas encore collecté
             if (!heart.isCollected()) {
                 // Augmente les points de vie du joueur
-                health.increase(10);
+                increaseHealth(10);
                 heart.collect();
             }
 

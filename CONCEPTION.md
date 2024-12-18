@@ -3,6 +3,15 @@
 Nous sommes restés pour la plus grande partie du temps fidèle
 à la conception proposée par l'énoncé. Cependant, certains aspects diffèrent : 
 
+# IcoopCharacter
+Nous avons créé une classe abstraite IcoopCharacter pour éviter la duplication de code
+des ennemis et des players. La gestion de la barre de vie est des dégâts est donc mieux
+centralisée.
+
+# Utilisation d'Item en déplacement
+Pour éviter certains bugs d'affichage, un joueur ne peux pas utiliser la touche useItem
+en déplacement, il doit donc être à l'arrêt pour utiliser son épée ou lancer des boules.
+
 # Elemental Walls
 Nous n'avons pas créé deux sous classes "Firewall" et "Waterwall".
 Nous avons préferé crée qu'une seule classe Wall, et gérer son élément à

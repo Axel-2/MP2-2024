@@ -63,7 +63,7 @@ public class BombFoe extends Foe {
      * Constructeur des artificiers
      */
     public BombFoe(Area area, DiscreteCoordinates position) {
-        super(area, DOWN, position, new Damage[]{Damage.FIRE, Damage.PHYSICAL});
+        super(area, DOWN, position, new Damage[]{Damage.FIRE, Damage.PHYSICAL}, 5);
 
         // Etat d'inaction par défaut
         this.state = State.IDLE;
@@ -86,7 +86,7 @@ public class BombFoe extends Foe {
     }
 
     @Override
-    void drawFoeSprite(Canvas canvas) {
+    public void drawCharacter(Canvas canvas) {
 
         switch (state) {
             case ATTACK, IDLE -> currentAnimation = nonProtectedAnimation;
@@ -96,12 +96,6 @@ public class BombFoe extends Foe {
         currentAnimation.draw(canvas);
     }
 
-    
-    @Override
-    int getMaxLife() {
-        // Valeur commune à toute les instances
-        return 5;
-    }
 
     /**
      * Type énuméré des différentes états que peuvent prendre les artificiers

@@ -37,9 +37,8 @@ public class HellSkull extends Foe {
 
 
 
-
     public HellSkull(Area area, Orientation orientation, DiscreteCoordinates position) {
-        super(area, orientation, position, new Damage[]{Damage.FIRE, Damage.WATER});
+        super(area, orientation, position, new Damage[]{Damage.FIRE, Damage.WATER}, 2);
         this.deltaFireTime = RandomGenerator.getInstance().nextFloat(MIN_FIRE_TIME , MAX_FIRE_TIME);
         this.animation = new OrientedAnimation("icoop/flameskull",
                 ANIMATION_DURATION/3, this ,
@@ -48,16 +47,12 @@ public class HellSkull extends Foe {
 
     }
 
-    @Override
-    int getMaxLife() {
-        return 2;
-    }
 
     @Override
     public boolean wantsCellInteraction() {
         // S'il n'est pas mort return true
 
-        return getIsAlive();
+        return isAlive();
     }
 
     @Override
@@ -66,8 +61,9 @@ public class HellSkull extends Foe {
         return false;
     }
 
+
     @Override
-    void drawFoeSprite(Canvas canvas) {
+    public void drawCharacter(Canvas canvas) {
         animation.draw(canvas);
     }
 

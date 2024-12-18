@@ -26,9 +26,11 @@ import ch.epfl.cs107.play.window.Window;
  */
 public class ICoop extends AreaGame implements DialogHandler {
 
-    // Trois joueurs
+    // Deux joueurs
     private ICoopPlayer player1;
     private ICoopPlayer player2;
+
+    // Tableau regroupant les players
     private ICoopPlayer[] players;
 
     // Toutes les aires
@@ -93,7 +95,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
         // Le jeu commence dans l'aire spwan
 
-        ICoopArea area = (ICoopArea) setCurrentArea("Maze", true);
+        ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         createPlayers(area);
 
         // On centre la caméra sur le centre de masse
