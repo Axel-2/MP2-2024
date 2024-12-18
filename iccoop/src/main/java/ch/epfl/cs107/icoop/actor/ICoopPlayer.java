@@ -52,31 +52,22 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
     private final ICoopPlayerInteractionHandler interactionHandler = new ICoopPlayerInteractionHandler();
 
     // Items et inventaires
-    private ICoopInventory inventory;
+    private final ICoopInventory inventory;
     private ICoopItem currentItem;
 
     // ------------- ANIMATION -----------------
     private OrientedAnimation currentAnimation;
 
     private final static int MOVE_DURATION = 8;
-    private final Orientation[] orders = {DOWN , RIGHT, UP, LEFT};
-
-    // Pour les animations du staff et de l'épée, l'ordre d'en haut n'est pas correct
-    // ce n'est pas le même ordre que la variable du dessus
-    private final Orientation[] itemOrders = {DOWN , UP, RIGHT, LEFT};
 
     private final static int ANIMATION_DURATION = 4;
     private final OrientedAnimation defaultAnimation;
 
-    private final Vector swordAnchor = new Vector(-.5f, 0);
     private final static int SWORD_ANIMATION_DURATION = 2;
     private final OrientedAnimation swordAnimation;
 
-    private final Vector staffAnchor = new Vector(-.5f, -.20f);
     private final static int STAFF_ANIMATION_DURATION = 2;
     private final OrientedAnimation staffAnimation;
-    // ------------- AFFICHAGE -----------------
-    private final Vector anchor = new Vector(0, 0);
     private final ICoopPlayerStatusGUI statusGui;
 
 
@@ -92,14 +83,13 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
     /**
      * Constructeur du joueur
-     * @param area (Aire) non nulle
+     * @param owner (Aire) non nulle
      * @param orientation (Orientation) non nulle
-     * @param position (Coordonnées) non nulle
-     * @param spriteName (Nom du sprite)
+     * @param coordinates (Coordonnées) non nulle
      * @param element (Element du joueur)
      * @param flipped (Affichage) switch l'affichage de l'inventaire de côté
      */
-    public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, Element element, boolean flipped) {
+    public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element element, boolean flipped) {
         super(owner, orientation, coordinates, 100, true);
 
         // Element
@@ -118,17 +108,27 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
 
         // Animations
+        Orientation[] orders = {DOWN, RIGHT, UP, LEFT};
+        // ------------- AFFICHAGE -----------------
+
+        Vector anchor = new Vector(0, 0);
         defaultAnimation = new OrientedAnimation(element.getSpriteName(), ANIMATION_DURATION, this, anchor, orders,
         4, 1, 2, 16, 32, true);
 
 
+        Vector swordAnchor = new Vector(-.5f, 0);
+
+        // Pour les animations du staff et de l'épée, l'ordre d'en bas n'est pas correct
+        // ce n'est pas le même ordre que la variable du dessous
+        Orientation[] itemOrders = {DOWN, UP, RIGHT, LEFT};
         swordAnimation =  new OrientedAnimation(element.getSpriteName()+".sword",
                 SWORD_ANIMATION_DURATION , this ,
-                swordAnchor , itemOrders , 4, 2, 2, 32, 32);
+                swordAnchor, itemOrders, 4, 2, 2, 32, 32);
 
         String staffAnimationName = (element.equals(Element.FIRE)) ? "icoop/player.staff_fire" : "icoop/player2.staff_water";
+        Vector staffAnchor = new Vector(-.5f, -.20f);
         staffAnimation = new OrientedAnimation(staffAnimationName , STAFF_ANIMATION_DURATION , this ,
-                staffAnchor , itemOrders , 4, 2, 2, 32, 32);
+                staffAnchor, itemOrders, 4, 2, 2, 32, 32);
 
         // Par défaut, l'animation actuelle est celle par défaut 
         currentAnimation = defaultAnimation;
@@ -146,7 +146,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
     private enum PlayerState {
         IDLE,
         SWORD,
-        STAFF;
+        STAFF
     }
 
     /**
@@ -175,7 +175,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
             }
         }
 
-        // --------- Gestion des état et animations associées ---------
+        // --------- Gestion de l'état et animations associées ---------
         if (!playerState.equals(PlayerState.IDLE)) {
             if (!currentAnimation.isCompleted()) {
                 currentAnimation.update(deltaTime);
@@ -248,7 +248,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
     /**
      * S'occupe de gérer l'utilisation des items
-     * @param kbd
+     * @param kbd instance du Keyboard
      */
     public void manageUseItem(Keyboard kbd){
         
@@ -343,7 +343,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
     /**
      * Lance une boule magique ; de feu ou d'eau
      * @param position Position initiale
-     * @param elem
+     * @param elem element du personnage
      */
     public void launchBall(DiscreteCoordinates position, Element elem){
         playerState = PlayerState.STAFF;
@@ -351,6 +351,9 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
         this.getOwnerArea().registerActor(Ball);
     }
 
+    /**
+     * Fonction utilisée pour dessiner le personnage
+     */
     @Override
     protected void drawCharacter(Canvas canvas) {
         currentAnimation.draw(canvas);
@@ -389,7 +392,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
     /**
      * Retourne true si le joueur est en déplacement
-     * @return
+     * @return vrai si le player est en déplacement
      */
     public boolean isMoving() {
         return isDisplacementOccurs();
@@ -431,7 +434,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
 
     /**
-     * Retourne l'élément du ICoopPlayer (Feu ou eau)
+     * Retourne l'élément de l'ICoopPlayer (Feu ou eau)
      */
     @Override
     public Element getElement() {
@@ -445,7 +448,6 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
     /**
      * Get this Interactor's curr
-     *
      * ent field of view cells coordinates
      * @return (List of DiscreteCoordinates). May be empty but not null
      */
@@ -457,14 +459,14 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
     
     }
 
-    /**@return (boolean): true if this require cell interaction */
+    /**@return (boolean): true if this requires cell interaction */
     @Override
     public boolean wantsCellInteraction() {
         // Veut systématiquement toutes les intéractions de contact
         return true;
     }
 
-    /**@return (boolean): true if this require view interaction */
+    /**@return (boolean): true if this requires view interaction */
     @Override
     public boolean wantsViewInteraction() {
 
@@ -483,7 +485,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
     /**
      * Retourne la porte empruntée pour quitter la map
-     * @return
+     * @return  boolean
      */
     public Door getLeavingDoor() {
         return leavingDoor;
@@ -491,7 +493,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
     /**
      * Ajuste la variable isLeaving, lorsqu'une porte est prise
-     * @param leaving
+     * @param leaving boolean qui vrai si le player quitte la map
      */
     public void setLeaving(Boolean leaving) {
         isLeaving = leaving;
@@ -499,7 +501,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
     /**
      * Getter pour ICoop.java
-     * @return
+     * @return boolean
      */
     public boolean isLeaving() {
         return isLeaving;
@@ -508,7 +510,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
     /**
      * Getter de l'item actuel
-     * @return
+     * @return IcoopItem
      */
     public ICoopItem getCurrentItem(){
         return currentItem;
@@ -533,8 +535,8 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
             
         }
 
-        @Override
         // Interaction avec un collectable
+        @Override
         public void interactWith(ICoopCollectable item, boolean isCellInteraction){
             if (isCellInteraction && !item.isCollected()){
                 item.collect();

@@ -42,7 +42,16 @@ public abstract class Foe extends ICoopCharacter implements Interactor {
                 Vector(-0.5f, 0f), ANIMATION_DURATION/7, false);
     }
 
+    @Override
+    public void loseHealth(Damage damage) {
 
+        // teste la liste de vulnérabilité avant de faire les dégat
+        for (Damage vulnerableDamage : vulnerabilityList) {
+            if (damage.equals(vulnerableDamage)) {
+                super.loseHealth(damage);
+            }
+        }
+    }
 
     @Override
     public List<DiscreteCoordinates> getCurrentCells() {

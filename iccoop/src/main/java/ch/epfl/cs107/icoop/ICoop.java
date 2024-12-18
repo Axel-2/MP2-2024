@@ -33,12 +33,6 @@ public class ICoop extends AreaGame implements DialogHandler {
     // Tableau regroupant les players
     private ICoopPlayer[] players;
 
-    // Toutes les aires
-    private Area spawnArea;
-    private Area orbWayArea;
-    private Area mazeArea;
-    private Area arenaArea;
-
     // Dialogue courant
     private Dialog activeDialog = null;
 
@@ -52,10 +46,11 @@ public class ICoop extends AreaGame implements DialogHandler {
      */
     private void createAreas() {
 
-        mazeArea = new Maze();
-        orbWayArea = new OrbWay(this);
-        arenaArea = new Arena();
-        spawnArea = new Spawn(this, (Logic) mazeArea); // Peut-être mettre en ICoop Area plutot ? jsp
+        // Toutes les aires
+        Area mazeArea = new Maze();
+        Area orbWayArea = new OrbWay(this);
+        Area arenaArea = new Arena();
+        Area spawnArea = new Spawn(this, (Logic) mazeArea); // Peut-être mettre en ICoop Area plutot ? jsp
 
         Area[] areas = new Area[]{mazeArea, orbWayArea, arenaArea, spawnArea};
 
@@ -93,7 +88,7 @@ public class ICoop extends AreaGame implements DialogHandler {
      */
     private void initGame() {
 
-        // Le jeu commence dans l'aire spwan
+        // Le jeu commence dans l'aire spawn
 
         ICoopArea area = (ICoopArea) setCurrentArea("Spawn", true);
         createPlayers(area);
@@ -107,18 +102,18 @@ public class ICoop extends AreaGame implements DialogHandler {
 
     /**
      * Crée les joueurs 
-     * @param area
+     * @param area Aire courante
      */
     private void createPlayers(ICoopArea area) {
         // ----- JOUEURS -----
 
         // Création du joueur 1
         DiscreteCoordinates coords = area.getPlayerSpawnPosition(Element.FIRE);
-        player1 =  new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player", Element.FIRE, true);
+        player1 =  new ICoopPlayer(area, Orientation.DOWN, coords, Element.FIRE, true);
 
         // Création du joueur 2
         coords =  area.getPlayerSpawnPosition(Element.WATER);
-        player2 = new ICoopPlayer(area, Orientation.DOWN, coords, "icoop/player2", Element.WATER, false);
+        player2 = new ICoopPlayer(area, Orientation.DOWN, coords, Element.WATER, false);
 
 
         // Register des acteurs
@@ -161,7 +156,6 @@ public class ICoop extends AreaGame implements DialogHandler {
         currentICoopArea.updateScaleFactor(player1, player2);
 
 
-
         super.update(deltaTime);
     }
 
@@ -174,7 +168,7 @@ public class ICoop extends AreaGame implements DialogHandler {
     }
 
     /**
-     * Reste la map si l'un des joueur est mort
+     * Reste la map si l'un des joueurs est mort
      */
     private void checkHealth() {
         for (ICoopPlayer player : players) {
@@ -187,7 +181,7 @@ public class ICoop extends AreaGame implements DialogHandler {
 
     /**
      * Méthode s'occupant de la partie dialogue
-     * @param deltaTime
+     * @param deltaTime temps entre deux update
      */
     private void checkDialog(float deltaTime){
         Keyboard kbd = getCurrentArea().getKeyboard();

@@ -43,7 +43,7 @@ public class HellSkull extends Foe {
      * @param position (Coordonnées) non nulle
      */
     public HellSkull(Area area, Orientation orientation, DiscreteCoordinates position) {
-        super(area, orientation, position, new Damage[]{Damage.FIRE, Damage.WATER}, 2);
+        super(area, orientation, position, new Damage[]{Damage.PHYSICAL, Damage.WATER}, 2);
         this.deltaFireTime = RandomGenerator.getInstance().nextFloat(MIN_FIRE_TIME , MAX_FIRE_TIME);
         this.animation = new OrientedAnimation("icoop/flameskull",
                 ANIMATION_DURATION/3, this ,

@@ -33,10 +33,10 @@ public class Obstacle extends AreaEntity {
 
     /**
      * Constructeur qui précise le spriteName
-     * @param area
-     * @param orientation
-     * @param position
-     * @param spriteName
+     * @param area (Aire) non nulle
+     * @param orientation (Orientation) non nulle
+     * @param position (Coordonnées) non nulle
+     * @param spriteName nom de la sprite
      */
     public Obstacle(Area area, Orientation orientation, DiscreteCoordinates position, String spriteName) {
         this(area, orientation, position);
