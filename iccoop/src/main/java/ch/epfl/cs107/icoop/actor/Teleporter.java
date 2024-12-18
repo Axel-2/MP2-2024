@@ -23,13 +23,13 @@ public class Teleporter extends Door implements Logic {
     private final Key waterKey;
 
 
-    /**
-     * Constructeur d'un téléporteur présent sur une seule cellule principale
-     * @param goToAreaName
-     * @param signal
-     * @param futurePositions
-     * @param ownerArea
-     * @param mainCellPosition
+     /**
+     * Constructeur principal des portes
+     * @param goToAreaName (Aire où mène la porte)
+     * @param signal (Est-elle activée ?)
+     * @param futurePositions (Coordonnées), position d'arrivée dans la future map
+     * @param ownerArea (Aire où se situe la porte)
+     * @param mainCellPosition (Position principale occupée par la porte)
      */
     public Teleporter(String goToAreaName, Logic signal, List<DiscreteCoordinates> futurePositions, Area ownerArea, DiscreteCoordinates mainCellPosition, Key fireKey, Key waterKey) {
         super(goToAreaName, signal, futurePositions, ownerArea, mainCellPosition);

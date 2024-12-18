@@ -30,8 +30,8 @@ public class Key extends ElementalItem {
 
     /**
      * Constructeur des clés
-     * @param area
-     * @param position
+     * @param area (Aire) non nulle
+     * @param position (Coordonnées) non nulle
      * @param elementalType
      * @param isStockable
      */

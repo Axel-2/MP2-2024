@@ -16,7 +16,7 @@ public enum Damage {
 
     /**
      * Constructeur
-     * @param damagePoints
+     * @param damagePoints (Points de dégats)
      */
     Damage(int damagePoints) {
         this.damagePoints = damagePoints;
