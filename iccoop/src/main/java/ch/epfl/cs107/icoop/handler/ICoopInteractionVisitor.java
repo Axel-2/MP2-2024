@@ -1,5 +1,6 @@
 package ch.epfl.cs107.icoop.handler;
 
+import ch.epfl.cs107.icoop.DialogDoor;
 import ch.epfl.cs107.icoop.actor.Collectable.ElementalItem;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
 import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
@@ -86,6 +87,9 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
 
     // Interaction avec une clé, par défaut ne fait rien
     default void interactWith(Key key, boolean isCellInteraction) {
+    }
+
+    default void interactWith(DialogDoor dialogDoor, boolean isCellInteraction) {
     }
 
 }

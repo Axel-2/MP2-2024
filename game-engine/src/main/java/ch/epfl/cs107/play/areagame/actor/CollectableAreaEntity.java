@@ -1,5 +1,6 @@
 package ch.epfl.cs107.play.areagame.actor;
 
+import ch.epfl.cs107.play.areagame.actor.AreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
@@ -9,7 +10,6 @@ public abstract class CollectableAreaEntity extends AreaEntity {
 
     /// Flag on the collected status
     private boolean isCollected;
-    
 
 
     /**
@@ -39,7 +39,6 @@ public abstract class CollectableAreaEntity extends AreaEntity {
 
     /** Collect the object (remove it form the area actor list and set flag to true) */
     public void collect() {
-
         if (!isCollected) {
             isCollected = true;
         }
