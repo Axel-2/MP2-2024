@@ -49,12 +49,12 @@ public class Door extends AreaEntity {
 
     /**
      * Autre constructeur avec l'option d'établir les positions des autres cellules que la porte occupent. Le paramètre supplémentaire est : otherCellsPosition
-     * @param goToAreaName
-     * @param signal
-     * @param futurePositions
-     * @param ownerArea
-     * @param mainCellPosition
-     * @param otherCellsPosition
+     * @param goToAreaName (Aire où mène la porte)
+     * @param signal (Est-elle activée ?)
+     * @param futurePositions (Coordonnées), position d'arrivée dans la future map
+     * @param ownerArea (Aire où se situe la porte)
+     * @param mainCellPosition (Position principale occupée par la porte)
+     * @param otherCellsPosition (Autres cellules)
      */
     public Door(String goToAreaName, Logic signal, List<DiscreteCoordinates> futurePositions,
      Area ownerArea, DiscreteCoordinates mainCellPosition, DiscreteCoordinates... otherCellsPosition){

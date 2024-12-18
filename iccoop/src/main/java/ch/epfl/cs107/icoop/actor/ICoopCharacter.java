@@ -56,7 +56,7 @@ public abstract class ICoopCharacter extends MovableAreaEntity {
     }
 
     /**
-     * Handles health reduction when damage is taken.
+     * Fais perdre de la vie
      *
      * @param damage (Damage): the type and amount of damage received
      */
@@ -113,7 +113,7 @@ public abstract class ICoopCharacter extends MovableAreaEntity {
     /**
      * Getter pour savoir si le character est en vie.
      *
-     * @return (boolean): true if the character is alive, false otherwise
+     * @return (boolean): vrai si le player en vie
      */
     public boolean isAlive() {
         return health.isOn() || health.getIntensity() > 0;

@@ -57,3 +57,5 @@ Cela signifie également que le joueur feu, s'il
 a pris l'Orb, est résistant aux dommages de feu du HellSkull.
 
 # Unstoppable classe
+Nous avons préféré coder une classe abstraite au lieu d'une interface pour le Unstoppable car nous trouvions
+cela plus adapté.
