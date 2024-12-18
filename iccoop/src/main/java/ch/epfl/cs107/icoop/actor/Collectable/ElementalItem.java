@@ -21,11 +21,11 @@ public abstract class ElementalItem extends ICoopCollectable implements Logic, E
     
     /**
      * Constructeur d'un ElementalItem
-     * @param area
-     * @param orientation
-     * @param position
-     * @param elementalType
-     * @param isStockable
+     * @param area (Aire de l'item) non nulle.
+     * @param orientation (Orientation de l'item) non nulle.
+     * @param position (Coordonnées) non nulle
+     * @param elementalType (Element de l'item)
+     * @param isStockable (Peut-il être stocké dans l'inventaire ?)
      */
     public ElementalItem(Area area, Orientation orientation, DiscreteCoordinates position, Element elementalType, boolean isStockable) {
         super(area, orientation, position, isStockable);

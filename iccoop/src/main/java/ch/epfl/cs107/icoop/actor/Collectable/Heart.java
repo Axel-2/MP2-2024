@@ -23,8 +23,8 @@ public class Heart extends ICoopCollectable {
 
     /**
      * Constructeur de coeur
-     * @param area
-     * @param position
+     * @param area (Aire du coeur) non nulle
+     * @param position (Coordonnées) non nulle
      */
     public Heart(Area area, DiscreteCoordinates position) {
         

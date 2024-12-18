@@ -17,9 +17,9 @@ public class Rock extends Obstacle {
 
     /**
      * Constructeur du rocher
-     * @param area
-     * @param orientation
-     * @param position
+     * @param area (Aire) non nulle
+     * @param orientation (Orientation) non nulle
+     * @param position (Coordonnées) non nulle
      */
     public Rock(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position, "rock.1");

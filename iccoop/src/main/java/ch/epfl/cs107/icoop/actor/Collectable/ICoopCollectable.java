@@ -22,10 +22,10 @@ public abstract class ICoopCollectable extends CollectableAreaEntity {
 
 /**
  * Constructeur des ICoopCollectables
- * @param area
- * @param orientation
- * @param position
- * @param isStockable
+ * @param area (Aire des collectables) non nulle
+ * @param orientation (Orientation) non nulle
+ * @param position (Coordonnées) non nulle
+ * @param isStockable (Est-il stockable dans l'inventaire ?)
  */
     public ICoopCollectable(Area area, Orientation orientation, DiscreteCoordinates position, boolean isStockable) {
         super(area, orientation, position);

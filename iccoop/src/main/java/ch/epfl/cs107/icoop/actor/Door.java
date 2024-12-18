@@ -33,11 +33,11 @@ public class Door extends AreaEntity {
 
     /**
      * Constructeur principal des portes
-     * @param goToAreaName
-     * @param signal
-     * @param futurePositions
-     * @param ownerArea
-     * @param mainCellPosition
+     * @param goToAreaName (Aire où mène la porte)
+     * @param signal (Est-elle activée ?)
+     * @param futurePositions (Coordonnées), position d'arrivée dans la future map
+     * @param ownerArea (Aire où se situe la porte)
+     * @param mainCellPosition (Position principale occupée par la porte)
      */
     public Door(String goToAreaName, Logic signal, List<DiscreteCoordinates> futurePositions, Area ownerArea, DiscreteCoordinates mainCellPosition){
         super(ownerArea, Orientation.DOWN, mainCellPosition);

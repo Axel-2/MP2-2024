@@ -36,7 +36,12 @@ public class HellSkull extends Foe {
     private final HellSkullInteractionHandler interactionHandler = new HellSkullInteractionHandler();
 
 
-
+    /**
+     * Constructeur des crânes
+     * @param area (Aire) non nulle
+     * @param orientation (Orientation) non nulle
+     * @param position (Coordonnées) non nulle
+     */
     public HellSkull(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position, new Damage[]{Damage.FIRE, Damage.WATER}, 2);
         this.deltaFireTime = RandomGenerator.getInstance().nextFloat(MIN_FIRE_TIME , MAX_FIRE_TIME);

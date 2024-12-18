@@ -23,8 +23,8 @@ public class ICoopPlayerStatusGUI implements Graphics {
 
     /**
      * Constructeur du GUI
-     * @param player
-     * @param flipped
+     * @param player (Joueur) Correspond au joueur auquel l'affichage est relié
+     * @param flipped (Booléen) Switch ou non l'affichage de côté, pour éviter la superposition
      */
     public ICoopPlayerStatusGUI(ICoopPlayer player, boolean flipped) {
         this.player = player;

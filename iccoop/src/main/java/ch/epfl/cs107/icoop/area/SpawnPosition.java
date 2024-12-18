@@ -16,8 +16,8 @@ public class SpawnPosition {
 
     /**
      * Constructeur de SpawnPosition
-     * @param fireSpawn
-     * @param waterSpawn
+     * @param fireSpawn (Coordonnées) Spawn du joueur de feu
+     * @param waterSpawn (Coordonnées) Spawn du joueur d'eau
      */
     public SpawnPosition(DiscreteCoordinates fireSpawn, DiscreteCoordinates waterSpawn) {
         this.fireSpawn = fireSpawn;

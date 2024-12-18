@@ -35,12 +35,12 @@ public class StaffBall extends Unstoppable {
 
     /**
      * Constructeur de la boule de magie
-     * @param area
-     * @param orientation
-     * @param position
-     * @param speed
-     * @param maxDistance
-     * @param elem
+     * @param area (Aire) non nulle
+     * @param orientation (Orientation) non nulle
+     * @param position (Coordonnées) non nulle
+     * @param speed (Vitesse)
+     * @param maxDistance (Distance max)
+     * @param elem (Element)
      */
     public StaffBall(Area area, Orientation orientation, DiscreteCoordinates position, int speed, int maxDistance, Element elem) {
         super(area, orientation, position, speed, maxDistance);
