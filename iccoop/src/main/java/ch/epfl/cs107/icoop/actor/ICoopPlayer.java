@@ -248,7 +248,7 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
         
         // On cherche l'index du prochain item qu'il y a de disponible dans l'inventaire
         int nextIndex = (currentIndex + 1) % itemList.size();
-        while(!inventory.contains(itemList.get(nextIndex))){
+        while(!possess(itemList.get(nextIndex))){
             nextIndex = (nextIndex + 1) % itemList.size();
 
             // Pour éviter la infinite loop qui a causé un bug
@@ -347,9 +347,9 @@ public class ICoopPlayer extends MovableAreaEntity implements ElementalEntity, I
     private void updateCurrentItem(){
 
         // Si il n'y a pas d'item actuel, où si le joueur n'en contient aucun, on va effectuer une modifiation
-        if (currentItem == null || !inventory.contains(currentItem)){
+        if (currentItem == null || !possess(currentItem)){
             for (ICoopItem item : ICoopItem.values()){
-                if (inventory.contains(item)){
+                if (possess(item)){
 
                     // Le premier disponible est mis
                     currentItem = item;

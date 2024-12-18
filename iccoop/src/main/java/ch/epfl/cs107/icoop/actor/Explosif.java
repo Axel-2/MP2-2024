@@ -213,9 +213,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction){
             // Deux explosifs se font exploser entre eux
-            if (explo != Explosif.this) {
-
-                activate(1);
+            if (explo != Explosif.this && !explo.isActivated) {
                 explo.activate(1);
             } 
         }
