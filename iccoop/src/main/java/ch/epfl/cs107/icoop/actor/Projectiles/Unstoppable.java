@@ -79,7 +79,7 @@ public abstract class Unstoppable extends MovableAreaEntity implements Interacto
     /**
      * Arrête le mouvement
      */
-    public void stopUnstoppable() {
+    public void endMovement() {
         isTravelling = false;
     }
 
@@ -103,4 +103,5 @@ public abstract class Unstoppable extends MovableAreaEntity implements Interacto
 
         super.update(deltaTime);
     }
+
 }

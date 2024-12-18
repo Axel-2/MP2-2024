@@ -3,11 +3,10 @@ package ch.epfl.cs107.icoop.area.maps;
 import java.util.Arrays;
 
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
+import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.ElementalWall;
 import ch.epfl.cs107.icoop.actor.Explosif;
-import ch.epfl.cs107.icoop.actor.Collectable.Orb;
-import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Foes.BombFoe;
 import ch.epfl.cs107.icoop.actor.Foes.HellSkull;
 import ch.epfl.cs107.icoop.actor.PressurePlate;
@@ -31,16 +30,10 @@ public final class Maze extends ICoopArea implements Logic {
 
     // Positions de départs
     public static final SpawnPosition SPAWN_POSITION = new SpawnPosition(
-//            // FIRE
-//            new DiscreteCoordinates(2, 39),
-//            // WATER
-//            new DiscreteCoordinates(3, 39)
-
-
-            // TODO seulement pour debug enlever après
-            new DiscreteCoordinates(18, 7),
-            new DiscreteCoordinates(18, 6)
-
+           // FIRE
+           new DiscreteCoordinates(2, 39),
+           // WATER
+           new DiscreteCoordinates(3, 39)
 
     );
 
@@ -59,9 +52,6 @@ public final class Maze extends ICoopArea implements Logic {
     protected void createArea() {
         registerActor(new Background(this));
         registerActor(new Foreground(this));
-
-        //DiscreteCoordinates fireSpawnReturnCoord = new DiscreteCoordinates(18, 16); c'est quoi ça ? 
-        //DiscreteCoordinates waterSpawnReturnCoords = new DiscreteCoordinates(18, 15);
 
         // ----------------- DOORS ------------------
 

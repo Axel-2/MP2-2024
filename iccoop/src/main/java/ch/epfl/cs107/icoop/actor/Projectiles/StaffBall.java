@@ -74,7 +74,7 @@ public class StaffBall extends Unstoppable {
 
         // Si elle ne peut pas continuer sa course à cause de la case de devant qui ne la laisserait pas rentrer, on stop l'objet
         if (!getOwnerArea().canEnterAreaCells(this, Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector())))) {
-            stopUnstoppable();
+            endMovement();
         }
 
         super.update(deltaTime);
@@ -99,20 +99,20 @@ public class StaffBall extends Unstoppable {
         public void interactWith(Explosif explo, boolean isCellInteraction) {
             // Activ l'explosif
             explo.activate(1);
-            stopUnstoppable();
+            endMovement();
         }
 
         @Override
         public void interactWith(Rock rock, boolean isCellInteraction) {
             // Détruit le rocher
             rock.destroy();
-            stopUnstoppable();
+            endMovement();
         }
         @Override
         public void interactWith(BombFoe foe, boolean isCellInteraction) {
             // Fait perdre des points de vie avec des dégats de l'éléments de la boule de magie
             foe.loseHealth(element.toDamage());
-            stopUnstoppable();
+            endMovement();
         }
 
         @Override
@@ -120,7 +120,7 @@ public class StaffBall extends Unstoppable {
             // Si c'est une boule d'eau seulement, fait perdre des points de vie à l'aide de dégat aquatique
             if (element.equals(Element.WATER)){
                 skull.loseHealth(element.toDamage());
-                stopUnstoppable();
+                endMovement();
             }
         }
     }

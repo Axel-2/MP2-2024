@@ -16,8 +16,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
-// TODO SUPPRIMER LE PROJECTILE LORSQU'IL ARRIVE DANS UN MUR ----------------------------------------------------------- AXEL------------------
-
 // Représente les flammes lancées par les crânes
 public class Fire extends Unstoppable {
 
@@ -25,7 +23,7 @@ public class Fire extends Unstoppable {
     private final FireInteractionHandler interactionHandler = new FireInteractionHandler();
 
     // Animation
-    private Animation animation = new Animation("icoop/fire", 7, 1, 1, this , 16, 16, 4, true);
+    private final Animation animation = new Animation("icoop/fire", 7, 1, 1, this , 16, 16, 4, true);
 
     /**
      * Constructeur des flammes
@@ -59,7 +57,7 @@ public class Fire extends Unstoppable {
 
         // Si elle ne peut pas continuer sa course à cause de la case de devant qui ne la laisserait pas rentrer, on stop l'objet
         if (!getOwnerArea().canEnterAreaCells(this, Collections.singletonList(getCurrentMainCellCoordinates().jump(getOrientation().toVector())))) {
-            stopUnstoppable();
+            endMovement();
         }
 
         super.update(deltaTime);
@@ -84,23 +82,21 @@ public class Fire extends Unstoppable {
         public void interactWith(Explosif explo, boolean isCellInteraction) {
             // Active l'explosif
             explo.activate(1);
-            stopUnstoppable();
+            endMovement();
         }
-
-        // TODO mettre des autres Damages ??? --------------------------------------------------------------------------- AXEL
 
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction) {
             // Fait des dégats de feu aux ennemis
             foe.loseHealth(Damage.FIRE);
-            stopUnstoppable();
+            endMovement();
         }
 
         @Override
         public void interactWith(ICoopPlayer player, boolean isCellInteraction) {
             // Fait des dégats de feu aux joueurs
             player.loseHealth(Damage.FIRE);
-            stopUnstoppable();
+            endMovement();
         }
     }
 }

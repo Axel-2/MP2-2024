@@ -7,6 +7,7 @@ import java.util.List;
 import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
 import ch.epfl.cs107.play.areagame.area.Area;
@@ -212,9 +213,7 @@ public class Explosif extends ICoopCollectable implements Interactor{
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction){
             // Deux explosifs se font exploser entre eux
-            if (explo != Explosif.this) {
-
-                activate(1);
+            if (explo != Explosif.this && !explo.isActivated) {
                 explo.activate(1);
             } 
         }
@@ -228,5 +227,10 @@ public class Explosif extends ICoopCollectable implements Interactor{
             }
         }
 
+    }
+
+    @Override
+    public ICoopItem getInventoryItem() {
+        return ICoopItem.EXPLOSIVE;
     }
 }

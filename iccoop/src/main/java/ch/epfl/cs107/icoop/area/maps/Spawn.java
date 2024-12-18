@@ -3,10 +3,8 @@ package ch.epfl.cs107.icoop.area.maps;
 import java.util.Arrays;
 
 import ch.epfl.cs107.icoop.DialogDoor;
-import ch.epfl.cs107.icoop.actor.Collectable.Staff;
 import ch.epfl.cs107.icoop.actor.Door;
 import ch.epfl.cs107.icoop.actor.Explosif;
-import ch.epfl.cs107.icoop.actor.Projectiles.Fire;
 import ch.epfl.cs107.icoop.actor.Rock;
 import ch.epfl.cs107.icoop.area.ICoopArea;
 import ch.epfl.cs107.icoop.area.SpawnPosition;
@@ -42,7 +40,7 @@ public final class Spawn extends ICoopArea {
     }
 
 
-
+    @Override
     public  DiscreteCoordinates getPlayerSpawnPosition(Element elementType) {
         DiscreteCoordinates coordinates = switch (elementType) {
             case FIRE -> SPAWN_POSITION.getFireSpawn();
@@ -92,12 +90,11 @@ public final class Spawn extends ICoopArea {
 
 
         // Création du rock et de l'explo
-        Rock rock = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(11, 9 ) );
+        Rock rock = new Rock(this, Orientation.DOWN, new DiscreteCoordinates(10, 10 ) );
         Explosif explo = new Explosif(this, Orientation.DOWN, new DiscreteCoordinates(11, 10), 3);
 
         registerActor(rock);
         registerActor(explo);
-
     }
 
     @Override

@@ -9,6 +9,7 @@ import ch.epfl.cs107.icoop.KeyBindings;
 import static ch.epfl.cs107.icoop.KeyBindings.BLUE_PLAYER_KEY_BINDINGS;
 import static ch.epfl.cs107.icoop.KeyBindings.RED_PLAYER_KEY_BINDINGS;
 import ch.epfl.cs107.icoop.actor.Collectable.Heart;
+import ch.epfl.cs107.icoop.actor.Collectable.ICoopCollectable;
 import ch.epfl.cs107.icoop.actor.Collectable.Key;
 import ch.epfl.cs107.icoop.actor.Collectable.Orb;
 import ch.epfl.cs107.icoop.actor.Collectable.Staff;
@@ -225,7 +226,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
         
         // On cherche l'index du prochain item qu'il y a de disponible dans l'inventaire
         int nextIndex = (currentIndex + 1) % itemList.size();
-        while(!inventory.contains(itemList.get(nextIndex))){
+        while(!possess(itemList.get(nextIndex))){
             nextIndex = (nextIndex + 1) % itemList.size();
 
             // Pour éviter la infinite loop qui a causé un bug
@@ -252,7 +253,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
     public void manageUseItem(Keyboard kbd){
         
         // Si la touche est pressée 
-        if (kbd.get(playerKeyBindings.useItem()).isPressed()){
+        if (kbd.get(playerKeyBindings.useItem()).isPressed() && !isDisplacementOccurs()){
 
             // On récupère la case de devant qui sera utile pour chacun des cas
             DiscreteCoordinates frontCellPosition = getCurrentMainCellCoordinates().jump(getOrientation().toVector());
@@ -324,9 +325,9 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
     private void updateCurrentItem(){
 
         // Si il n'y a pas d'item actuel, où si le joueur n'en contient aucun, on va effectuer une modifiation
-        if (currentItem == null || !inventory.contains(currentItem)){
+        if (currentItem == null || !possess(currentItem)){
             for (ICoopItem item : ICoopItem.values()){
-                if (inventory.contains(item)){
+                if (possess(item)){
 
                     // Le premier disponible est mis
                     currentItem = item;
@@ -532,6 +533,19 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
             
         }
 
+        @Override
+        // Interaction avec un collectable
+        public void interactWith(ICoopCollectable item, boolean isCellInteraction){
+            if (isCellInteraction && !item.isCollected()){
+                item.collect();
+
+                if (item.isStockable()){ 
+                    inventory.addPocketItem(item.getInventoryItem(), 1);
+                    updateCurrentItem();
+                }
+            }
+        }
+
         // Interaction avec un explosif
         @Override
         public void interactWith(Explosif explo, boolean isCellInteraction){
@@ -541,14 +555,8 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
             // Si c'est une intéraction de contact, on prend l'objet
             if (isCellInteraction) {
                 
-                // On ne veut pas qu'il se collecte plusieurs fois
-                if (!explo.isCollected()){
-                    explo.collect();
-                    // ajoute à l'inventaire ( il y a peut être mieux que de le faire là )
-                    inventory.addPocketItem(ICoopItem.EXPLOSIVE, 1);
-                    updateCurrentItem();
-
-                }
+                // Collect l'explo
+                interactWith((ICoopCollectable)explo, isCellInteraction);
 
 
             } else {
@@ -583,7 +591,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
             if (!heart.isCollected()) {
                 // Augmente les points de vie du joueur
                 increaseHealth(10);
-                heart.collect();
+                interactWith((ICoopCollectable) heart, isCellInteraction);
             }
 
 
@@ -595,12 +603,7 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
             // Si l'élément correspond et qu'il n'est pas collecté, l'ajoute à l'inventaire et le collecte
             if (isCellInteraction && element == staff.getElement()){
-                if (!staff.isCollected()) {
-                    staff.collect();
-                    ICoopItem itemToAdd = staff.getElement() == Element.FIRE ? ICoopItem.FIRESTAFF : ICoopItem.WATERSTAFF;
-                    inventory.addPocketItem(itemToAdd, 1);
-                    updateCurrentItem();
-                }
+                interactWith((ICoopCollectable) staff, isCellInteraction);
             }
         }
 
@@ -630,13 +633,13 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
             }
         }
 
-
-
         @Override
         // Interaction avec une clé
         public void interactWith(Key key, boolean isCellInteraction) {
-            // La collecte
-            key.collectBy(ICoopPlayer.this);
+            if (element.equals(key.getElement())){
+                interactWith((ICoopCollectable) key, isCellInteraction);
+            }  
         }
+
     }
 }

@@ -17,7 +17,7 @@ import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.signal.logic.Logic;
 
 /**
- * Classe qui aide la gestion des dialogues de portes
+ * Représente la porte du manoir qui possède un dialogue
  */
 public class DialogDoor extends AreaEntity implements Interactor {
 
@@ -30,7 +30,7 @@ public class DialogDoor extends AreaEntity implements Interactor {
     // Attribut qui représente la clé de la porte
     final private Logic key;
 
-    // Inddique si un dialogue a commencé
+    // Indique si un dialogue a commencé
     private boolean dialogHasBeenStarted;
 
 

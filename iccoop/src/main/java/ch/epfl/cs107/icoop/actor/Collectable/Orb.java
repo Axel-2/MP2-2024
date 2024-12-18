@@ -5,6 +5,7 @@ import ch.epfl.cs107.icoop.enums.Damage;
 import ch.epfl.cs107.icoop.enums.Element;
 import ch.epfl.cs107.icoop.handler.DialogHandler;
 import ch.epfl.cs107.icoop.handler.ICoopInteractionVisitor;
+import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.engine.actor.Animation;
@@ -139,6 +140,11 @@ public class Orb extends ElementalItem {
     @Override
     public Element getElement() {
         return elementalType;
+    }
+
+    @Override
+    public ICoopItem getInventoryItem() {
+        return null;
     }
 }
 
