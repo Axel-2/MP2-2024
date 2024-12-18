@@ -309,7 +309,6 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
                     break;
 
                 default :
-                
                     break;
 
             }
