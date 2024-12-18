@@ -114,7 +114,6 @@ public class DialogDoor extends AreaEntity implements Interactor {
                 dialogHasBeenStarted = true;
 
                 Dialog dialog = key.isOn() ? new Dialog("victory") : new Dialog("key_required");
-                System.out.println(key.isOn());
 
                 dialogHandler.publish(dialog);
             }

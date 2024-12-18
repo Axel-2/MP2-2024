@@ -31,9 +31,9 @@ public final class Maze extends ICoopArea implements Logic {
     // Positions de départs
     public static final SpawnPosition SPAWN_POSITION = new SpawnPosition(
            // FIRE
-           new DiscreteCoordinates(7, 7),
+           new DiscreteCoordinates(2, 39),
            // WATER
-           new DiscreteCoordinates(6, 7)
+           new DiscreteCoordinates(3, 39)
 
     );
 
