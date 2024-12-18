@@ -228,13 +228,8 @@ public class ICoop extends AreaGame implements DialogHandler {
             resetMap();
 
         } else if (keyboard.get(KeyBindings.RESET_GAME).isPressed()) {
-
             // Ici il suffit de réinitialiser le jeu en entier
             this.begin(getWindow(), getFileSystem());
-
-            // TODO vérifier si c'est nécessaire
-            // On reset la vie aussi
-            resetPlayersHealth();
         }
     }
 

@@ -16,8 +16,6 @@ import ch.epfl.cs107.play.math.DiscreteCoordinates;
 import ch.epfl.cs107.play.math.Orientation;
 import ch.epfl.cs107.play.window.Canvas;
 
-// TODO SUPPRIMER LE PROJECTILE LORSQU'IL ARRIVE DANS UN MUR ----------------------------------------------------------- AXEL------------------
-
 // Représente les flammes lancées par les crânes
 public class Fire extends Unstoppable {
 
@@ -86,8 +84,6 @@ public class Fire extends Unstoppable {
             explo.activate(1);
             stopUnstoppable();
         }
-
-        // TODO mettre des autres Damages ??? --------------------------------------------------------------------------- AXEL
 
         @Override
         public void interactWith(Foe foe, boolean isCellInteraction) {

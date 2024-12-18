@@ -43,17 +43,18 @@ public final class ICoopBehavior extends AreaBehavior {
 
 
     /**
-     * Crée les acteurs ---------------------------------------------------------------------------------------------------- TODO Jte laisse comment cette fonction jveux pas toucher 
+     * Crée les acteurs
      * @param area
      */
     public void createActors(ICoopArea area) {
         int height = getHeight();
         int width = getWidth();
 
+        // Initialisation des listes
         List<DiscreteCoordinates>  rockList = new ArrayList<>();
         List<DiscreteCoordinates>  obstacleList = new ArrayList<>();
 
-
+        // Remplissage des listes en fonction du type de cellule
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 if (((ICoopCell) getCell(x, y)).getType() == ICoopCellType.OBSTACLE) {
@@ -65,6 +66,7 @@ public final class ICoopBehavior extends AreaBehavior {
             }
         }
 
+        // Register des deux listes
         for (DiscreteCoordinates obstacle : obstacleList) {
             area.registerActor(new Obstacle(area, Orientation.DOWN, obstacle));
         }
