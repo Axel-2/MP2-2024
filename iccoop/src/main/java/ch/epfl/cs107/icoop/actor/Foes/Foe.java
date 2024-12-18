@@ -30,10 +30,10 @@ public abstract class Foe extends ICoopCharacter implements Interactor {
 
     /**
      * Constructeur d'ennemi
-     * @param area
-     * @param orientation
-     * @param position
-     * @param vulnerabilityList
+     * @param area (Aire) non nulle
+     * @param orientation (Orientation) non nulle
+     * @param position (Coordonnées) non nulle
+     * @param vulnerabilityList (Liste des faiblesses), peut être vide mais non nulle
      */
     public Foe(Area area, Orientation orientation, DiscreteCoordinates position, Damage[] vulnerabilityList, int MAX_LIFE) {
         super(area, orientation, position, MAX_LIFE, false);

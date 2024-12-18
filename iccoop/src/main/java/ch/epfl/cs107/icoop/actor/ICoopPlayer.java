@@ -24,7 +24,6 @@ import ch.epfl.cs107.icoop.handler.ICoopItem;
 import ch.epfl.cs107.icoop.handler.ICoopPlayerStatusGUI;
 import ch.epfl.cs107.play.areagame.actor.Interactable;
 import ch.epfl.cs107.play.areagame.actor.Interactor;
-import ch.epfl.cs107.play.areagame.actor.MovableAreaEntity;
 import ch.epfl.cs107.play.areagame.area.Area;
 import ch.epfl.cs107.play.areagame.handler.AreaInteractionVisitor;
 import ch.epfl.cs107.play.areagame.handler.Inventory;
@@ -36,7 +35,6 @@ import static ch.epfl.cs107.play.math.Orientation.DOWN;
 import static ch.epfl.cs107.play.math.Orientation.LEFT;
 import static ch.epfl.cs107.play.math.Orientation.RIGHT;
 import static ch.epfl.cs107.play.math.Orientation.UP;
-import ch.epfl.cs107.play.math.Transform;
 import ch.epfl.cs107.play.math.Vector;
 import ch.epfl.cs107.play.window.Button;
 import ch.epfl.cs107.play.window.Canvas;
@@ -94,12 +92,12 @@ public class ICoopPlayer extends ICoopCharacter implements ElementalEntity, Inte
 
     /**
      * Constructeur du joueur
-     * @param owner
-     * @param orientation
-     * @param coordinates
-     * @param spriteName
-     * @param element
-     * @param flipped
+     * @param area (Aire) non nulle
+     * @param orientation (Orientation) non nulle
+     * @param position (Coordonnées) non nulle
+     * @param spriteName (Nom du sprite)
+     * @param element (Element du joueur)
+     * @param flipped (Affichage) switch l'affichage de l'inventaire de côté
      */
     public ICoopPlayer(Area owner, Orientation orientation, DiscreteCoordinates coordinates, String spriteName, Element element, boolean flipped) {
         super(owner, orientation, coordinates, 100, true);

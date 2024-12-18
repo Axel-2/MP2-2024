@@ -42,10 +42,10 @@ public class Explosif extends ICoopCollectable implements Interactor{
 
     /**
      * Constructeur d'explosif
-     * @param area
-     * @param orientation
-     * @param position
-     * @param counter
+     * @param area (Aire) non nulle
+     * @param orientation (Orientation) non nulle
+     * @param position (Coordonnées) non nulle
+     * @param counter (Compteur) valeure avant qu'il explose
      */
     public Explosif(Area area, Orientation orientation, DiscreteCoordinates position, int counter){
         super(area, orientation, position, true);

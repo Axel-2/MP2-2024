@@ -84,7 +84,8 @@ public interface ICoopInteractionVisitor extends AreaInteractionVisitor {
     default void interactWith(Key key, boolean isCellInteraction) {
     }
 
-    default void interactWith(DialogDoor dialogDoor, boolean isCellInteraction) {
+    // Interaction avec une porte à dialogue, par défaut ne fait rien
+    default void interactWith(DialogDoor dialogDoor, boolean isCellInteraction){
     }
 
     default void interactWith(PressurePlate plate, boolean isCellInteraction) {

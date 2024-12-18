@@ -46,10 +46,10 @@ public class Orb extends ElementalItem {
 
     /**
      * Constructeur d'orbes
-     * @param area
-     * @param position
-     * @param elem
-     * @param dialogHandler
+     * @param area (Aire) non nulle
+     * @param position (Coordonnées) non nulle
+     * @param elem (Element) de l'orbe (feu ou eau)
+     * @param dialogHandler (Gestionnaire de dialogue)
      */
     public Orb(Area area, DiscreteCoordinates position, Element elem, DialogHandler dialogHandler) {
         super(area, Orientation.DOWN, position, elem, false);

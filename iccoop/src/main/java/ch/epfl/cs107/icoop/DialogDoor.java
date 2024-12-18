@@ -36,9 +36,9 @@ public class DialogDoor extends AreaEntity implements Interactor {
 
     /**
      * Constructeur de DialogDoor
-     * @param area
-     * @param position
-     * @param dialogHandler
+     * @param area (Aire) non nulle
+     * @param position (Coordonnée) non nulle
+     * @param dialogHandler (Gestionnaire de dialogue)
      */
     public DialogDoor(Area area, DiscreteCoordinates position, DialogHandler dialogHandler, Logic key) {
         super(area, Orientation.DOWN, position);

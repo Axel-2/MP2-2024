@@ -29,11 +29,11 @@ public abstract class Unstoppable extends MovableAreaEntity implements Interacto
 
     /**
      * Constructeur des "Unstoppable"
-     * @param area
-     * @param orientation
-     * @param position
-     * @param speed
-     * @param maxDistance
+     * @param area (Aire) non nulle
+     * @param orientation (Orientation) non nulle
+     * @param position (Coordonnées) non nulle
+     * @param speed (Vitesse)
+     * @param maxDistance (Distance max)
      */
     public Unstoppable(Area area, Orientation orientation, DiscreteCoordinates position, int speed, int maxDistance) {
         super(area, orientation, position);

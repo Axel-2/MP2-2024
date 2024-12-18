@@ -35,9 +35,9 @@ public class Staff extends ElementalItem {
 
     /**
      * Constructeur des bâtons
-     * @param area
-     * @param position
-     * @param elem
+     * @param area (Aire) non nulle
+     * @param position (Coordonnées) non nulle
+     * @param elem (Element)
      */
     public Staff(Area area, DiscreteCoordinates position, Element elem) {
         super(area, Orientation.DOWN, position, elem, true);

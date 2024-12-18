@@ -35,8 +35,8 @@ public class PressurePlate extends AreaEntity implements Logic, Interactor {
 
     /**
      * Constructeur
-     * @param area
-     * @param position
+     * @param area (Aire) non nulle
+     * @param position (Coordonnées) non  nulle
      */
     public PressurePlate(Area area, DiscreteCoordinates position) {
         super(area, Orientation.DOWN, position);

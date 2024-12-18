@@ -25,9 +25,9 @@ public enum ICoopItem implements InventoryItem {
 
     /**
      * Constructeur de l'enum
-     * @param name
-     * @param pocketId
-     * @param path
+     * @param name (Nom de l'item)
+     * @param pocketId (Numéro de poche)
+     * @param path (Chemin d'accès)
      */
     ICoopItem(String name, int pocketId, String path){
         this.name = name;

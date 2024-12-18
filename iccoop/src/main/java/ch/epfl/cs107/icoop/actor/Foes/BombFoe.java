@@ -59,9 +59,11 @@ public class BombFoe extends Foe {
     // Joueur ciblé
     private ICoopPlayer targetedPlayer;
 
-    /**
-     * Constructeur des artificiers
-     */
+   /**
+    * Constructeur des artificiers
+    * @param area (Aire) non nulle
+    * @param position (Coordonnées) non nulle
+    */
     public BombFoe(Area area, DiscreteCoordinates position) {
         super(area, DOWN, position, new Damage[]{Damage.FIRE, Damage.PHYSICAL}, 5);
 

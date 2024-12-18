@@ -47,11 +47,11 @@ public class ElementalWall extends AreaEntity implements ElementalEntity, Intera
 
     /**
      * Constructeur d'un mur toujours actif, sans plaque de pression associée
-     * @param owner
-     * @param orientation
-     * @param coordinates
-     * @param elem
-     * @param logicSignal
+     * @param area (Aire) non nulle
+     * @param orientation (Orientation) non nulle
+     * @param coordinates (Coordonnées) non nulle
+     * @param elem (Element) 
+     * @param logicSignal (Est-il activé ?)
      */
     public ElementalWall(Area owner, Orientation orientation, DiscreteCoordinates coordinates, Element elem){
         super(owner, orientation, coordinates);

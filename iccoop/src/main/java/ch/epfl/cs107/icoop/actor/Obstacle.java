@@ -22,9 +22,9 @@ public class Obstacle extends AreaEntity {
 
     /**
      * Constructeur par défaut
-     * @param area
-     * @param orientation
-     * @param position
+     * @param area (Aire) non nulle
+     * @param orientation (Orientation) non nulle
+     * @param position (Coordonnées) non nulle
      */
     public Obstacle(Area area, Orientation orientation, DiscreteCoordinates position) {
         super(area, orientation, position);
